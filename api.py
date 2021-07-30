@@ -1,4 +1,5 @@
 """"
+A WORK IN PROGRESS
 Access public api to get nutrition data for foods.
 Input: food item, amount 
 Output: nutrition for item for amount given
@@ -17,7 +18,7 @@ FEATURE: Save recipes
 """
 import os
 import sys
-from typing import Any
+from typing import Any, AnyStr
 import requests
 import shelve
 import pandas as pd
@@ -58,19 +59,32 @@ for age_range in [*daily[sex]]:
 
 Stored in daily_nutrition
 
-Next:
-figure out how to handle searches. 
-things to try:
-    filtering based on last updated (e.g. recent 5 years)
-
-    getting a standard deviation
-    if sd too high, then sort values,
-    then remove values that are furthest away from clustered values
-    until sd is acceptable
-
-
-
 """
+# TODO
+# Profile info reception
+#
+# If cant find acceptable entries return list of potential entries
+# 
+# Figure out how to handle searches 
+#
+# things to try:
+#   filtering based on last updated (e.g. recent 5 years)
+#
+#   regex search
+#
+#   getting a standard deviation
+#   if sd too high, then sort values,
+#   then remove values that are furthest away from clustered values
+#   until sd is acceptable
+#
+#   choosing a group based on critera:
+#       percent difference:
+#           if a value is within 0.9 * selected_value or 1.1 * selected_value then include it in the group
+#
+#   subtract food entry nutrients from current daily total
+#       process daily_nutrition_bank so that values can be subtracted
+#           unit names are stored with the name
+
 # usda_key = os.environ['usda_nutrition']
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 # To get pages in a range
@@ -311,10 +325,18 @@ def holder():
 
 # Evaluate search results for x nutrient composition
 class USDA(object):
-    def __init__(self, key) -> None:
+    """
+    Acts like an API wrapper for USDA nutrition API.
+    Requires API key for arguement: str
+    """
+    def __init__(self, key: AnyStr) -> None:
         super().__init__()
         self.key = key
         self.unit_names_bank = self.get_unit_names_bank()
+        self.total_mass = {}
+        self.nutrient_compositions = {}
+        self.nutrients = None
+        self.descriptions = None
     
     def search(self, query, data_type=f'SR%20Legacy',file_name='delete'):
         """
@@ -335,8 +357,11 @@ class USDA(object):
         
         response = self.get(file_key=query,file_name=file_name)
         json = response.json()
-        print(f'Total Hits: {json["totalHits"]}')
-        print(f'Total Pages: {json["totalPages"]}')
+        print(
+            f'Query: {query}\n'
+            f'Total Hits: {json["totalHits"]}\n'
+            f'Total Pages: {json["totalPages"]}'
+            )
         self.results = json['foods']
         return response
     def save(self, item: Any, file_key: str, file_name:str='delete'):
@@ -372,12 +397,13 @@ class USDA(object):
         for result in self.results:
             descriptions.append(result['description'])
         # print(descriptions)
+        self.descriptions = descriptions
         return descriptions
-    def get_nutrient_names(self, description=None):
+    def get_nutrient_names(self, nutrients: dict = None) -> list[str]:
         nutrient_names = []
-        if description:
-            for nutrient in description[[*description][0]]:
-                nutrient_names.append(nutrient['Nutrient Name'])
+        if nutrients:
+            for nutrient in nutrients[[*nutrients][0]]:
+                nutrient_names.append(nutrient['nutrientName'])
             return nutrient_names
         for result in self.results:
             for nutrient in result['foodNutrients']:
@@ -395,73 +421,130 @@ class USDA(object):
         
         Else returns nutrients[every description in self.results] = [dict, ...]
         """
+        if self.nutrients:
+            return self.nutrients
         nutrients = {}
-        if description: 
-            nutrients[description] = []
-            for result in self.results:
-                if result['description'] == description:
-                    for nutrient in result['foodNutrients']:
-                        nutrients[description].append({
-                        'Nutrient Name': nutrient['nutrientName'],
-                        'Value': nutrient['value'],
-                        'Unit': nutrient['unitName'],
-                        'Nutrient ID': nutrient['nutrientId']
-                        })
-                    return nutrients
         for result in self.results:
             name = result['description']
             nutrients[name] = []
             for nutrient in result['foodNutrients']:
                 nutrients[name].append(
                     {
-                        'Nutrient Name': nutrient['nutrientName'],
-                        'Value': nutrient['value'],
-                        'Unit': nutrient['unitName'],
-                        'Nutrient ID': nutrient['nutrientId']
+                        'nutrientName': nutrient['nutrientName'],
+                        'value': nutrient['value'],
+                        'unitName': nutrient['unitName'],
+                        'nutrientId': nutrient['nutrientId']
                     })
         self.nutrients = nutrients
         # print(nutrients)
         return nutrients
-    def get_total_mass(self, description):
-        nutrients = self.get_nutrients(description=description)
-        mass = 0
-        for nutrient in nutrients[description]:
-            if nutrient['Unit'] == 'G':
-                mass += nutrient['Value']
-            elif nutrient['Unit'] == 'MG':
-                mass += nutrient['Value']*10**(-3)
-            elif nutrient['Unit'] == 'UG':
-                mass += nutrient['Value']*10**(-6)
-            elif nutrient['Unit'] == 'IU':
-                # print(f'Units not included(IU): {nutrient["Nutrient Name"]}')
-                pass
-        return round(mass,3)
 
-    def get_nutrient_composition(self, description, nutrient):
+    def get_total_mass(self, description):
+        if description in self.total_mass: 
+            return self.total_mass[description]
+        nutrients = self.get_nutrients(description)[description]
+        mass = 0
+        for nutrient in nutrients:
+            grams = self.convert_to_grams(nutrient['value'], nutrient['unitName'])
+            if grams:
+                mass += grams
+        return round(mass, 3)
+
+    def get_nutrient_composition(self, description: str, nutrient: str):
+        """
+        Returns percent composition of nutrient for description
+        """
+        # if compositions dict doesnt have description key
+        # then this has not been run before, and there is no 
+        # nutrient key with percent value
+        # so create empty dict for description key
+        # if description key does exit (else)
+        # then there could be nutrient with percent
+        # if so return percent for description and nutrient
+        if not self.nutrient_compositions.get(description): 
+            self.nutrient_compositions[description] = {}
+        elif self.nutrient_compositions.get(description).get(nutrient):
+            return self.nutrient_compositions[description][nutrient]
+
         total_mass = self.get_total_mass(description)
-        for result in self.results:
-            if result['description'] == description:
-                for entry in result['foodNutrients']:
-                    if entry['nutrientName'] == nutrient:
-                        if entry['unitName'] in ['MG','UG']:
-                            grams = self.convert_to_grams(entry['value'], entry['unitName'])
-                        elif entry['unitName'] == 'G':
-                            grams = entry['value']
-                        else:
-                            continue
-                        # if grams == 0:
-                        #     continue
-                        # print(description)
-                        composition = grams/total_mass*100
-                        composition = round(composition, 3)
-                        return composition
+        nutrients = self.get_nutrients(description)[description]
+
+        for entry in nutrients:
+            if entry['nutrientName'] == nutrient:
+                grams = self.convert_to_grams(entry['value'], entry['unitName'])
+                if grams:
+                    percent = grams/total_mass*100
+                    percent = round(grams/total_mass*100, 3)
+                    self.nutrient_compositions[description][nutrient] = percent
+                    return percent # Percent composition
+    def get_nutrient_composition_profile(self, description: str):
+        """
+        Returns nutrientName with its percent composition
+        """
         
-    def convert_to_grams(self, value, unit):
+        total_mass = self.get_total_mass(description)
+
+        unsorted_profile = {}
+        not_included = [] # TODO make function to convert every unit in unit bank to g
+        nutrients = self.get_nutrients(description)[description]
+        
+        # for nutrient in nutrients:
+        #     percent = self.get_nutrient_composition(description, nutrient['nutrientName'])
+        #     unsorted_profile[percent] = nutrient['nutrientName']
+        test = []
+        unsorted_profile['percent_list'] = []
+        for nutrient in nutrients:
+            grams = self.convert_to_grams(nutrient['value'], nutrient['unitName'])
+            if not grams:
+                not_included.append(
+                    (
+                        nutrient['nutrientName'], 
+                        nutrient['value']
+                        # f'{nutrient["value"]} {nutrient["unitName"]}'
+                        ))
+                continue
+            if description == 'Beef, bologna, reduced sodium':
+                test.append((grams, total_mass, round(grams/total_mass*100, 3)))
+            perc = round(grams/total_mass*100, 3)
+            perc = grams/total_mass*100
+            if description == 'Beef, bologna, reduced sodium':
+                if perc in unsorted_profile:
+                    print(f'DUPLICATE PERCENT: {perc}')
+            unsorted_profile[perc] = nutrient['nutrientName']
+        # if description == 'Beef, bologna, reduced sodium':
+        #     print('NOT INCLUDED')
+        #     print(pd.DataFrame(test))
+        # Returns dict
+        # profile = {}
+        # sorted_percents = [*unsorted_profile]
+        # sorted_percents.sort()
+        # for percent in sorted_percents[::-1]:
+        #     profile[unsorted_profile[percent]] = percent
+        # return profile
+        
+        # Returns tuple
+        profile = []
+        sorted_percents = [*unsorted_profile]
+        sorted_percents.sort()
+        for percent in sorted_percents[::-1]:
+            profile.append((
+                unsorted_profile[percent], percent
+                ))
+        return profile, not_included
+
+    def convert_to_grams(self, value: int, unit: str):
+        """
+        Returns False if unit is not mg, ug, or g.
+        """
         unit = unit.lower()
         if unit == 'mg':
             return value*10**(-3)
         elif unit == 'ug':
             return value*10**(-6)
+        elif unit == 'g':
+            return value
+        else:
+            return False
     def convert_to_calories(self, value, unit):
         unit = unit.lower()
         if unit == 'kj':
@@ -477,12 +560,23 @@ class USDA(object):
         bank = file['unit_names_bank']
         file.close()
         return bank
-    def get_daily_nutrition(self, age=None, sex=None):
+    def get_daily_nutrition(self, age: int = 1, sex: str = "") -> dict:
+        """
+        Age: int > 1
+        Returns the daily recommended nutrition given sex and age.
+        If no arguments supplied, returns entire table.
+        """
+        # Get table data
         file = shelve.open('usda')
         daily_nutrition_bank = file['daily_nutrition']
         file.close()
-        if not age and not sex: #if no age or sex specified
+        
+        if not age or not sex: # No arguments given
             return daily_nutrition_bank
+
+        # Converts sex to correct format
+        sex = sex[0].upper()
+
         for age_range in [*daily_nutrition_bank[sex]]:
             if age in range(age_range[0], age_range[1]+1):
                 return daily_nutrition_bank[sex][age_range]
