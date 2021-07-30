@@ -1,6 +1,49 @@
 """
-Place to call the usda class to get various organized data
+Used to call the USDA class from api.py
+to get various organized data.
+This intended to make working with the data easier,
+and is not intended to be included in final product.
 """
+"""
+General idea
+Receive:
+Profile Info
+    some form of identifying information of profile
+    should include sex and age
+    if new profile
+        save profile
+    else:
+        load sex and age
+    load current daily nutrition balance (CDNB)
+    (maybe return that info for display?)
+    return some form of feedback:
+        profile saved/profile loaded with CDNB
+
+Recieve:
+Food entries
+    includes the food
+        any filtering tags
+            foundation (doesnt seem to work out too well)
+            branded
+            most will consult sr legacy
+
+            if it is a brand
+                search in branded database
+                    rigid search parameters
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+
 from functools import update_wrapper
 import os
 import sys
@@ -59,7 +102,7 @@ def process(file_key: str, item:Any=None, file_name:str='delete'):
     return get(file_key=file_key, file_name=file_name)
 
 
-query = 'guava'
+query = 'beef'
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 usda = USDA(usda_key)
 """SEARCH"""
@@ -70,23 +113,32 @@ results = usda.get_results() # list of dictionaries
 # print(results)
 # file = shelve.open[d]
 
+"""Get descriptions"""
 descriptions = usda.get_descriptions()
-print(descriptions)
+# print(descriptions)
+# print(pd.DataFrame(descriptions))
 # input('enter')
 
+"""Get nutrient names"""
 # nutrient_names = usda.get_nutrient_names()
 # print(nutrient_names)
 
-# nutrients = usda.get_nutrients(descriptions[0])
+"""Get nutrients"""
+# nutrients = usda.get_nutrients(descriptions[1])
+# print(nutrients)
+# nutrients = usda.get_nutrient_names(nutrients)
+# nutrients.sort()
 # print(nutrients)
 
-# for ele in [*nutrients]:
+"""Get nutrient composition"""
+# nutrient = 'Protein'
+# nutrient_composition = usda.get_nutrient_composition(descriptions[1], nutrient)
+# print(f'{nutrient}: {nutrient_composition}%')
 
-
-# nutrient_composition = usda.get_nutrient_composition(descriptions[0], 'Niacin')
-# print(nutrient_composition)
-
+"""Get nutrient names bank"""
 # nutrient_names_bank = usda.get_nutrient_names_bank()
+# print(nutrient_names_bank)
+
 def check_percents(descriptions_index):
     counter = []
     # for nutrient in usda.get_nutrients(descriptions[0]):
@@ -101,10 +153,12 @@ def check_percents(descriptions_index):
 
 # for i in range(10):
 #     check_percents(i)
-daily_nutrition = usda.get_daily_nutrition(age=27, sex='M')
+
+"""Get daily nutrition"""
+# daily_nutrition = usda.get_daily_nutrition(age=27, sex='M')
 # daily_nutrition = usda.get_daily_nutrition()
 
-print(daily_nutrition)
+# print(daily_nutrition)
 # Processing units
 # for i, nutrient_type in enumerate([*daily_nutrition]):
 #     if i == 0:
@@ -118,17 +172,100 @@ print(daily_nutrition)
 
 # print(usda.get_nutrient_names_bank())
 
-nutrients_chicken = usda.get_nutrients(description=descriptions[-2])
+# nutrients_chicken = usda.get_nutrients(description=descriptions[-2])
 # print(nutrients_chicken)
 # print(usda.get_nutrient_names(nutrients_chicken))
 # print(usda.get_unit_names_bank())
 
 # print(usda.get_total_mass(description=descriptions[-2]))
-# print(usda.convert_to_calories(nutrients_chicken[descriptions[-2]][0]['Value'], nutrients_chicken[descriptions[-2]][0]['Unit']))
+# print(usda.convert_to_calories(nutrients_chicken[descriptions[-2]][0]['value'], nutrients_chicken[descriptions[-2]][0]['unitName']))
 
 
-
-df = pd.DataFrame(daily_nutrition)
+# df = pd.DataFrame(daily_nutrition)
 # print(df.to_json())
-df = df.to_json()
-print(pd.DataFrame(df))
+# df = df.to_json()
+# print(pd.DataFrame(df))
+
+# Get percent comp of all nutrients given a description
+# 
+
+"""
+usda_object = usda(key)
+
+
+u get a usda object that u can use to
+    search queries
+        avocado = usda(key).search('avocado')
+        avocado.get_nutrients(description) # description would be the entry description returned from search results
+
+    retrieve nutrient names bank
+    unit names bank
+    daily nutrition data from table
+"""
+
+"""Get nutrient composition profile"""
+# profile = usda.get_nutrient_composition_profile(descriptions[3])
+# print(profile)
+# df = pd.DataFrame(profile[0], columns=['Nutrient', 'Percentage'])
+
+# print(df)
+# print(
+#     f'Total Percentage: {df["Percentage"].sum()}\n'
+#     f'Not included %: {round(100-df["Percentage"].sum(),3)}'
+#     )
+def check_comp():
+    percent = 0
+    for nutrient in profile[0]:
+        percent += nutrient[1]
+    print(
+        f'Total Percent: {percent}\n'
+        f'Length not included list: {len(profile[1])}'
+        )
+# check_comp()
+
+"""check not included values"""
+not_included = []
+for i in range(len(descriptions)):
+    profile = usda.get_nutrient_composition_profile(descriptions[i])
+    df = pd.DataFrame(profile[0], columns=['Nutrient', 'Percentage'])
+    percents_sum = df["Percentage"].sum()
+    not_inc_percent = round(100-df["Percentage"].sum(),5)
+    # if not_inc_percent > 10:
+    if descriptions[i] == 'Beef, bologna, reduced sodium':
+        print(descriptions[i])
+        # print(df)
+        print(percents_sum)
+        check_comp()
+        s = usda.get_nutrients(descriptions[i])[descriptions[i]]
+        count = []
+        other = []
+        otherlist = []
+        for ele in profile[0]:
+            other.append(ele[0])
+        for nutrient in s:
+            if nutrient['nutrientName'] in other:
+                otherlist.append(nutrient)
+            grams = usda.convert_to_grams(nutrient['value'], nutrient['unitName'])
+            if grams:
+                count.append(grams)
+        # print(pd.DataFrame(s))
+        # print(pd.DataFrame(otherlist))
+        print(f'Total grams: {sum(count)}')
+        print(f'Total mass: {usda.get_total_mass(descriptions[i])}')
+        # not_in = pd.DataFrame(profile[1], columns=['Nutrient', 'Units'])
+        # print(not_in)
+        # print(not_in["Units"].max())
+    not_included.append(not_inc_percent)
+# not_included.sort()
+# print(not_included)
+# print(len(not_included))
+# print(sum(not_included)/len(not_included))
+
+
+
+
+
+
+
+
+# Get average percent comp of every nutrient for every hit
