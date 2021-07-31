@@ -488,11 +488,6 @@ class USDA(object):
         not_included = [] # TODO make function to convert every unit in unit bank to g
         nutrients = self.get_nutrients(description)[description]
         
-        # for nutrient in nutrients:
-        #     percent = self.get_nutrient_composition(description, nutrient['nutrientName'])
-        #     unsorted_profile[percent] = nutrient['nutrientName']
-        test = []
-        unsorted_profile['percent_list'] = []
         for nutrient in nutrients:
             grams = self.convert_to_grams(nutrient['value'], nutrient['unitName'])
             if not grams:
@@ -503,23 +498,22 @@ class USDA(object):
                         # f'{nutrient["value"]} {nutrient["unitName"]}'
                         ))
                 continue
-            if description == 'Beef, bologna, reduced sodium':
-                test.append((grams, total_mass, round(grams/total_mass*100, 3)))
+
             perc = round(grams/total_mass*100, 3)
             perc = grams/total_mass*100
-            if description == 'Beef, bologna, reduced sodium':
-                if perc in unsorted_profile:
-                    print(f'DUPLICATE PERCENT: {perc}')
-            unsorted_profile[perc] = nutrient['nutrientName']
-        # if description == 'Beef, bologna, reduced sodium':
-        #     print('NOT INCLUDED')
-        #     print(pd.DataFrame(test))
+
+            if unsorted_profile.get(perc):
+                unsorted_profile[perc].append(nutrient['nutrientName'])
+            else:
+                unsorted_profile[perc] = [nutrient['nutrientName']]
+        
         # Returns dict
         # profile = {}
         # sorted_percents = [*unsorted_profile]
         # sorted_percents.sort()
         # for percent in sorted_percents[::-1]:
-        #     profile[unsorted_profile[percent]] = percent
+        #     for nutrient_name in unsorted_profile[percent]:
+        #         profile[nutrient_name] = percent
         # return profile
         
         # Returns tuple
@@ -527,9 +521,10 @@ class USDA(object):
         sorted_percents = [*unsorted_profile]
         sorted_percents.sort()
         for percent in sorted_percents[::-1]:
-            profile.append((
-                unsorted_profile[percent], percent
-                ))
+            for nutrient_name in unsorted_profile[percent]:
+                profile.append((
+                    nutrient_name, percent
+                    ))
         return profile, not_included
 
     def convert_to_grams(self, value: int, unit: str):
