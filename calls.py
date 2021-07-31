@@ -228,7 +228,7 @@ def test_get_nutrient_composition_profile():
     """
     checks the sum of all calculated percent composition of nutrients for every
     search result
-    the closer each element in not_included is is to 0, the more accurate it is
+    the closer each element in not_included is to 0, the more accurate it is
     """
     not_included = []
     for i in range(len(descriptions)):
