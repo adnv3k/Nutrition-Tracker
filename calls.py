@@ -102,7 +102,7 @@ def process(file_key: str, item:Any=None, file_name:str='delete'):
     return get(file_key=file_key, file_name=file_name)
 
 
-query = 'beef'
+query = 'pasta'
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 usda = USDA(usda_key)
 """SEARCH"""
@@ -223,43 +223,50 @@ def check_comp():
         )
 # check_comp()
 
-"""check not included values"""
-not_included = []
-for i in range(len(descriptions)):
-    profile = usda.get_nutrient_composition_profile(descriptions[i])
-    df = pd.DataFrame(profile[0], columns=['Nutrient', 'Percentage'])
-    percents_sum = df["Percentage"].sum()
-    not_inc_percent = round(100-df["Percentage"].sum(),5)
-    # if not_inc_percent > 10:
-    if descriptions[i] == 'Beef, bologna, reduced sodium':
-        print(descriptions[i])
-        # print(df)
-        print(percents_sum)
-        check_comp()
-        s = usda.get_nutrients(descriptions[i])[descriptions[i]]
-        count = []
-        other = []
-        otherlist = []
-        for ele in profile[0]:
-            other.append(ele[0])
-        for nutrient in s:
-            if nutrient['nutrientName'] in other:
-                otherlist.append(nutrient)
-            grams = usda.convert_to_grams(nutrient['value'], nutrient['unitName'])
-            if grams:
-                count.append(grams)
-        # print(pd.DataFrame(s))
-        # print(pd.DataFrame(otherlist))
-        print(f'Total grams: {sum(count)}')
-        print(f'Total mass: {usda.get_total_mass(descriptions[i])}')
-        # not_in = pd.DataFrame(profile[1], columns=['Nutrient', 'Units'])
-        # print(not_in)
-        # print(not_in["Units"].max())
-    not_included.append(not_inc_percent)
-# not_included.sort()
-# print(not_included)
-# print(len(not_included))
-# print(sum(not_included)/len(not_included))
+""" TEST check not included values"""
+def test_get_nutrient_composition_profile():
+    """
+    checks the sum of all calculated percent composition of nutrients for every
+    search result
+    the closer each element in not_included is is to 0, the more accurate it is
+    """
+    not_included = []
+    for i in range(len(descriptions)):
+        profile = usda.get_nutrient_composition_profile(descriptions[i])
+        df = pd.DataFrame(profile[0], columns=['Nutrient', 'Percentage'])
+        percents_sum = df["Percentage"].sum()
+        not_inc_percent = round(100-df["Percentage"].sum(),5)
+        # if not_inc_percent > 10:
+        if descriptions[i] == 'Beef, bologna, reduced asdf sodium':
+            print(descriptions[i])
+            # print(df)
+            print(percents_sum)
+            check_comp()
+            s = usda.get_nutrients(descriptions[i])[descriptions[i]]
+            count = []
+            other = []
+            otherlist = []
+            for ele in profile[0]:
+                other.append(ele[0])
+            for nutrient in s:
+                if nutrient['nutrientName'] in other:
+                    otherlist.append(nutrient)
+                grams = usda.convert_to_grams(nutrient['value'], nutrient['unitName'])
+                if grams:
+                    count.append(grams)
+            # print(pd.DataFrame(s))
+            # print(pd.DataFrame(otherlist))
+            print(f'Total grams: {sum(count)}')
+            print(f'Total mass: {usda.get_total_mass(descriptions[i])}')
+            # not_in = pd.DataFrame(profile[1], columns=['Nutrient', 'Units'])
+            # print(not_in)
+            # print(not_in["Units"].max())
+        not_included.append(not_inc_percent)
+    not_included.sort()
+    print(not_included)
+    # print(len(not_included))
+    print(sum(not_included)/len(not_included))
+test_get_nutrient_composition_profile()
 
 
 
