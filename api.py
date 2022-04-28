@@ -15,6 +15,7 @@ FEATURE: Keep a counter for current daily nutrition, and display which type, and
 FEATURE: Save recipes
     will need to input ingredients and amount
 """
+import json
 import os
 import sys
 from typing import Any
@@ -22,6 +23,7 @@ import requests
 import shelve
 import pandas as pd
 import matplotlib.pyplot as plt
+from endpoints import Endpoints as ep
 # when polling from more than two datasets, find the standard deviation as a measurment of average value validity
 #USDA key
 """
@@ -163,51 +165,55 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 # df = pd.DataFrame(json['foods'][1]['foodNutrients'])
 # print(df.)
 
-def test():
-    food_item = 'udon'
-    file = shelve.open('delete')
-    json = file['other50']
-    compare = {}
-    compare["total_entries"] = 0
-    compare["total_energy"] = 0
-    compare["total_carbs"] = 0
+def food_search(api_key=None):
+    food_item = 'bread'
+    compare = {"total_entries": 0, "total_energy": 0, "total_carbs": 0}
     skip = ["Nong Shim Co., Ltd.", "Nasoya Foods USA, LLC", "United Natural Foods, Inc."]
     # print(json)
     # print(len(json))
     # f = shelve.open[3]
-    for entry in range(len(json)):
-        if json['foods'][entry]['brandOwner'] in skip:
-            continue
-        if food_item in json['foods'][entry]['description'].lower():
-            # print(json['foods'][entry]['description'],end=" | ")
-            # print(json['foods'][entry]['brandOwner'])
-            # print(json['foods'][entry].keys())
-            # print(len(json['foods'][entry]['foodNutrients']))
-            # print(json['foods'][entry]['foodNutrients'])
-                    # compare[f'{json["foods"][entry]["description"]}|{json["foods"][entry]["brandOwner"]}'] = 
-            for element in json['foods'][entry]['foodNutrients']:
-                if element['nutrientName'] == 'Carbohydrate, by difference':
-                    compare["total_entries"] += 1
-                    compare['total_carbs'] += element["value"]
-                if element['nutrientName'] == 'Energy':
-                    compare["total_energy"] += element["value"]
-    avg_carbs = compare['total_carbs']/compare["total_entries"]
-    avg_energy = compare['total_energy']/compare["total_entries"]
-    print(f'Average Carbs: {avg_carbs} | Average Energy: {avg_energy}')
-    for entry in range(len(json)):
-        if json['foods'][entry]['brandOwner'] in skip:
-            continue
-        if food_item in json['foods'][entry]['description'].lower():
-            print(json['foods'][entry]['description'],end=" | ")
-            print(json['foods'][entry]['brandOwner'])
-            for element in json['foods'][entry]['foodNutrients']:
-                if element['nutrientName'] == 'Carbohydrate, by difference':
-                    print(f'Carbohydrate, by difference: {element["value"]} {element["unitName"]} | Percent difference from avg: {round((abs(element["value"]-avg_carbs)/avg_carbs)*100,2)}')
-                if element['nutrientName'] == 'Energy':
-                    print(f'Energy: {element["value"]} {element["unitName"]} | Percent difference from avg: {round((abs(element["value"]-avg_energy)/avg_energy)*100,2)}')
-    # df = pd.DataFrame(json['foods'][entry]['foodNutrients'])
-    # print(df)
-        file.close()
+    end_search = ep().end_search(api_key=usda_key, query=food_item)
+    params = end_search[1]
+    url = end_search[0]
+    food_query = requests.get(url, params=params)
+    for food in food_query.json():
+        if food['dataType'] == 'Branded':
+            print("[{}] {}".format(food["brandOwner"], food['description']))
+        else:
+            print(food['dataType'])
+    # for entry in range(len(j_dict)):
+    #     if j_dict['foods'][entry]['brandOwner'] in skip:
+    #         continue
+    #     if food_item in j_dict['foods'][entry]['description'].lower():
+    #         # print(json['foods'][entry]['description'],end=" | ")
+    #         # print(json['foods'][entry]['brandOwner'])
+    #         # print(json['foods'][entry].keys())
+    #         # print(len(json['foods'][entry]['foodNutrients']))
+    #         # print(json['foods'][entry]['foodNutrients'])
+    #                 # compare[f'{json["foods"][entry]["description"]}|{json["foods"][entry]["brandOwner"]}'] =
+    #         for element in json['foods'][entry]['foodNutrients']:
+    #             if element['nutrientName'] == 'Carbohydrate, by difference':
+    #                 compare["total_entries"] += 1
+    #                 compare['total_carbs'] += element["value"]
+    #             if element['nutrientName'] == 'Energy':
+    #                 compare["total_energy"] += element["value"]
+    # avg_carbs = compare['total_carbs']/compare["total_entries"]
+    # avg_energy = compare['total_energy']/compare["total_entries"]
+    # print(f'Average Carbs: {avg_carbs} | Average Energy: {avg_energy}')
+    # for entry in range(len(json)):
+    #     if json['foods'][entry]['brandOwner'] in skip:
+    #         continue
+    #     if food_item in json['foods'][entry]['description'].lower():
+    #         print(json['foods'][entry]['description'],end=" | ")
+    #         print(json['foods'][entry]['brandOwner'])
+    #         for element in json['foods'][entry]['foodNutrients']:
+    #             if element['nutrientName'] == 'Carbohydrate, by difference':
+    #                 print(f'Carbohydrate, by difference: {element["value"]} {element["unitName"]} | Percent difference from avg: {round((abs(element["value"]-avg_carbs)/avg_carbs)*100,2)}')
+    #             if element['nutrientName'] == 'Energy':
+    #                 print(f'Energy: {element["value"]} {element["unitName"]} | Percent difference from avg: {round((abs(element["value"]-avg_energy)/avg_energy)*100,2)}')
+    # # df = pd.DataFrame(json['foods'][entry]['foodNutrients'])
+    # # print(df)
+    #     file.close()
 
 # file = shelve.open('delete')
 # json = file['other51']
@@ -254,7 +260,7 @@ def holder():
     total_weight = {}
     data = {}
     data['percent_carbs'] = []
-    for entry in [*json["foods"]]:
+    for entry in [*data["foods"]]:
         # go = False
         # for ele in skip:
         #     if ele in entry['description'].lower():
@@ -550,3 +556,7 @@ def percent_difference():
 #             df = pd.DataFrame(json[entry]['foodNutrients'])
 #             print(df)
 #     file.close()
+
+
+if __name__ == '__main__':
+    food_search()

@@ -1,6 +1,3 @@
-import json
-
-
 class Endpoints:
     def __init__(self):
         self.url = "https://api.nal.usda.gov/fdc/v1/foods/"
