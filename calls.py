@@ -1,14 +1,9 @@
 """
 Place to call the usda class to get various organized data
 """
-from functools import update_wrapper
-import os
-import sys
 from typing import Any
-import requests
 import shelve
 import pandas as pd
-import matplotlib.pyplot as plt
 
 from api import USDA
 

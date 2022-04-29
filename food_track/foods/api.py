@@ -23,9 +23,10 @@ import requests
 import shelve
 import pandas as pd
 import matplotlib.pyplot as plt
-from endpoints import Endpoints as ep
-# when polling from more than two datasets, find the standard deviation as a measurment of average value validity
-#USDA key
+from .endpoints import Endpoints as ep
+
+# when polling from more than two datasets, find the standard deviation as a measurement of average value validity
+# USDA key
 """
 /food/{fdcId}	GET	Fetches details for one food item by FDC ID
 /foods	GET | POST	Fetches details for multiple food items using input FDC IDs
@@ -75,16 +76,17 @@ things to try:
 """
 # usda_key = os.environ['usda_nutrition']
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
+
 # To get pages in a range
 # 
 # for page in range(1,51):
-    # url = f'https://api.nal.usda.gov/fdc/v1/foods/list?api_key={usda_key}&pageSize=200&pageNumber={page}'
-    # response = requests.get(url)
-    # json = response.json()
-    # print(response)
-    # file = shelve.open('usda_pages')
-    # file[str(page)] = json
-    # file.close()
+# url = f'https://api.nal.usda.gov/fdc/v1/foods/list?api_key={usda_key}&pageSize=200&pageNumber={page}'
+# response = requests.get(url)
+# json = response.json()
+# print(response)
+# file = shelve.open('usda_pages')
+# file[str(page)] = json
+# file.close()
 
 # To get specific page
 #  
@@ -164,23 +166,40 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 
 # df = pd.DataFrame(json['foods'][1]['foodNutrients'])
 # print(df.)
+import random
 
-def food_search(api_key=None):
-    food_item = 'bread'
+
+def food_search(api_key=None, food_item=None):
+    if api_key is None:
+        api_key = usda_key
     compare = {"total_entries": 0, "total_energy": 0, "total_carbs": 0}
     skip = ["Nong Shim Co., Ltd.", "Nasoya Foods USA, LLC", "United Natural Foods, Inc."]
     # print(json)
     # print(len(json))
     # f = shelve.open[3]
-    end_search = ep().end_search(api_key=usda_key, query=food_item)
+    query = "yeast bread"
+    end_search = ep().end_search(api_key="0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf", query=query)
     params = end_search[1]
     url = end_search[0]
     food_query = requests.get(url, params=params)
+    food_dict = {}  # add foods and their respective nutrients to dict
+    food_l = []
     for food in food_query.json():
-        if food['dataType'] == 'Branded':
-            print("[{}] {}".format(food["brandOwner"], food['description']))
-        else:
-            print(food['dataType'])
+        # TODO: add some django handling here or something to sort by most recent later
+        # pub_dates.append(food['publicationDate'])
+        nutrients_unformat = food['foodNutrients']
+        nutrients_clean = []
+        name = [value['name'] for value in nutrients_unformat]
+        amount = [value['amount'] for value in nutrients_unformat]
+        unit = [value['unitName'] for value in nutrients_unformat]
+        for name, amount, unit in zip(name, amount, unit):
+            nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
+        food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
+    # logic for sorting by publication date // pub_dates = sorted(pub_dates)
+    a = [desc['foodNutrients'] for desc in food_l]
+    print(a)
+    # print(food_dict)
+
     # for entry in range(len(j_dict)):
     #     if j_dict['foods'][entry]['brandOwner'] in skip:
     #         continue
@@ -214,6 +233,7 @@ def food_search(api_key=None):
     # # df = pd.DataFrame(json['foods'][entry]['foodNutrients'])
     # # print(df)
     #     file.close()
+
 
 # file = shelve.open('delete')
 # json = file['other51']
@@ -250,7 +270,7 @@ def food_search(api_key=None):
 # for entry in [*json['foods']]:
 #     for element in entry["foodNutrients"]:
 #         print(len(entry["foodNutrients"]))
-        # print(element['nutrientName'])
+# print(element['nutrientName'])
 # f=shelve.open[2]
 
 # skip = ["organic","and","soup", "spicy", "&", "chicken", "beef", "rice", "pasta","chlorella", "miso","ginger","soy","tempura","shoyu","sanuki", "bowl"]
@@ -278,8 +298,8 @@ def holder():
                     carbs = element["value"]
                 if element["unitName"] in [*total_weight]:
                     total_weight[element["unitName"]] += element['value']
-            total = round(total_weight["G"]+(total_weight["MG"]/1000),2)
-            percent_carbs = round((carbs/total)*100,2)
+            total = round(total_weight["G"] + (total_weight["MG"] / 1000), 2)
+            percent_carbs = round((carbs / total) * 100, 2)
             data['percent_carbs'].append(percent_carbs)
             print(entry['description'])
             print(f'Total mass: {total} G | Percent Carbs: {percent_carbs}')
@@ -287,7 +307,7 @@ def holder():
     # print(data["percent_carbs"])
     print(f'Highest Value: {max(data["percent_carbs"])}')
     print(f'Lowest Value: {min(data["percent_carbs"])}')
-    print(f'Average Value: {round(sum(data["percent_carbs"])/len(data["percent_carbs"]),2)}')
+    print(f'Average Value: {round(sum(data["percent_carbs"]) / len(data["percent_carbs"]), 2)}')
     print(len(data["percent_carbs"]))
     # print(data["percent_carbs"])
     # data["percent_carbs"].remove(64.24)
@@ -314,15 +334,14 @@ def holder():
     plt.show()
 
 
-
 # Evaluate search results for x nutrient composition
 class USDA(object):
     def __init__(self, key) -> None:
         super().__init__()
         self.key = key
         self.unit_names_bank = self.get_unit_names_bank()
-    
-    def search(self, query, data_type=f'SR%20Legacy',file_name='delete'):
+
+    def search(self, query, data_type=f'SR%20Legacy', file_name='delete'):
         """
         Search the USDA nutrition API
         query: string
@@ -331,21 +350,22 @@ class USDA(object):
 
         Returns: requests object
         """
-        if not self.is_saved(file_key=query,file_name=file_name):
+        if not self.is_saved(file_key=query, file_name=file_name):
             url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={self.key}&query={query}&dataType={data_type}&pageSize=200'
             response = requests.get(url)
             if not response.ok:
                 return f'{response.status_code}'
             print(response)
-            self.save(item=response,file_key=query,file_name=file_name)
-        
-        response = self.get(file_key=query,file_name=file_name)
+            self.save(item=response, file_key=query, file_name=file_name)
+
+        response = self.get(file_key=query, file_name=file_name)
         json = response.json()
         print(f'Total Hits: {json["totalHits"]}')
         print(f'Total Pages: {json["totalPages"]}')
         self.results = json['foods']
         return response
-    def save(self, item: Any, file_key: str, file_name:str='delete'):
+
+    def save(self, item: Any, file_key: str, file_name: str = 'delete'):
         """
         item: anything
         file_key: string
@@ -354,11 +374,13 @@ class USDA(object):
         file[file_key] = item
         file.close()
         print('Saved')
-    def get(self, file_key: str, file_name:str='delete'):
+
+    def get(self, file_key: str, file_name: str = 'delete'):
         file = shelve.open(file_name)
         item = file[file_key]
         file.close()
         return item
+
     def is_saved(self, file_key, file_name):
         file = shelve.open(file_name)
         try:
@@ -379,6 +401,7 @@ class USDA(object):
             descriptions.append(result['description'])
         # print(descriptions)
         return descriptions
+
     def get_nutrient_names(self, description=None):
         nutrient_names = []
         if description:
@@ -391,6 +414,7 @@ class USDA(object):
                     nutrient_names.append(nutrient['nutrientName'])
         # print(nutrient_names)
         return nutrient_names
+
     def get_nutrients(self, description=None):
         """
         Input: description: str
@@ -402,16 +426,16 @@ class USDA(object):
         Else returns nutrients[every description in self.results] = [dict, ...]
         """
         nutrients = {}
-        if description: 
+        if description:
             nutrients[description] = []
             for result in self.results:
                 if result['description'] == description:
                     for nutrient in result['foodNutrients']:
                         nutrients[description].append({
-                        'Nutrient Name': nutrient['nutrientName'],
-                        'Value': nutrient['value'],
-                        'Unit': nutrient['unitName'],
-                        'Nutrient ID': nutrient['nutrientId']
+                            'Nutrient Name': nutrient['nutrientName'],
+                            'Value': nutrient['value'],
+                            'Unit': nutrient['unitName'],
+                            'Nutrient ID': nutrient['nutrientId']
                         })
                     return nutrients
         for result in self.results:
@@ -428,6 +452,7 @@ class USDA(object):
         self.nutrients = nutrients
         # print(nutrients)
         return nutrients
+
     def get_total_mass(self, description):
         nutrients = self.get_nutrients(description=description)
         mass = 0
@@ -435,13 +460,13 @@ class USDA(object):
             if nutrient['Unit'] == 'G':
                 mass += nutrient['Value']
             elif nutrient['Unit'] == 'MG':
-                mass += nutrient['Value']*10**(-3)
+                mass += nutrient['Value'] * 10 ** (-3)
             elif nutrient['Unit'] == 'UG':
-                mass += nutrient['Value']*10**(-6)
+                mass += nutrient['Value'] * 10 ** (-6)
             elif nutrient['Unit'] == 'IU':
                 # print(f'Units not included(IU): {nutrient["Nutrient Name"]}')
                 pass
-        return round(mass,3)
+        return round(mass, 3)
 
     def get_nutrient_composition(self, description, nutrient):
         total_mass = self.get_total_mass(description)
@@ -449,7 +474,7 @@ class USDA(object):
             if result['description'] == description:
                 for entry in result['foodNutrients']:
                     if entry['nutrientName'] == nutrient:
-                        if entry['unitName'] in ['MG','UG']:
+                        if entry['unitName'] in ['MG', 'UG']:
                             grams = self.convert_to_grams(entry['value'], entry['unitName'])
                         elif entry['unitName'] == 'G':
                             grams = entry['value']
@@ -458,41 +483,43 @@ class USDA(object):
                         # if grams == 0:
                         #     continue
                         # print(description)
-                        composition = grams/total_mass*100
+                        composition = grams / total_mass * 100
                         composition = round(composition, 3)
                         return composition
-        
+
     def convert_to_grams(self, value, unit):
         unit = unit.lower()
         if unit == 'mg':
-            return value*10**(-3)
+            return value * 10 ** (-3)
         elif unit == 'ug':
-            return value*10**(-6)
+            return value * 10 ** (-6)
+
     def convert_to_calories(self, value, unit):
         unit = unit.lower()
         if unit == 'kj':
-            return value/4.184
+            return value / 4.184
 
     def get_nutrient_names_bank(self):
-        file = shelve.open('usda')
+        file = shelve.open('../../USDA')
         bank = file['nutrient_names_bank']
         file.close()
         return bank
+
     def get_unit_names_bank(self):
-        file = shelve.open('usda')
+        file = shelve.open('../../USDA')
         bank = file['unit_names_bank']
         file.close()
         return bank
+
     def get_daily_nutrition(self, age=None, sex=None):
-        file = shelve.open('usda')
+        file = shelve.open('../../USDA')
         daily_nutrition_bank = file['daily_nutrition']
         file.close()
-        if not age and not sex: #if no age or sex specified
+        if not age and not sex:  # if no age or sex specified
             return daily_nutrition_bank
         for age_range in [*daily_nutrition_bank[sex]]:
-            if age in range(age_range[0], age_range[1]+1):
+            if age in range(age_range[0], age_range[1] + 1):
                 return daily_nutrition_bank[sex][age_range]
-
 
     def eval_nutrient_composition(self, food_item):
         food_item = 'bread'
@@ -508,22 +535,24 @@ class USDA(object):
                         carbs = element["value"]
                     if element["unitName"] in [*total_weight]:
                         total_weight[element["unitName"]] += element['value']
-                total = round(total_weight["G"]+(total_weight["MG"]/1000),2)
-                percent_carbs = round((carbs/total)*100,2)
+                total = round(total_weight["G"] + (total_weight["MG"] / 1000), 2)
+                percent_carbs = round((carbs / total) * 100, 2)
                 data['percent_carbs'].append(percent_carbs)
                 print(entry['description'])
                 print(f'Total mass: {total} G | Percent Carbs: {percent_carbs}')
         print(f'Highest Value: {max(data["percent_carbs"])}')
         print(f'Lowest Value: {min(data["percent_carbs"])}')
-        print(f'Average Value: {round(sum(data["percent_carbs"])/len(data["percent_carbs"]),2)}')
+        print(f'Average Value: {round(sum(data["percent_carbs"]) / len(data["percent_carbs"]), 2)}')
         print(len(data["percent_carbs"]))
         df = pd.DataFrame(data["percent_carbs"])
         print(df.mean())
 
+
 def percent_difference():
     pass
 
-# Print functions 
+
+# Print functions
 # usda_pages save/open
 # file = shelve.open('usda_pages')
 # file[str(page)] = json
@@ -559,4 +588,4 @@ def percent_difference():
 
 
 if __name__ == '__main__':
-    food_search()
+    print(food_search("lasagna"))
