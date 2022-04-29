@@ -1,5 +1,5 @@
 from django.urls import path, include
-from. import views
+from . import views
 
 urlpatterns = [
     path('register/', views.HomePageView.as_view(), name="create_account"),
