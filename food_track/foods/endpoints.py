@@ -13,7 +13,7 @@ class Endpoints:
             "sort_by": sort_by, "sort_order": sort_order}
         return f"{self.url}list", payload
 
-    def end_search(self, api_key, query=None, description=None):
+    def end_search(self, api_key, query=None, description="SR Legacy"):
         if description is None:
             description = ["Branded", "SR Legacy"]
         if api_key is None:
