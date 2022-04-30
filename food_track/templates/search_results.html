@@ -1,3 +1,14 @@
+
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if error %}
+{{ error }}
+{% endif %}
+<br/>
+<br/>
 <h1>Search Results</h1>
 
 <ul>
@@ -7,3 +18,5 @@
     </li>
     {% endfor %}
 </ul>
+
+{% endblock %}
