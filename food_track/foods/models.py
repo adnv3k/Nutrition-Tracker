@@ -30,5 +30,3 @@ class Search(models.Model):
         ('SR Legacy', 'SR Legacy'),
         ('Branded Foods', 'Branded Foods')
     )
-
-    brand_type = models.CharField(max_length=200, choices=choices)

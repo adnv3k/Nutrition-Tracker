@@ -4,6 +4,7 @@ from django.db.models import Q
 from django.views.generic import TemplateView, ListView
 from django.core.exceptions import ObjectDoesNotExist
 
+from .forms import SearchForm
 from .models import Food
 from .endpoints import Endpoints as ep
 from .api import usda_key

@@ -2,7 +2,7 @@ from django import forms
 from .models import Search
 
 
-class SearchForm(forms.ModelForm):
+class SearchForm(forms.Form):
     choices = (
         ('SR Legacy', 'SR Legacy'),
         ('Branded Foods', 'Branded Foods')
