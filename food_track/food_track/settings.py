@@ -35,7 +35,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'foods'
+    'foods',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +77,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'food_base',
         'USER': 'postgres',
-        'PASSWORD': 'boobies69'
+        'PASSWORD': 'lolhaha'
     }
 }
 
