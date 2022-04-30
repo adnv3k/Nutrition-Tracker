@@ -23,3 +23,12 @@ class Nutrients(models.Model):
 
     def __str__(self):
         return self.nutrients
+
+
+class Search(models.Model):
+    choices = (
+        ('SR Legacy', 'SR Legacy'),
+        ('Branded Foods', 'Branded Foods')
+    )
+
+    brand_type = models.CharField(max_length=200, choices=choices)

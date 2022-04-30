@@ -177,7 +177,7 @@ def food_search(api_key=None, food_item=None):
     # print(json)
     # print(len(json))
     # f = shelve.open[3]
-    query = "yeast bread"
+    query = "bread cheese"
     end_search = ep().end_search(api_key="0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf", query=query)
     params = end_search[1]
     url = end_search[0]
@@ -185,19 +185,18 @@ def food_search(api_key=None, food_item=None):
     food_dict = {}  # add foods and their respective nutrients to dict
     food_l = []
     for food in food_query.json():
-        # TODO: add some django handling here or something to sort by most recent later
-        # pub_dates.append(food['publicationDate'])
-        nutrients_unformat = food['foodNutrients']
-        nutrients_clean = []
-        name = [value['name'] for value in nutrients_unformat]
-        amount = [value['amount'] for value in nutrients_unformat]
-        unit = [value['unitName'] for value in nutrients_unformat]
-        for name, amount, unit in zip(name, amount, unit):
-            nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
-        food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
+        if json.dumps(food_query.json().get('bread cheese')):
+
+            nutrients_unformat = food['foodNutrients']
+            nutrients_clean = []
+            name = [value['name'] for value in nutrients_unformat]
+            amount = [value['amount'] for value in nutrients_unformat]
+            unit = [value['unitName'] for value in nutrients_unformat]
+            for name, amount, unit in zip(name, amount, unit):
+                nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
+            food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
     # logic for sorting by publication date // pub_dates = sorted(pub_dates)
-    a = [desc['foodNutrients'] for desc in food_l]
-    print(a)
+    print(food_l)
     # print(food_dict)
 
     # for entry in range(len(j_dict)):

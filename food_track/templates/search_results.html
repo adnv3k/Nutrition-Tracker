@@ -1,5 +1,9 @@
 <h1>Search Results</h1>
-
+<form action="{% url 'search_results' %}" method="get">
+    <input name="q" type="text" placeholder="Search...">
+    <span class='input-group-btn'>
+        <button class="btn btn-outline-success" type="submit">Search</button></span>
+</form>
 <ul>
     {% for f in object_list %}
     <li>
