@@ -1,11 +1,12 @@
 import requests
 
 from django.db.models import Q
-from django.views.generic import TemplateView, ListView
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.views.generic import TemplateView, ListView, View
 from django.core.exceptions import ObjectDoesNotExist
+from django.utils import timezone
 
-from .forms import SearchForm
-from .models import Food
+from .models import Food, FoodHistory
 from .endpoints import Endpoints as ep
 from .api import usda_key
 
@@ -49,3 +50,17 @@ class SearchResultsView(ListView):
                     pass
 
             return Food.objects.filter(Q(name__icontains=[query])).first()
+
+
+def add_food(request):
+    if request.method == "POST":
+        if request.POST.get('addBtn'):
+            if request.user.is_authenticated:
+                items = dict(request.POST.items())
+                FoodHistory.objects.get_or_create(username=items['username'],
+                                                  food=items['addBtn'],
+                                                  nutrients=items['nutrients'],
+                                                  date=timezone.now())
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                return HttpResponse("login")

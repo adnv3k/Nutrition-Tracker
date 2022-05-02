@@ -25,8 +25,12 @@ class Nutrients(models.Model):
         return self.nutrients
 
 
-class Search(models.Model):
-    choices = (
-        ('SR Legacy', 'SR Legacy'),
-        ('Branded Foods', 'Branded Foods')
-    )
+class FoodHistory(models.Model):
+    username = models.CharField(max_length=255)
+    food = models.CharField(max_length=255)
+    nutrients = models.TextField()
+    date = models.DateTimeField(auto_now=True)
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.username

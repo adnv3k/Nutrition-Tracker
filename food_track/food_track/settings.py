@@ -81,7 +81,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'food_base',
         'USER': 'postgres',
-        'PASSWORD': 'lolhaha'
+        'PASSWORD': 'boobies69'
     }
 }
 
