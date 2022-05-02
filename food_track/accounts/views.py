@@ -53,9 +53,9 @@ def register(request):
                 auth.login(request,user)
                 return redirect('home')
         else:
-            return render (request,'accounts/signup.html', {'error':'Password does not match!'})
+            return render (request,'accounts/register.html', {'error':'Password does not match!'})
     else:
-        return render(request,'accounts/signup.html')
+        return render(request,'accounts/register.html')
 
 def login(request):
     if request.method == 'POST':
