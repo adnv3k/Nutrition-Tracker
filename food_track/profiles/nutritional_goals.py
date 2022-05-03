@@ -1,5 +1,5 @@
 import json
-
+import os
 
 class DailyNutrients(object):
     """
@@ -34,17 +34,16 @@ class DailyNutrients(object):
             "vitamins:{}
             }
         """
-        # Get nutrition data
-        with open('jsondump.json') as data:
-            nutrition = json.load(data)
+        if not age and not sex:
+            return self.nutrition
         # Handle age exceptions 
         if age < 2 or age > 130:
             return "Invalid age. Valid range is 2-130."
         # If age and sex not given, return entire table
-        if not age and not sex:
-            return nutrition
-        for age_range in [*nutrition[sex]]:
+        for age_range in [*self.nutrition[sex]]:
             split = age_range.split("-")
             lower, upper = int(split[0]), int(split[1])+1
             if age in range(lower, upper):
-                return nutrition[sex][age_range] 
+                return self.nutrition[sex][age_range] 
+user = DailyNutrients()
+# print(user.get_daily_nutrition(age=25,sex="M"))
