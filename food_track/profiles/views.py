@@ -3,9 +3,9 @@ from django.views.generic import View
 from foods.models import FoodHistory
 from .nutritional_goals import DailyNutrients
 
+
 import ast
 import string
-
 
 # Create your views here.
 class ProfileView(View):
@@ -22,15 +22,15 @@ class ProfileView(View):
     def daily_goal(self):
         history = self.update_history()
         history = [item['nutrients'] for item in history]
-        nutrient_balance = {}
+        nutrient_balance = {} # {nutrient_name: amount}
         for nutrient_list in history:
-            nutrient_list = ast.literal_eval(nutrient_list)  # convert to actual list
+            nutrient_list = ast.literal_eval(nutrient_list) # convert to actual list
             for nutrient in nutrient_list:
-                nutrient = nutrient.split(": ")  # [nutrient_name, amount]
+                nutrient = nutrient.split(": ") # [nutrient_name, amount]
                 # Get int value
                 for i, char in enumerate(nutrient[1]):
                     if char in string.digits:
-                        nutrient_amount = float(nutrient[1][:i + 1])
+                        nutrient_amount = float(nutrient[1][:i+1])
                 # Add to balance
                 if nutrient_balance.get(nutrient[0]):
                     nutrient_balance[nutrient[0]] += nutrient_amount
@@ -38,6 +38,20 @@ class ProfileView(View):
                     nutrient_balance[nutrient[0]] = nutrient_amount
         nutritional_goal = DailyNutrients()
         goal = nutritional_goal.get_daily_nutrition(30, "M")
-        print(goal)
+        goal_dict = {}
+        percentages = {}
+        for category in [*goal][1:]:
+            for goal_nutrient in [*goal[category]]:
+                if type(goal[category][goal_nutrient]) != type(str()):
+                    goal_nutrient_key = goal_nutrient.split(" (")
+                    goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+        for goal_nutrient in [*goal_dict]:
+            for nutrient in [*nutrient_balance]:
+                if goal_nutrient in nutrient:
+                    percentages[goal_nutrient] = nutrient_balance[nutrient]/goal_dict[goal_nutrient]
+        total_percent = sum(list(percentages.values()))/len(percentages)*100
 
-        return goal
+
+
+        return total_percent
+        
