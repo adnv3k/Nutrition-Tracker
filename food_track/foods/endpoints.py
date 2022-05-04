@@ -5,7 +5,8 @@ class Endpoints:
     def url(self):
         return self.url
 
-    def end_list(self, api_key, page_size=200, page_number=1, sort_by="lowercaseDescription.keyword", sort_order="desc"):
+    def end_list(self, api_key, page_size=200, page_number=1, sort_by="lowercaseDescription.keyword",
+                 sort_order="desc"):
         if api_key is None:
             return "API Key required."
         payload = {
@@ -13,13 +14,13 @@ class Endpoints:
             "sort_by": sort_by, "sort_order": sort_order}
         return f"{self.url}list", payload
 
-    def end_search(self, api_key, query=None, description="SR Legacy"):
-        if description is None:
-            description = ["Branded", "SR Legacy"]
+    def end_search(self, api_key, query=None, data_type="SR Legacy"):
+        if data_type is None:
+            data_type = ["Branded", "SR Legacy"]
         if api_key is None:
             return "API Key required."
         payload = {
-            "api_key": api_key, "query": query, "description": description
+            "api_key": api_key, "query": query, "dataType": data_type
         }
         return f"{self.url}list", payload
 

@@ -4,7 +4,9 @@ from django.db.models import Q
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, View
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.paginator import Paginator
 from django.utils import timezone
+from django.contrib.postgres.search import SearchVector, SearchQuery
 
 from .models import Food, FoodHistory
 from .endpoints import Endpoints as ep
@@ -18,16 +20,28 @@ class HomePageView(TemplateView):
 class SearchResultsView(ListView):
     model = Food
     template_name = 'search_results.html'
+    paginate_by = 5
 
     def get_queryset(self):
-        query = self.request.GET.get("q")
-        food_q = Food.objects.filter(Q(name__icontains=query))
+        q = self.request.GET.get("q")
+        dataType = ""
+        if self.request.GET.get("brand"):
+            dataType = 'Branded'
+        else:
+            dataType = 'SR Legacy'
+
+        food_q = Food.objects.annotate(
+            search=SearchVector("name", "dataType")).filter(search=SearchQuery(q) & SearchQuery(dataType))
         if food_q.exists():
             return food_q
         else:
-            end_search = ep().end_search(api_key=usda_key, query=query)
+            end_search = ep().end_search(api_key=usda_key, query=q)
             params = end_search[1]
             url = end_search[0]
+            if self.request.GET.get('brand'):
+                params['dataType'] = 'Branded'
+            else:
+                params['dataType'] = 'SR Legacy'
             food_query = requests.get(url, params=params)
             food_l = []
             for food in food_query.json():
@@ -43,13 +57,17 @@ class SearchResultsView(ListView):
                 # if not Food.objects.filter(name=food_dict['food']['description']).exists():
                 #    Food.objects.get_or_create(name=food_dict['food']['description'], nutrients=nutrients_clean)
                 try:
-                    Food.objects.get(name=food['description'])
+                    Food.objects.get(name=food['description'], dataType=params['dataType'])
                 except ObjectDoesNotExist:
-                    Food.objects.get_or_create(name=food['description'], nutrients=nutrients_clean)
+                    Food.objects.get_or_create(
+                        name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
                 else:
                     pass
 
-            return Food.objects.filter(Q(name__icontains=[query])).first()
+            p = Paginator(Food.objects.all().filter(Q(name__icontains=[q])).first(), 5)
+            page_num = self.request.GET.get('page')
+            page_obj = p.get_page(page_num)
+            return render(self.request, 'search_results.html', {'page_obj': page_obj})
 
 
 def add_food(request):

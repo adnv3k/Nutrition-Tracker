@@ -3,6 +3,7 @@ from django.views.generic import View
 from foods.models import FoodHistory
 from .nutritional_goals import DailyNutrients
 
+
 import ast
 import string
 
@@ -54,5 +55,3 @@ class ProfileView(View):
 
         return total_percent
         
-
-

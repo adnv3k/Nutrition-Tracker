@@ -1,5 +1,6 @@
 import json
 
+
 class DailyNutrients(object):
     """
     A class to help with getting appropriate daily nutritional goals.
@@ -16,6 +17,7 @@ class DailyNutrients(object):
     get_daily_nutrition(age=None, sex=None):
         returns dictionary of daily nutrition based on given age and sex.
     """
+
     def __init__(self) -> None:
         with open('daily_nutrient_goals.json') as data:
             self.nutrition = json.load(data)
@@ -41,6 +43,7 @@ class DailyNutrients(object):
         # If age and sex not given, return entire table
         for age_range in [*self.nutrition[sex]]:
             split = age_range.split("-")
-            lower, upper = int(split[0]), int(split[1])+1
+            lower, upper = int(split[0]), int(split[1]) + 1
             if age in range(lower, upper):
-                return self.nutrition[sex][age_range] 
+                return self.nutrition[sex][age_range]
+

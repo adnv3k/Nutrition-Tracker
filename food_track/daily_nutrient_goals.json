@@ -1,7 +1,9 @@
 {
   "F": {
     "2-3": {
-      "calories": { "Calories": 1000 },
+      "calories": {
+        "Calories": 1000
+      },
       "macronutrients": {
         "Protein (% kcal)": "5-20",
         "Protein (g)": 13,
@@ -39,7 +41,9 @@
       }
     },
     "4-8": {
-      "calories": { "Calories": 1200 },
+      "calories": {
+        "Calories": 1200
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-30",
         "Protein (g)": 19,
@@ -77,7 +81,9 @@
       }
     },
     "9-13": {
-      "calories": { "Calories": 1600 },
+      "calories": {
+        "Calories": 1600
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-30",
         "Protein (g)": 34,
@@ -115,7 +121,9 @@
       }
     },
     "14-18": {
-      "calories": { "Calories": 1800 },
+      "calories": {
+        "Calories": 1800
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-30",
         "Protein (g)": 46,
@@ -153,7 +161,9 @@
       }
     },
     "19-30": {
-      "calories": { "Calories": 2000 },
+      "calories": {
+        "Calories": 2000
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-35",
         "Protein (g)": 46,
@@ -191,7 +201,9 @@
       }
     },
     "31-50": {
-      "calories": { "Calories": 1800 },
+      "calories": {
+        "Calories": 1800
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-35",
         "Protein (g)": 46,
@@ -229,7 +241,9 @@
       }
     },
     "51-130": {
-      "calories": { "Calories": 1600 },
+      "calories": {
+        "Calories": 1600
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-35",
         "Protein (g)": 46,
@@ -269,7 +283,9 @@
   },
   "M": {
     "2-3": {
-      "calories": { "Calories": 1000 },
+      "calories": {
+        "Calories": 1000
+      },
       "macronutrients": {
         "Protein (% kcal)": "5-20",
         "Protein (g)": 13,
@@ -307,7 +323,9 @@
       }
     },
     "4-8": {
-      "calories": { "Calories": 1400 },
+      "calories": {
+        "Calories": 1400
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-30",
         "Protein (g)": 19,
@@ -345,7 +363,9 @@
       }
     },
     "9-13": {
-      "calories": { "Calories": 1800 },
+      "calories": {
+        "Calories": 1800
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-30",
         "Protein (g)": 34,
@@ -383,7 +403,9 @@
       }
     },
     "14-18": {
-      "calories": { "Calories": 2200 },
+      "calories": {
+        "Calories": 2200
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-30",
         "Protein (g)": 52,
@@ -421,7 +443,9 @@
       }
     },
     "19-30": {
-      "calories": { "Calories": 2400 },
+      "calories": {
+        "Calories": 2400
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-35",
         "Protein (g)": 56,
@@ -459,7 +483,9 @@
       }
     },
     "31-50": {
-      "calories": { "Calories": 2200 },
+      "calories": {
+        "Calories": 2200
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-35",
         "Protein (g)": 56,
@@ -497,7 +523,9 @@
       }
     },
     "51-130": {
-      "calories": { "Calories": 2000 },
+      "calories": {
+        "Calories": 2000
+      },
       "macronutrients": {
         "Protein (% kcal)": "10-35",
         "Protein (g)": 56,
