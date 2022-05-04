@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from .forms import RegistrationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+
+from .models import Users
+from .forms import RegistrationForm
 
 from django.contrib import messages, auth
 

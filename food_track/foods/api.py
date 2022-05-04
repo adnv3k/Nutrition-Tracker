@@ -703,7 +703,7 @@ for nutrient_list in nutrients:
             nutrient_balance[nutrient[0]] += nutrient_amount
         else:
             nutrient_balance[nutrient[0]] = nutrient_amount
-print(nutrient_balance)
+# print(nutrient_balance)
 
 goal = {
     'calories': {

@@ -43,7 +43,6 @@ INSTALLED_APPS = [
     "django.contrib.postgres",
     'crispy_forms',
     'foods',
-    # 'accounts',
     'accounts.apps.AccountsConfig',
     'profiles'
 ]
