@@ -16,7 +16,8 @@ class ProfileView(View):
         return render(request, 'profile.html', {'daily_goal': self.daily_goal()})
 
     def update_history(self):
-        qs = self.model.objects.filter(username=self.request.user.username).values('nutrients')
+        qs = self.model.objects.filter(
+            username=self.request.user.username).values('nutrients')
         return qs
 
     def daily_goal(self):
@@ -41,15 +42,18 @@ class ProfileView(View):
         goal = nutritional_goal.get_daily_nutrition()
         goal_dict = {}
         percentages = {}
+        # Create dictionary to for simpler iteration
         for category in [*goal][1:]:
             for goal_nutrient in [*goal[category]]:
                 if type(goal[category][goal_nutrient]) != type(str()):
                     goal_nutrient_key = goal_nutrient.split(" (")
                     goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+        # Calculate percentages
         for goal_nutrient in [*goal_dict]:
             for nutrient in [*nutrient_balance]:
                 if goal_nutrient in nutrient:
-                    percentages[goal_nutrient] = nutrient_balance[nutrient]/goal_dict[goal_nutrient]
+                    percentages[goal_nutrient] = nutrient_balance[nutrient] / \
+                        goal_dict[goal_nutrient]
                     if percentages[goal_nutrient] > 1:
                         percentages[goal_nutrient] = 1
         total_percent = sum(list(percentages.values()))/len(percentages)*100
