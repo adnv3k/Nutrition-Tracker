@@ -36,8 +36,9 @@ class ProfileView(View):
                     nutrient_balance[nutrient[0]] += nutrient_amount
                 else:
                     nutrient_balance[nutrient[0]] = nutrient_amount
-        nutritional_goal = DailyNutrients()
-        goal = nutritional_goal.get_daily_nutrition(30, "M")
+        # Get appropriate nutritional goals based age and sex           
+        nutritional_goal = DailyNutrients(30, "M")
+        goal = nutritional_goal.get_daily_nutrition()
         goal_dict = {}
         percentages = {}
         for category in [*goal][1:]:
@@ -52,8 +53,8 @@ class ProfileView(View):
                     if percentages[goal_nutrient] > 1:
                         percentages[goal_nutrient] = 1
         total_percent = sum(list(percentages.values()))/len(percentages)*100
-
-
+        total_percent = round(total_percent,2)
+        total_percent = f'{total_percent:.2f}' # includes zero at the end
 
         return total_percent
         
