@@ -49,6 +49,8 @@ class ProfileView(View):
             for nutrient in [*nutrient_balance]:
                 if goal_nutrient in nutrient:
                     percentages[goal_nutrient] = nutrient_balance[nutrient]/goal_dict[goal_nutrient]
+                    if percentages[goal_nutrient] > 1:
+                        percentages[goal_nutrient] = 1
         total_percent = sum(list(percentages.values()))/len(percentages)*100
 
 
