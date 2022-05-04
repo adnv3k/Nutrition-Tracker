@@ -12,7 +12,28 @@
     <input name="q" type="text" placeholder="Search...">
     <span class='input-group-btn'>
         <button class="btn btn-outline-success" type="submit">Search</button></span>
+    <input type="checkbox" id="brand" name="brand" value="Branded">
+    <label for="brand">Branded</label><br>
+
 </form>
+<h4 name="results">Results</h4>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="{{ request.get_full_path }}&page=1">&laquo; first</a>
+            <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="{{ request.get_full_path }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 <table border="1" style="height: 100px; display: block; width: 100%;">
     <thead>
     <tr>
@@ -21,7 +42,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for f in object_list %}
+    {% for f in page_obj %}
     <tr>
         <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
             {% csrf_token %}

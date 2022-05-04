@@ -177,14 +177,17 @@ def food_search(api_key=None, food_item=None):
     # print(json)
     # print(len(json))
     # f = shelve.open[3]
-    query = "garlic bread"
+    query = "lasagna"
     end_search = ep().end_search(api_key="0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf", query=query)
     params = end_search[1]
     url = end_search[0]
     food_query = requests.get(url, params=params)
+    print(params)
     food_dict = {}  # add foods and their respective nutrients to dict
     food_l = []
     for food in food_query.json():
+        # TODO: add some django handling here or something to sort by most recent later
+        # pub_dates.append(food['publicationDate'])
         nutrients_unformat = food['foodNutrients']
         nutrients_clean = []
         name = [value['name'] for value in nutrients_unformat]
@@ -585,4 +588,4 @@ def percent_difference():
 
 
 if __name__ == '__main__':
-    food_search("garlic bread")
+    print(food_search("lasagna"))
