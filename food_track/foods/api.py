@@ -1,5 +1,7 @@
 import ast
 import string
+import json
+
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 
 nutrient_dict = {
@@ -157,7 +159,7 @@ nutrients = [
     "['Protein: 7.89G', 'Total lipid (fat): 0.0G', 'Carbohydrate, by difference: 55.3G', 'Energy: 263KCAL', 'Sugars, total including NLEA: 0.0G', 'Fiber, total dietary: 2.6G', 'Calcium, Ca: 0.0MG', 'Iron, Fe: 0.95MG', 'Sodium, Na: 553MG', 'Vitamin A, IU: 0.0IU', 'Vitamin C, total ascorbic acid: 0.0MG', 'Cholesterol: 0.0MG', 'Fatty acids, total trans: 0.0G', 'Fatty acids, total saturated: 0.0G']",
     "['Protein: 21.4G', 'Total lipid (fat): 25.0G', 'Carbohydrate, by difference: 0.0G', 'Energy: 346KCAL', 'Sugars, total including NLEA: 0.0G', 'Fiber, total dietary: 0.0G', 'Calcium, Ca: 714MG', 'Iron, Fe: 0.0MG', 'Sodium, Na: 536MG', 'Vitamin A, IU: 714IU', 'Vitamin C, total ascorbic acid: 0.0MG', 'Cholesterol: 146MG', 'Fatty acids, total trans: 0.0G', 'Fatty acids, total saturated: 14.3G']",
     "['Protein: 10.4G', 'Total lipid (fat): 20.8G', 'Carbohydrate, by difference: 44.8G', 'Energy: 408KCAL', 'Alcohol, ethyl: 0.0G', 'Water: 21.1G', 'Caffeine: 0.0MG', 'Theobromine: 0.0MG', 'Sugars, total including NLEA: 2.08G', 'Fiber, total dietary: 2.1G', 'Calcium, Ca: 90.0MG', 'Iron, Fe: 2.49MG', 'Magnesium, Mg: 17.0MG', 'Phosphorus, P: 120MG', 'Potassium, K: 84.0MG', 'Sodium, Na: 750MG', 'Zinc, Zn: 0.96MG', 'Copper, Cu: 0.086MG', 'Selenium, Se: 19.8UG', 'Retinol: 23.0UG', 'Vitamin A, RAE: 24.0UG', 'Carotene, beta: 9.0UG', 'Carotene, alpha: 1.0UG', 'Vitamin E (alpha-tocopherol): 1.49MG', 'Vitamin D (D2 + D3): 0.1UG', 'Cryptoxanthin, beta: 0.0UG', 'Lycopene: 0.0UG', 'Lutein + zeaxanthin: 45.0UG', 'Vitamin C, total ascorbic acid: 0.0MG', 'Thiamin: 0.433MG', 'Riboflavin: 0.303MG', 'Niacin: 3.28MG', 'Vitamin B-6: 0.048MG', 'Folate, total: 107UG', 'Vitamin B-12: 0.24UG', 'Choline, total: 8.5MG', 'Vitamin K (phylloquinone): 32.4UG', 'Folic acid: 75.0UG', 'Folate, food: 32.0UG', 'Folate, DFE: 159UG', 'Vitamin E, added: 0.0MG', 'Vitamin B-12, added: 0.0UG', 'Cholesterol: 10.0MG', 'Fatty acids, total saturated: 6.25G', 'SFA 4:0: 0.153G', 'SFA 6:0: 0.073G', 'SFA 8:0: 0.043G', 'SFA 10:0: 0.096G', 'SFA 12:0: 0.111G', 'SFA 14:0: 0.401G', 'SFA 16:0: 3.62G', 'SFA 18:0: 1.48G', 'MUFA 18:1: 4.17G', 'PUFA 18:2: 8.1G', 'PUFA 18:3: 1.1G', 'PUFA 20:4: 0.0G', 'PUFA 22:6 n-3 (DHA): 0.0G', 'MUFA 16:1: 0.076G', 'PUFA 18:4: 0.0G', 'MUFA 20:1: 0.039G', 'PUFA 2:5 n-3 (EPA): 0.0G', 'MUFA 22:1: 0.0G', 'PUFA 22:5 n-3 (DPA): 0.0G', 'Fatty acids, total monounsaturated: 4.34G', 'Fatty acids, total polyunsaturated: 9.2G']"
-    ]
+]
 
 for n in nutrients:
     a = ast.literal_eval(n)
@@ -173,12 +175,13 @@ for k, v in nutrient_dict.items():
     if k == None:
         new_dict.update({k: '55'})
 
-res = [list(filter(lambda ele: ele in sub, nutrient_dict)) for sub in nutrients]
+res = [list(filter(lambda ele: ele in sub, nutrient_dict))
+       for sub in nutrients]
 nutrient_balance = {}
 for nutrient_list in nutrients:
-    nutrient_list = ast.literal_eval(nutrient_list) # convert to actual list
+    nutrient_list = ast.literal_eval(nutrient_list)  # convert to actual list
     for nutrient in nutrient_list:
-        nutrient = nutrient.split(": ") # [nutrient, amount]
+        nutrient = nutrient.split(": ")  # [nutrient, amount]
         # Get int value
         for i, char in enumerate(nutrient[1]):
             if char not in string.ascii_uppercase:
@@ -188,5 +191,109 @@ for nutrient_list in nutrients:
             nutrient_balance[nutrient[0]] += nutrient_amount
         else:
             nutrient_balance[nutrient[0]] = nutrient_amount
+print(nutrient_balance)
 
-# print(nutrient_balance)
+goal = {
+    'calories': {
+        'Calories': 2400},
+    'macronutrients': {
+        'Protein (% kcal)': '10-35',
+        'Protein (g)': 56,
+        'Carbohydrate (% kcal)': '45-65',
+        'Carbohydrate (g)': 130,
+        'Fiber (g)': 34,
+        'Added Sugars (% kcal)': '<10',
+        'Total lipid (% kcal)': '20-35',
+        'Saturated Fatty Acids (% kcal)': '<10',
+        '18:2 Linoleic acid (g)': 17,
+        '18:3 Linoleic acid (g)': 1.6},
+    'minerals': {
+        'Calcium (mg)': 1000,
+        'Iron (mg)': 8,
+        'Magnesium (mg)': 400,
+        'Phosphorus (mg)': 700,
+        'Potassium (mg)': 3400,
+        'Sodium (mg)': 2300,
+        'Zinc (mg)': 11},
+    'vitamins': {
+        'Vitamin A (mcg RAE)': 900,
+        'Vitamin E (mg AT)': 15,
+        'Vitamin D (IU)': 600,
+        'Vitamin C (mg)': 90,
+        'Thiamin (mg)': 1.2,
+        'Riboflavin (mg)': 1.3,
+        'Niacin (mg)': 16,
+        'Vitamin B-6 (mg)': 1.3,
+        'Vitamin B-12 (mcg)': 2.4,
+        'Choline (mg)': 550,
+        'Vitamin K (mcg)': 120,
+        'Folate (mcg DFE)': 400
+    }
+}
+nutrient_balance = {
+    'Protein': 50.29, 
+    'Total lipid (fat)': 58.7, 
+    'Carbohydrate, by difference': 135.39999999999998, 
+    'Energy': 1323.0, 
+    'Sugars, total including NLEA': 6.79, 
+    'Fiber, total dietary': 5.9, 
+    'Calcium, Ca': 980.0, 
+    'Iron, Fe': 5.13, 
+    'Sodium, Na': 2686.0, 
+    'Vitamin A, IU': 714.0, 
+    'Vitamin C, total ascorbic acid': 0.0, 
+    'Cholesterol': 185.0, 
+    'Fatty acids, total trans': 0.0, 
+    'Fatty acids, total saturated': 25.84, 
+    'Alcohol, ethyl': 0.0, 'Water': 21.1, 
+    'Caffeine': 0.0, 'Theobromine': 0.0, 
+    'Magnesium, Mg': 17.0, 
+    'Phosphorus, P': 120.0, 
+    'Potassium, K': 84.0, 
+    'Zinc, Zn': 0.96, 
+    'Copper, Cu': 0.086, 
+    'Selenium, Se': 19.8, 
+    'Retinol': 23.0, 
+    'Vitamin A, RAE': 24.0, 
+    'Carotene, beta': 9.0, 
+    'Carotene, alpha': 1.0, 
+    'Vitamin E (alpha-tocopherol)': 1.49, 
+    'Vitamin D (D2 + D3)': 0.1, 
+    'Cryptoxanthin, beta': 0.0, 
+    'Lycopene': 0.0,
+    'Lutein + zeaxanthin': 45.0, 
+    'Thiamin': 0.433, 
+    'Riboflavin': 0.303, 
+    'Niacin': 3.28, 
+    'Vitamin B-6': 0.048, 
+    'Folate, total': 107.0, 
+    'Vitamin B-12': 0.24, 
+    'Choline, total': 8.5, 
+    'Vitamin K (phylloquinone)': 32.4, 
+    'Folic acid': 75.0, 
+    'Folate, food': 32.0, 
+    'Folate, DFE': 159.0, 
+    'Vitamin E, added': 0.0, 
+    'Vitamin B-12, added': 0.0, 
+    'SFA 4:0': 0.153, 
+    'SFA 6:0': 0.073, 
+    'SFA 8:0': 0.043, 
+    'SFA 10:0': 0.096, 
+    'SFA 12:0': 0.111, 
+    'SFA 14:0': 0.401, 
+    'SFA 16:0': 3.62, 
+    'SFA 18:0': 1.48, 
+    'MUFA 18:1': 4.17, 
+    'PUFA 18:2': 8.1, 
+    'PUFA 18:3': 1.1, 
+    'PUFA 20:4': 0.0, 
+    'PUFA 22:6 n-3 (DHA)': 0.0, 
+    'MUFA 16:1': 0.076, 
+    'PUFA 18:4': 0.0, 
+    'MUFA 20:1': 0.039, 
+    'PUFA 2:5 n-3 (EPA)': 0.0, 
+    'MUFA 22:1': 0.0, 
+    'PUFA 22:5 n-3 (DPA)': 0.0, 
+    'Fatty acids, total monounsaturated': 4.34, 
+    'Fatty acids, total polyunsaturated': 9.2
+    }

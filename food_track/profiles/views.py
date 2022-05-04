@@ -21,7 +21,7 @@ class ProfileView(View):
     def daily_goal(self):
         history = self.update_history()
         history = [item['nutrients'] for item in history]
-        nutrient_balance = {}
+        nutrient_balance = {} # {nutrient_name: amount}
         for nutrient_list in history:
             nutrient_list = ast.literal_eval(nutrient_list) # convert to actual list
             for nutrient in nutrient_list:
@@ -37,11 +37,22 @@ class ProfileView(View):
                     nutrient_balance[nutrient[0]] = nutrient_amount
         nutritional_goal = DailyNutrients()
         goal = nutritional_goal.get_daily_nutrition(30, "M")
-        print(nutrient_balance)
-        
+        goal_dict = {}
+        percentages = {}
+        for category in [*goal][1:]:
+            for goal_nutrient in [*goal[category]]:
+                if type(goal[category][goal_nutrient]) != type(str()):
+                    goal_nutrient_key = goal_nutrient.split(" (")
+                    goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+        for goal_nutrient in [*goal_dict]:
+            for nutrient in [*nutrient_balance]:
+                if goal_nutrient in nutrient:
+                    percentages[goal_nutrient] = nutrient_balance[nutrient]/goal_dict[goal_nutrient]
+        total_percent = sum(list(percentages.values()))/len(percentages)*100
 
 
-        return 43
+
+        return total_percent
         
 
 
