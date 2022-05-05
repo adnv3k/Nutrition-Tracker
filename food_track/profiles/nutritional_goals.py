@@ -1,4 +1,5 @@
 import json
+import os
 
 
 class DailyNutrients(object):
@@ -21,8 +22,10 @@ class DailyNutrients(object):
     def __init__(self, age=None, sex=None) -> None:
         self.age = age
         self.sex = sex
+        os.chdir('./profiles')
         with open('daily_nutrient_goals.json') as data:
             self.nutrition = json.load(data)
+        os.chdir('../')
 
     def __str__(self) -> str:
         return self.nutrition

@@ -1,12 +1,11 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from django.views.generic import View
 from foods.models import FoodHistory
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
-
-
 import ast
 import string
+
 
 # Create your views here.
 class ProfileView(View):
