@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import View
+from django.utils import timezone
 from foods.models import FoodHistory
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
@@ -17,9 +18,13 @@ class ProfileView(View):
         return render(request, 'profile.html', {'daily_goal': self.daily_goal()})
 
     def update_history(self):
-        qs = self.model.objects.filter(
-            username=self.request.user.username).values('nutrients','id','username')
-        return qs
+        qs = self.model.objects.filter(username=self.request.user.username).values('nutrients', 'date')
+        days = [item['date'] for item in qs]
+        for day in days:
+            if day.day == timezone.now().day:
+                pass
+            else:
+                return qs
 
     def get_age_sex(self):
         qs = self.current_user.objects.filter(
