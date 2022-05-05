@@ -21,7 +21,7 @@ class ProfileView(View):
         qs = self.model.objects.filter(username=self.request.user.username).values('nutrients', 'date')
         days = [item['date'] for item in qs]
         for day in days:
-            if day.day == timezone.now().day:
+            if day.day != timezone.now().day:
                 pass
             else:
                 return qs
