@@ -1,6 +1,10 @@
 import ast
 import string
 import json
+import shelve
+import pandas as pd
+import requests
+from .endpoints import Endpoints as ep
 
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 
@@ -254,11 +258,11 @@ def holder():
     # plt.scatter(x_axis, y_axis)
     # plt.ylabel('Percent Compositions')
     # plt.xlabel('Range')
-    plt.scatter(y_axis, x_axis)
-    plt.xlabel('Percent Compositions')
-    plt.ylabel('')
-    #
-    plt.show()
+    # plt.scatter(y_axis, x_axis)
+    # plt.xlabel('Percent Compositions')
+    # plt.ylabel('')
+    # #
+    # plt.show()
 
 
 # Evaluate search results for x nutrient composition
@@ -292,7 +296,7 @@ class USDA(object):
         self.results = json['foods']
         return response
 
-    def save(self, item: Any, file_key: str, file_name: str = 'delete'):
+    def save(self, item, file_key: str, file_name: str = 'delete'):
         """
         item: anything
         file_key: string
@@ -699,7 +703,7 @@ for nutrient_list in nutrients:
             nutrient_balance[nutrient[0]] += nutrient_amount
         else:
             nutrient_balance[nutrient[0]] = nutrient_amount
-print(nutrient_balance)
+# print(nutrient_balance)
 
 goal = {
     'calories': {
