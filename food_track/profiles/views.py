@@ -2,6 +2,7 @@ from django.shortcuts import render, HttpResponse
 from django.views.generic import View
 from foods.models import FoodHistory
 from .nutritional_goals import DailyNutrients
+from accounts.models import Users
 
 
 import ast
@@ -11,6 +12,7 @@ import string
 class ProfileView(View):
     template_name = 'profile.html'
     model = FoodHistory
+    user = Users
 
     def get(self, request):
         return render(request, 'profile.html', {'daily_goal': self.daily_goal()})
@@ -20,9 +22,20 @@ class ProfileView(View):
             username=self.request.user.username).values('nutrients')
         return qs
 
+    def get_age_sex(self):
+        qs = self.user.objects.filter(
+            id=self.request.user.id).values('age', "sex")
+        return qs
+
     def daily_goal(self):
+        # Get history
         history = self.update_history()
         history = [item['nutrients'] for item in history]
+        # Get age and sex
+        age_sex = self.get_age_sex()
+        self.age = int(age_sex[0]['age'])
+        self.sex = age_sex[0]['sex']
+        # Get nutrient weight totals from history
         nutrient_balance = {} # {nutrient_name: amount}
         for nutrient_list in history:
             nutrient_list = ast.literal_eval(nutrient_list) # convert to actual list
@@ -38,7 +51,7 @@ class ProfileView(View):
                 else:
                     nutrient_balance[nutrient[0]] = nutrient_amount
         # Get appropriate nutritional goals based age and sex           
-        nutritional_goal = DailyNutrients(30, "M")
+        nutritional_goal = DailyNutrients(self.age, self.sex)
         goal = nutritional_goal.get_daily_nutrition()
         goal_dict = {}
         percentages = {}
@@ -57,8 +70,7 @@ class ProfileView(View):
                     if percentages[goal_nutrient] > 1:
                         percentages[goal_nutrient] = 1
         total_percent = sum(list(percentages.values()))/len(percentages)*100
-        total_percent = round(total_percent,2)
+        total_percent = round(total_percent, 2)
         total_percent = f'{total_percent:.2f}' # includes zero at the end
-
         return total_percent
         

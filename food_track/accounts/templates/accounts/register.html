@@ -1,40 +1,34 @@
+{% extends 'base.html' %} {% block content %} {% if error %} {{ error }}
 
-
-{% extends 'base.html' %}
-
-{% block content %}
-
-
-{% if error %}
-{{ error }}
-
-<br/>
-<br/>
+<br />
+<br />
 {% endif %}
 
 <h1>Registration</h1>
 
-<form method = "POST" action="{% url 'register' %}">
-    {% csrf_token %}
-    Username:
-    <br/>
-    <input type="text" name="username" />
-    <br/>
-    Password:
-    <br/>
-    <input type="password" name="password1" />
-    <br/>
-    Confirm Password:
-    <br/>
-    <input type="password" name="password2" />
-    <br/>
-    <input class ="btn btn-primary" type="submit" value= "signup" />
-    <br/>
-    
-
-
-
+<form method="POST" action="{% url 'register' %}">
+  {% csrf_token %} Username:
+  <br />
+  <input type="text" name="username" />
+  <br />
+  Password:
+  <br />
+  <input type="password" name="password1" />
+  <br />
+  Confirm Password:
+  <br />
+  <input type="password" name="password2" />
+  <br />
+  Age (2-130):
+  <br />
+  <input type="text" name="age" />
+  <br />
+  Sex (M/F):
+  <br />
+  <input type="text" name="sex" />
+  <br />
+  <input class="btn btn-primary" type="submit" value="signup" />
+  <br />
 </form>
-
 
 {% endblock %}

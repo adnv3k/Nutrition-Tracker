@@ -1,13 +1,6 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView
-from django.contrib.auth.models import User
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth import login
-
+from django.contrib import auth, messages
 from .models import Users
-from .forms import RegistrationForm
-
-from django.contrib import messages, auth
 
 # from django.contrib import auth
 # Create your views here.
@@ -47,22 +40,31 @@ from django.contrib import messages, auth
 
 def register(request):
     if request.method == "POST":
-        if request.POST['password1'] == request.POST['password2']:
-            try:
-                User.objects.get(username=request.POST['username'])
-                return render(
-                    request, 'accounts/signup.html', {
-                        'error': 'Username is already taken!'})
-            except User.DoesNotExist:
-                user = User.objects.create_user(
-                    request.POST['username'],
-                    password=request.POST['password1'])
-                auth.login(request, user)
-                return redirect('home')
-        else:
+        if request.POST['password1'] != request.POST['password2']:
             return render(
                 request, 'accounts/register.html', {
                     'error': 'Password does not match!'})
+        if int(request.POST['age']) < 2 or int(request.POST['age']) > 130:
+            return render(
+                request, 'accounts/register.html', {
+                    'error': 'Invalid age.'})
+        if request.POST['sex'].upper() not in ['M',"F"]:
+            return render(
+                request, 'accounts/register.html', {
+                    'error': 'Invalid sex. Please enter "M" or "F"'})
+        try:
+            Users.objects.get(username=request.POST['username'])
+            return render(
+                request, 'accounts/register.html', {
+                    'error': 'Username is already taken!'})
+        except Users.DoesNotExist:
+            user = Users.objects.create_user(
+                username=request.POST['username'],
+                password=request.POST['password1'],
+                sex=request.POST['sex'],
+                age=request.POST['age'])
+            auth.login(request, user)
+            return redirect('home')
     else:
         return render(request, 'accounts/register.html')
 
@@ -84,9 +86,10 @@ def login(request):
 
 
 def logout(request):
+    auth.logout(request)
     if request.method == 'POST':
         auth.logout(request)
-    return redirect('home')
+    return redirect('login')
 
 # def register(response):
 #     if response.method == "POST":
