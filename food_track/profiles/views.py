@@ -11,29 +11,32 @@ import string
 class ProfileView(View):
     template_name = 'profile.html'
     model = FoodHistory
-    user = Users
+    current_user = Users
 
     def get(self, request):
         return render(request, 'profile.html', {'daily_goal': self.daily_goal()})
 
     def update_history(self):
         qs = self.model.objects.filter(
-            username=self.request.user.username).values('nutrients')
+            username=self.request.user.username).values('nutrients','id','username')
         return qs
 
     def get_age_sex(self):
-        qs = self.user.objects.filter(
-            id=self.request.user.id).values('age', "sex")
+        qs = self.current_user.objects.filter(
+            username=self.request.user.username).values('age', "sex",'id')
         return qs
 
     def daily_goal(self):
         # Get history
         history = self.update_history()
+        print(f'history = {history}\n')
         history = [item['nutrients'] for item in history]
         # Get age and sex
         age_sex = self.get_age_sex()
-        self.age = int(age_sex[0]['age'])
-        self.sex = age_sex[0]['sex']
+        print(age_sex[0]['id'])
+        print(f'age_sex = {age_sex}\n')
+        age = int(age_sex[0]['age'])
+        sex = age_sex[0]['sex']
         # Get nutrient weight totals from history
         nutrient_balance = {} # {nutrient_name: amount}
         for nutrient_list in history:
@@ -50,7 +53,7 @@ class ProfileView(View):
                 else:
                     nutrient_balance[nutrient[0]] = nutrient_amount
         # Get appropriate nutritional goals based age and sex           
-        nutritional_goal = DailyNutrients(self.age, self.sex)
+        nutritional_goal = DailyNutrients(age, sex)
         goal = nutritional_goal.get_daily_nutrition()
         goal_dict = {}
         percentages = {}
@@ -64,12 +67,36 @@ class ProfileView(View):
         for goal_nutrient in [*goal_dict]:
             for nutrient in [*nutrient_balance]:
                 if goal_nutrient in nutrient:
-                    percentages[goal_nutrient] = nutrient_balance[nutrient] / \
-                        goal_dict[goal_nutrient]
-                    if percentages[goal_nutrient] > 1:
-                        percentages[goal_nutrient] = 1
-        total_percent = sum(list(percentages.values()))/len(percentages)*100
-        total_percent = round(total_percent, 2)
-        total_percent = f'{total_percent:.2f}' # includes zero at the end
-        return total_percent
+                    percentages[goal_nutrient] = round(
+                        nutrient_balance[nutrient] / goal_dict[goal_nutrient], 2) * 100
+
+        overages = {}
+        deficits = {}
+        percent_sum = 0
+        """
+        Get sum while excluding excess nutrition, and noting which nutrients
+        are in excess (overages), which are not (deficits), and their amounts.
+        """
+        for nutrient in [*percentages]:
+            if percentages[nutrient] >= 100:
+                overages[nutrient] = percentages[nutrient]
+                percent_sum += 100 # Excludes excess percentage
+            else:
+                deficits[nutrient] = percentages[nutrient]
+                percent_sum += percentages[nutrient]
+        print(f'goal_dict = {goal_dict}\n')
+        print(f'nutrient_balance = {nutrient_balance}\n')
+        print(f'percentages = {percentages}\n')
+        print(f'overages: {overages}')
+        print(f'deficits: {deficits}')
+        print(f'You are exceeding your daily reccommended amounts of:')
+        for nutrient in [*overages]:
+            print(f'{nutrient} by {(overages[nutrient]-100)}%')
+        print('\n')
+        print(f'You are under your daily reccommended amounts of:')
+        for nutrient in [*deficits]:
+            print(f'{nutrient} by {(100-deficits[nutrient])}%')
+        percent_sum = percent_sum / len(percentages) 
+        percent_sum = f'{percent_sum:.2f}' # Includes zero at the end
+        return percent_sum
         
