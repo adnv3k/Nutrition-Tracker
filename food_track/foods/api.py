@@ -1,3 +1,4 @@
+import random
 import ast
 import string
 import json
@@ -9,7 +10,7 @@ from .endpoints import Endpoints as ep
 usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 
 # To get pages in a range
-# 
+#
 # for page in range(1,51):
 # url = f'https://api.nal.usda.gov/fdc/v1/foods/list?api_key={usda_key}&pageSize=200&pageNumber={page}'
 # response = requests.get(url)
@@ -20,7 +21,7 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 # file.close()
 
 # To get specific page
-#  
+#
 # page = 101
 # url = f'https://api.nal.usda.gov/fdc/v1/foods/list?api_key={usda_key}&pageSize=200&pageNumber={page}'
 # response = requests.get(url)
@@ -42,7 +43,7 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 # url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={usda_key}&query={query}&dataType=SR%20Legacy&pageSize=200'
 # Branded datatype
 # url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={usda_key}&query={query}&dataType=Branded&pageSize=200'
-# Both 
+# Both
 # url = f'https://api.nal.usda.gov/fdc/v1/foods/search?api_key={usda_key}&query={query}&dataType=Branded,SR%20Legacy&pageSize=200'
 
 #
@@ -63,7 +64,7 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 # json = file[str(page)]
 # file.close()
 # file = shelve.open('delete')
-# file['other51'] = json 
+# file['other51'] = json
 # file['squid'] = response
 # file.close()
 # file = shelve.open('delete')
@@ -72,7 +73,7 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 # f=shelve.open[98]
 
 # file = shelve.open('delete')
-# file['list'] = json 
+# file['list'] = json
 # file.close()
 # file = shelve.open('delete')
 # json = file['list']
@@ -97,19 +98,20 @@ usda_key = '0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf'
 
 # df = pd.DataFrame(json['foods'][1]['foodNutrients'])
 # print(df.)
-import random
 
 
 def food_search(api_key=None, food_item=None):
     if api_key is None:
         api_key = usda_key
     compare = {"total_entries": 0, "total_energy": 0, "total_carbs": 0}
-    skip = ["Nong Shim Co., Ltd.", "Nasoya Foods USA, LLC", "United Natural Foods, Inc."]
+    skip = ["Nong Shim Co., Ltd.", "Nasoya Foods USA, LLC",
+            "United Natural Foods, Inc."]
     # print(json)
     # print(len(json))
     # f = shelve.open[3]
-    query = "potatoes"
-    end_search = ep().end_search(api_key="0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf", query=query)
+    query = "lasagna"
+    end_search = ep().end_search(
+        api_key="0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf", query=query)
     params = end_search[1]
     url = end_search[0]
     food_query = requests.get(url, params=params)
@@ -125,7 +127,8 @@ def food_search(api_key=None, food_item=None):
         unit = [value['unitName'] for value in nutrients_unformat]
         for name, amount, unit in zip(name, amount, unit):
             nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
-        food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
+        food_l.append(
+            {'description': food['description'], 'foodNutrients': nutrients_clean})
     # logic for sorting by publication date // pub_dates = sorted(pub_dates)
     if len(food_query.json()) < 1:
         return 'empty dict'
@@ -192,7 +195,7 @@ def food_search(api_key=None, food_item=None):
 # nutrients.sort()
 
 # file = shelve.open('usda')
-# file['nutrientNames'] = nutrients 
+# file['nutrientNames'] = nutrients
 # file.close()
 
 # print(nutrients)
@@ -241,7 +244,8 @@ def holder():
     # print(data["percent_carbs"])
     print(f'Highest Value: {max(data["percent_carbs"])}')
     print(f'Lowest Value: {min(data["percent_carbs"])}')
-    print(f'Average Value: {round(sum(data["percent_carbs"]) / len(data["percent_carbs"]), 2)}')
+    print(
+        f'Average Value: {round(sum(data["percent_carbs"]) / len(data["percent_carbs"]), 2)}')
     print(len(data["percent_carbs"]))
     # print(data["percent_carbs"])
     # data["percent_carbs"].remove(64.24)
@@ -326,7 +330,7 @@ class USDA(object):
             return False
 
     def get_results(self):
-        # print([*self.results[0]]) # delete 
+        # print([*self.results[0]]) # delete
         return self.results
 
     def get_descriptions(self):
@@ -409,7 +413,8 @@ class USDA(object):
                 for entry in result['foodNutrients']:
                     if entry['nutrientName'] == nutrient:
                         if entry['unitName'] in ['MG', 'UG']:
-                            grams = self.convert_to_grams(entry['value'], entry['unitName'])
+                            grams = self.convert_to_grams(
+                                entry['value'], entry['unitName'])
                         elif entry['unitName'] == 'G':
                             grams = entry['value']
                         else:
@@ -469,14 +474,17 @@ class USDA(object):
                         carbs = element["value"]
                     if element["unitName"] in [*total_weight]:
                         total_weight[element["unitName"]] += element['value']
-                total = round(total_weight["G"] + (total_weight["MG"] / 1000), 2)
+                total = round(total_weight["G"] +
+                              (total_weight["MG"] / 1000), 2)
                 percent_carbs = round((carbs / total) * 100, 2)
                 data['percent_carbs'].append(percent_carbs)
                 print(entry['description'])
-                print(f'Total mass: {total} G | Percent Carbs: {percent_carbs}')
+                print(
+                    f'Total mass: {total} G | Percent Carbs: {percent_carbs}')
         print(f'Highest Value: {max(data["percent_carbs"])}')
         print(f'Lowest Value: {min(data["percent_carbs"])}')
-        print(f'Average Value: {round(sum(data["percent_carbs"]) / len(data["percent_carbs"]), 2)}')
+        print(
+            f'Average Value: {round(sum(data["percent_carbs"]) / len(data["percent_carbs"]), 2)}')
         print(len(data["percent_carbs"]))
         df = pd.DataFrame(data["percent_carbs"])
         print(df.mean())
@@ -746,72 +754,181 @@ goal = {
     }
 }
 nutrient_balance = {
-    'Protein': 50.29, 
-    'Total lipid (fat)': 58.7, 
-    'Carbohydrate, by difference': 135.39999999999998, 
-    'Energy': 1323.0, 
-    'Sugars, total including NLEA': 6.79, 
-    'Fiber, total dietary': 5.9, 
-    'Calcium, Ca': 980.0, 
-    'Iron, Fe': 5.13, 
-    'Sodium, Na': 2686.0, 
-    'Vitamin A, IU': 714.0, 
-    'Vitamin C, total ascorbic acid': 0.0, 
-    'Cholesterol': 185.0, 
-    'Fatty acids, total trans': 0.0, 
-    'Fatty acids, total saturated': 25.84, 
-    'Alcohol, ethyl': 0.0, 'Water': 21.1, 
-    'Caffeine': 0.0, 'Theobromine': 0.0, 
-    'Magnesium, Mg': 17.0, 
-    'Phosphorus, P': 120.0, 
-    'Potassium, K': 84.0, 
-    'Zinc, Zn': 0.96, 
-    'Copper, Cu': 0.086, 
-    'Selenium, Se': 19.8, 
-    'Retinol': 23.0, 
-    'Vitamin A, RAE': 24.0, 
-    'Carotene, beta': 9.0, 
-    'Carotene, alpha': 1.0, 
-    'Vitamin E (alpha-tocopherol)': 1.49, 
-    'Vitamin D (D2 + D3)': 0.1, 
-    'Cryptoxanthin, beta': 0.0, 
+    'Protein': 50.29,
+    'Total lipid (fat)': 58.7,
+    'Carbohydrate, by difference': 135.39999999999998,
+    'Energy': 1323.0,
+    'Sugars, total including NLEA': 6.79,
+    'Fiber, total dietary': 5.9,
+    'Calcium, Ca': 980.0,
+    'Iron, Fe': 5.13,
+    'Sodium, Na': 2686.0,
+    'Vitamin A, IU': 714.0,
+    'Vitamin C, total ascorbic acid': 0.0,
+    'Cholesterol': 185.0,
+    'Fatty acids, total trans': 0.0,
+    'Fatty acids, total saturated': 25.84,
+    'Alcohol, ethyl': 0.0, 'Water': 21.1,
+    'Caffeine': 0.0, 'Theobromine': 0.0,
+    'Magnesium, Mg': 17.0,
+    'Phosphorus, P': 120.0,
+    'Potassium, K': 84.0,
+    'Zinc, Zn': 0.96,
+    'Copper, Cu': 0.086,
+    'Selenium, Se': 19.8,
+    'Retinol': 23.0,
+    'Vitamin A, RAE': 24.0,
+    'Carotene, beta': 9.0,
+    'Carotene, alpha': 1.0,
+    'Vitamin E (alpha-tocopherol)': 1.49,
+    'Vitamin D (D2 + D3)': 0.1,
+    'Cryptoxanthin, beta': 0.0,
     'Lycopene': 0.0,
-    'Lutein + zeaxanthin': 45.0, 
-    'Thiamin': 0.433, 
-    'Riboflavin': 0.303, 
-    'Niacin': 3.28, 
-    'Vitamin B-6': 0.048, 
-    'Folate, total': 107.0, 
-    'Vitamin B-12': 0.24, 
-    'Choline, total': 8.5, 
-    'Vitamin K (phylloquinone)': 32.4, 
-    'Folic acid': 75.0, 
-    'Folate, food': 32.0, 
-    'Folate, DFE': 159.0, 
-    'Vitamin E, added': 0.0, 
-    'Vitamin B-12, added': 0.0, 
-    'SFA 4:0': 0.153, 
-    'SFA 6:0': 0.073, 
-    'SFA 8:0': 0.043, 
-    'SFA 10:0': 0.096, 
-    'SFA 12:0': 0.111, 
-    'SFA 14:0': 0.401, 
-    'SFA 16:0': 3.62, 
-    'SFA 18:0': 1.48, 
-    'MUFA 18:1': 4.17, 
-    'PUFA 18:2': 8.1, 
-    'PUFA 18:3': 1.1, 
-    'PUFA 20:4': 0.0, 
-    'PUFA 22:6 n-3 (DHA)': 0.0, 
-    'MUFA 16:1': 0.076, 
-    'PUFA 18:4': 0.0, 
-    'MUFA 20:1': 0.039, 
-    'PUFA 2:5 n-3 (EPA)': 0.0, 
-    'MUFA 22:1': 0.0, 
-    'PUFA 22:5 n-3 (DPA)': 0.0, 
-    'Fatty acids, total monounsaturated': 4.34, 
+    'Lutein + zeaxanthin': 45.0,
+    'Thiamin': 0.433,
+    'Riboflavin': 0.303,
+    'Niacin': 3.28,
+    'Vitamin B-6': 0.048,
+    'Folate, total': 107.0,
+    'Vitamin B-12': 0.24,
+    'Choline, total': 8.5,
+    'Vitamin K (phylloquinone)': 32.4,
+    'Folic acid': 75.0,
+    'Folate, food': 32.0,
+    'Folate, DFE': 159.0,
+    'Vitamin E, added': 0.0,
+    'Vitamin B-12, added': 0.0,
+    'SFA 4:0': 0.153,
+    'SFA 6:0': 0.073,
+    'SFA 8:0': 0.043,
+    'SFA 10:0': 0.096,
+    'SFA 12:0': 0.111,
+    'SFA 14:0': 0.401,
+    'SFA 16:0': 3.62,
+    'SFA 18:0': 1.48,
+    'MUFA 18:1': 4.17,
+    'PUFA 18:2': 8.1,
+    'PUFA 18:3': 1.1,
+    'PUFA 20:4': 0.0,
+    'PUFA 22:6 n-3 (DHA)': 0.0,
+    'MUFA 16:1': 0.076,
+    'PUFA 18:4': 0.0,
+    'MUFA 20:1': 0.039,
+    'PUFA 2:5 n-3 (EPA)': 0.0,
+    'MUFA 22:1': 0.0,
+    'PUFA 22:5 n-3 (DPA)': 0.0,
+    'Fatty acids, total monounsaturated': 4.34,
     'Fatty acids, total polyunsaturated': 9.2
+}
+nutrient_balance = {
+    "Alcohol, ethyl": 0.0,
+    "Ash": 4.74,
+    "Caffeine": 0.0,
+    "Calcium, Ca": 93.0,
+    "Carbohydrate, by difference": 46.29,
+    "Carotene, alpha": 0.0,
+    "Carotene, beta": 7.0,
+    "Cholesterol": 49.0,
+    "Choline, total": 7.5,
+    "Copper, Cu": 0.107,
+    "Cryptoxanthin, beta": 0.0,
+    "Energy": 2383.0,
+    "Fatty acids, total monounsaturated": 4.609999999999999,
+    "Fatty acids, total polyunsaturated": 6.76,
+    "Fatty acids, total saturated": 4.38,
+    "Fatty acids, total trans": 0.093,
+    "Fatty acids, total trans-monoenoic": 0.063,
+    "Fatty acids, total trans-polyenoic": 0.03,
+    "Fiber, total dietary": 2.4,
+    "Folate, DFE": 233.0,
+    "Folate, food": 24.0,
+    "Folate, total": 147.0,
+    "Folic acid": 123.0,
+    "Fructose": 0.0,
+    "Galactose": 0.0,
+    "Glucose": 0.0,
+    "Iron, Fe": 5.25,
+    "Lactose": 0.0,
+    "Lutein + zeaxanthin": 10.0,
+    "Lycopene": 0.0,
+    "MUFA 14:1": 0.021,
+    "MUFA 15:1": 0.0,
+    "MUFA 16:1": 0.167,
+    "MUFA 16:1 c": 0.06,
+    "MUFA 17:1": 0.009,
+    "MUFA 18:1": 4.35,
+    "MUFA 18:1 c": 2.57,
+    "MUFA 20:1": 0.053,
+    "MUFA 22:1": 0.002,
+    "MUFA 22:1 c": 0.0,
+    "MUFA 24:1 c": 0.0,
+    "Magnesium, Mg": 42.0,
+    "Maltose": 1.11,
+    "Manganese, Mn": 0.488,
+    "Niacin": 7.08,
+    "PUFA 18:2": 5.970000000000001,
+    "PUFA 18:2 CLAs": 0.018,
+    "PUFA 18:2 n-6 c,c": 5.36,
+    "PUFA 18:3": 0.774,
+    "PUFA 18:3 n-3 c,c,c (ALA)": 0.696,
+    "PUFA 18:3 n-6 c,c,c": 0.028,
+    "PUFA 18:3i": 0.0,
+    "PUFA 18:4": 0.0,
+    "PUFA 20:2 n-6 c,c": 0.004,
+    "PUFA 20:3": 0.003,
+    "PUFA 20:3 n-3": 0.0,
+    "PUFA 20:4": 0.01,
+    "PUFA 20:4 n-6": 0.003,
+    "PUFA 20:5 n-3 (EPA)": 0.004,
+    "PUFA 22:4": 0.002,
+    "PUFA 22:5 n-3 (DPA)": 0.002,
+    "PUFA 22:6 n-3 (DHA)": 0.0,
+    "Pantothenic acid": 0.39,
+    "Phosphorus, P": 129.0,
+    "Potassium, K": 674.0,
+    "Protein": 30.0,
+    "Retinol": 23.0,
+    "Riboflavin": 0.56,
+    "SFA 10:0": 0.042,
+    "SFA 12:0": 0.061,
+    "SFA 14:0": 0.271,
+    "SFA 15:0": 0.025,
+    "SFA 16:0": 2.66,
+    "SFA 17:0": 0.023,
+    "SFA 18:0": 1.1360000000000001,
+    "SFA 20:0": 0.032,
+    "SFA 22:0": 0.022,
+    "SFA 24:0": 0.014,
+    "SFA 4:0": 0.038,
+    "SFA 6:0": 0.028,
+    "SFA 8:0": 0.016,
+    "Selenium, Se": 22.0,
+    "Sodium, Na": 1129.0,
+    "Starch": 38.8,
+    "Sucrose": 0.0,
+    "Sugars, total including NLEA": 1.33,
+    "TFA 16:1 t": 0.007,
+    "TFA 18:1 t": 0.054,
+    "TFA 18:2 t not further defined": 0.03,
+    "TFA 22:1 t": 0.002,
+    "Theobromine": 0.0,
+    "Thiamin": 0.493,
+    "Total lipid (fat)": 17.060000000000002,
+    "Vitamin A, IU": 88.0,
+    "Vitamin A, RAE": 24.0,
+    "Vitamin B-12": 0.13,
+    "Vitamin B-12, added": 0.0,
+    "Vitamin B-6": 0.103,
+    "Vitamin C, total ascorbic acid": 1.7,
+    "Vitamin D (D2 + D3)": 0.0,
+    "Vitamin D (D2 + D3), International Units": 2.0,
+    "Vitamin E (alpha-tocopherol)": 0.88,
+    "Vitamin E, added": 0.0,
+    "Vitamin K (Dihydrophylloquinone)": 0.0,
+    "Vitamin K (Menaquinone-4)": 1.1,
+    "Vitamin K (phylloquinone)": 21.1,
+    "Water": 101.9,
+    "Zinc, Zn": 2.3200000000000003
     }
-
 if __name__ == '__main__':
     print(food_search("lasagna"))
