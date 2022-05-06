@@ -8,6 +8,8 @@ from accounts.models import Users
 import ast
 import string
 
+# TODO make daily_goal shorter
+# TODO account for different units when finding percentages
 
 # Create your views here.
 class ProfileView(View):
@@ -74,14 +76,25 @@ class ProfileView(View):
                 if type(goal[category][goal_nutrient]) != type(str()):
                     goal_nutrient_key = goal_nutrient.split(" (")
                     goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+
+        # Intermediary
+        intermediary = {}
+        goal_names_bank = nutritional_goal.get_goal_names_bank()
+        for goal_nutrient in [*goal_dict]:
+            intermediary[goal_nutrient] = 0
+            for variant in goal_names_bank[goal_nutrient]:
+                if nutrient_balance.get(variant):
+                    intermediary[goal_nutrient] += nutrient_balance[variant]
+        print(f'intermediary = {intermediary}\n')
+
         # Calculate percentages
         percentages = {}
         for goal_nutrient in [*goal_dict]:
-            for nutrient in [*nutrient_balance]:
-                if goal_nutrient in nutrient:
+            for intermediate in intermediary:
+                if goal_nutrient in intermediate:
                     # does not handle 'nutrient, other stuff' nutrient names well
                     percentages[goal_nutrient] = round(
-                        nutrient_balance[nutrient] / goal_dict[goal_nutrient], 2) * 100
+                        intermediary[intermediate] / goal_dict[goal_nutrient], 2) * 100
 
         overages = {}
         deficits = {}
@@ -105,14 +118,8 @@ class ProfileView(View):
             sorted_nutrient_balance[name] = nutrient_balance[name]
         nutrient_names_bank = nutritional_goal.get_nutrient_names_bank()
         print(f'{nutrient_names_bank}\n')
-        goal_names_bank = {}
-        for goal_nutrient in goal_dict:
-            for nutrient_name in nutrient_names_bank:
-                if goal_nutrient in nutrient_name:
-                    if goal_names_bank.get(goal_nutrient):
-                        goal_names_bank[goal_nutrient].append(nutrient_name)
-                    else:
-                        goal_names_bank[goal_nutrient] = [nutrient_name]
+
+
         print(f'goal_names_bank = {goal_names_bank}\n')
         print(f'nutrient_balance = {sorted_nutrient_balance}\n')
         # print(f'nutrient_balance = {nutrient_balance}\n')

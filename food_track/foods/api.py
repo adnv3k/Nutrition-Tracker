@@ -930,5 +930,31 @@ nutrient_balance = {
     "Water": 101.9,
     "Zinc, Zn": 2.3200000000000003
     }
+goal_dict = {
+    "Protein": 46,
+    "Carbohydrate": 130,
+    "Fiber": 25,
+    "18:2 Linoleic acid": 12,
+    "18:3 Linoleic acid": 1.1,
+    "Calcium": 1000,
+    "Iron": 18,
+    "Magnesium": 320,
+    "Phosphorus": 700,
+    "Potassium": 2600,
+    "Sodium": 2300,
+    "Zinc": 8,
+    "Vitamin A": 700,
+    "Vitamin E": 15,
+    "Vitamin D": 600,
+    "Vitamin C": 75,
+    "Thiamin": 1.1,
+    "Riboflavin": 1.1,
+    "Niacin": 14,
+    "Vitamin B-6": 1.3,
+    "Vitamin B-12": 2.4,
+    "Choline": 425,
+    "Vitamin K": 90,
+    "Folate": 400
+  }
 if __name__ == '__main__':
     print(food_search("lasagna"))

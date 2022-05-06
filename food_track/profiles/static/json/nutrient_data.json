@@ -30,7 +30,19 @@
       "Vitamin K (Menaquinone-4)",
       "Vitamin K (phylloquinone)"
     ],
-    "Folate": ["Folate, DFE", "Folate, food", "Folate, total"]
+    "Folate": ["Folate, DFE", "Folate, food", "Folate, total"],
+    "18:2 Linoleic acid": [
+      "PUFA 18:2",
+      "PUFA 18:2 CLAs",
+      "PUFA 18:2 i",
+      "PUFA 18:2 n-6 c,c"
+    ],
+    "18:3 Linoleic acid": [
+      "PUFA 18:3",
+      "PUFA 18:3 n-3 c,c,c (ALA)",
+      "PUFA 18:3 n-6 c,c,c",
+      "PUFA 18:3i"
+    ]
   },
   "nutrient_names_bank": [
     "Alanine",
@@ -748,12 +760,5 @@
       }
     }
   },
-  "unit_names_bank":[
-    "G",
-    "kJ",
-    "MG",
-    "IU",
-    "UG",
-    "KCAL"
-]
+  "unit_names_bank": ["G", "kJ", "MG", "IU", "UG", "KCAL"]
 }
