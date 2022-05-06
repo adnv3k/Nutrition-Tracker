@@ -22,10 +22,10 @@ class DailyNutrients(object):
     def __init__(self, age=None, sex=None) -> None:
         self.age = age
         self.sex = sex
-        os.chdir('./profiles')
+        os.chdir('./profiles/static/json')
         with open('daily_nutrient_goals.json') as data:
             self.nutrition = json.load(data)
-        os.chdir('../')
+        os.chdir('../../../')
 
     def __str__(self) -> str:
         return self.nutrition
@@ -51,4 +51,12 @@ class DailyNutrients(object):
             lower, upper = int(split[0]), int(split[1]) + 1
             if self.age in range(lower, upper):
                 return self.nutrition[self.sex][age_range]
+
+    def get_nutrient_names_bank(self):
+        os.chdir('./profiles/static/json')
+        with open('nutrient_names_bank.json') as data:
+            self.nutrient_names_bank = json.load(data)
+        os.chdir('../../../')
+        return self.nutrient_names_bank
+
 

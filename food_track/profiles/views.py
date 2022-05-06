@@ -45,7 +45,7 @@ class ProfileView(View):
         print(f'history = {history}\n')
         # Get age and sex
         age_sex = self.get_age_sex()
-        print(age_sex[0]['id'])
+        print(f'id: {age_sex[0]["id"]}')
         print(f'age_sex = {age_sex}\n')
         age = int(age_sex[0]['age'])
         sex = age_sex[0]['sex']
@@ -64,21 +64,28 @@ class ProfileView(View):
                     nutrient_balance[nutrient[0]] += nutrient_amount
                 else:
                     nutrient_balance[nutrient[0]] = nutrient_amount
+        sorted_nutrient_balance = {}
+        names_list = [*nutrient_balance]
+        names_list.sort()
+        for name in names_list:
+            sorted_nutrient_balance[name] = nutrient_balance[name]
+
         # Get appropriate nutritional goals based age and sex           
         nutritional_goal = DailyNutrients(age, sex)
         goal = nutritional_goal.get_daily_nutrition()
-        goal_dict = {}
-        percentages = {}
         # Create dictionary to for simpler iteration
+        goal_dict = {} # {'nutrient': value}
         for category in [*goal][1:]:
             for goal_nutrient in [*goal[category]]:
                 if type(goal[category][goal_nutrient]) != type(str()):
                     goal_nutrient_key = goal_nutrient.split(" (")
                     goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
         # Calculate percentages
+        percentages = {}
         for goal_nutrient in [*goal_dict]:
             for nutrient in [*nutrient_balance]:
                 if goal_nutrient in nutrient:
+                    # does not handle 'nutrient, other stuff' nutrient names well
                     percentages[goal_nutrient] = round(
                         nutrient_balance[nutrient] / goal_dict[goal_nutrient], 2) * 100
 
@@ -97,7 +104,10 @@ class ProfileView(View):
                 deficits[nutrient] = percentages[nutrient]
                 percent_sum += percentages[nutrient]
         print(f'goal_dict = {goal_dict}\n')
-        print(f'nutrient_balance = {nutrient_balance}\n')
+
+
+        print(f'nutrient_balance = {sorted_nutrient_balance}\n')
+        # print(f'nutrient_balance = {nutrient_balance}\n')
         print(f'percentages = {percentages}\n')
         print(f'overages: {overages}')
         print(f'deficits: {deficits}')
