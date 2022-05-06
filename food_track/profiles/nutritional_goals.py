@@ -23,8 +23,8 @@ class DailyNutrients(object):
         self.age = age
         self.sex = sex
         os.chdir('./profiles/static/json')
-        with open('daily_nutrient_goals.json') as data:
-            self.nutrition = json.load(data)
+        with open('nutrient_data.json') as data:
+            self.nutrition = json.load(data)["daily_nutrient_goals"]
         os.chdir('../../../')
 
     def __str__(self) -> str:
@@ -54,8 +54,8 @@ class DailyNutrients(object):
 
     def get_nutrient_names_bank(self):
         os.chdir('./profiles/static/json')
-        with open('nutrient_names_bank.json') as data:
-            self.nutrient_names_bank = json.load(data)
+        with open('nutrient_data.json') as data:
+            self.nutrient_names_bank = json.load(data)["nutrient_names_bank"]
         os.chdir('../../../')
         return self.nutrient_names_bank
 
