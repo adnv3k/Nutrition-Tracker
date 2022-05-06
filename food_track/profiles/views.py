@@ -64,12 +64,6 @@ class ProfileView(View):
                     nutrient_balance[nutrient[0]] += nutrient_amount
                 else:
                     nutrient_balance[nutrient[0]] = nutrient_amount
-        sorted_nutrient_balance = {}
-        names_list = [*nutrient_balance]
-        names_list.sort()
-        for name in names_list:
-            sorted_nutrient_balance[name] = nutrient_balance[name]
-
         # Get appropriate nutritional goals based age and sex           
         nutritional_goal = DailyNutrients(age, sex)
         goal = nutritional_goal.get_daily_nutrition()
@@ -98,19 +92,33 @@ class ProfileView(View):
         """
         for nutrient in [*percentages]:
             if percentages[nutrient] >= 100:
-                overages[nutrient] = percentages[nutrient]
-                percent_sum += 100  # Excludes excess percentage
+                percent_sum += 100 # Exclude excess percentage
+                overages[nutrient] = percentages[nutrient] # Save excess
             else:
-                deficits[nutrient] = percentages[nutrient]
                 percent_sum += percentages[nutrient]
+                deficits[nutrient] = percentages[nutrient] # Save deficit
         print(f'goal_dict = {goal_dict}\n')
-
-
+        sorted_nutrient_balance = {}
+        names_list = [*nutrient_balance]
+        names_list.sort()
+        for name in names_list:
+            sorted_nutrient_balance[name] = nutrient_balance[name]
+        nutrient_names_bank = nutritional_goal.get_nutrient_names_bank()
+        print(f'{nutrient_names_bank}\n')
+        goal_names_bank = {}
+        for goal_nutrient in goal_dict:
+            for nutrient_name in nutrient_names_bank:
+                if goal_nutrient in nutrient_name:
+                    if goal_names_bank.get(goal_nutrient):
+                        goal_names_bank[goal_nutrient].append(nutrient_name)
+                    else:
+                        goal_names_bank[goal_nutrient] = [nutrient_name]
+        print(f'goal_names_bank = {goal_names_bank}\n')
         print(f'nutrient_balance = {sorted_nutrient_balance}\n')
         # print(f'nutrient_balance = {nutrient_balance}\n')
         print(f'percentages = {percentages}\n')
-        print(f'overages: {overages}')
-        print(f'deficits: {deficits}')
+        print(f'overages: {overages}\n')
+        print(f'deficits: {deficits}\n')
         print(f'You are exceeding your daily reccommended amounts of:')
         for nutrient in [*overages]:
             print(f'{nutrient} by {(overages[nutrient]-100)}%')
