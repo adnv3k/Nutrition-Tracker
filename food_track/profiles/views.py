@@ -66,6 +66,12 @@ class ProfileView(View):
                     nutrient_balance[nutrient[0]] += nutrient_amount
                 else:
                     nutrient_balance[nutrient[0]] = nutrient_amount
+        sorted_nutrient_balance = {}
+        names_list = [*nutrient_balance]
+        names_list.sort()
+        for name in names_list:
+            sorted_nutrient_balance[name] = nutrient_balance[name]
+
         # Get appropriate nutritional goals based age and sex           
         nutritional_goal = DailyNutrients(age, sex)
         goal = nutritional_goal.get_daily_nutrition()
