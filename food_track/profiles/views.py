@@ -145,7 +145,6 @@ class ProfileView(View):
         print(f'goal_dict = {goal_dict}\n')
 
 
-
         print(f'goal_names_bank = {goal_names_bank}\n')
         print(f'nutrient_balance = {sorted_nutrient_balance}\n')
         # print(f'nutrient_balance = {nutrient_balance}\n')
