@@ -52,19 +52,7 @@
       "PUFA 18:3 n-3 c,c,c (ALA)",
       "PUFA 18:3 n-6 c,c,c",
       "PUFA 18:3i"
-    ],
-    "Water": ["Water"],
-    "Chromium": ["Chromium"],
-    "Copper": ["Copper, Cu"],
-    "Fluoride": ["Fluoride, F"],
-    "Iodine": ["Iodine"],
-    "Manganese": ["Manganese, Mn"],
-    "Molybdenum": ["Molybdenum"],
-    "Selenium": ["Selenium, Se"],
-    "Chloride": ["Chloride"],
-    "Pantothenic Acid": ["Pantothenic Acid"],
-    "Biotin": ["Biotin"]
-
+    ]
   },
   "nutrient_names_bank": [
     "Alanine",
@@ -219,19 +207,20 @@
   "daily_nutrient_goals": {
     "F": {
       "1-3": {
-        "calories": { "Calories": 1000 },
+        "calories": {
+          "Calories": 1000
+        },
         "macronutrients": {
           "Protein (% kcal)": "5-20",
           "Protein (g)": 13,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 19.0,
+          "Fiber (g)": 14,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "30-40",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 7,
-          "18:3 Linoleic acid (g)": 0.7,
-          "Water (L)": 1.3
+          "18:3 Linoleic acid (g)": 0.7
         },
         "minerals": {
           "Calcium (mg)": 700,
@@ -241,15 +230,7 @@
           "Potassium (mg)": 2000,
           "Sodium (mg)": 1200,
           "Zinc (mg)": 3,
-          "Copper, Cu": 340,
-          "Chromium (mcg)": 11.0,
-          "Copper (mcg)": 340.0,
-          "Fluoride (mg)": 0.7,
-          "Iodine (mcg)": 90.0,
-          "Manganese (mg)": 1.2,
-          "Molybdenum (mcg)": 17.0,
-          "Selenium (mcg)": 20.0,
-          "Chloride (g)": 1.5
+          "Copper, Cu": 340
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 300,
@@ -263,25 +244,24 @@
           "Vitamin B-12 (mcg)": 0.9,
           "Choline (mg)": 200,
           "Vitamin K (mcg)": 30,
-          "Folate (mcg DFE)": 150,
-          "Pantothenic Acid (mg)": 2.0,
-          "Biotin (mcg)": 8.0
+          "Folate (mcg DFE)": 150
         }
       },
       "4-8": {
-        "calories": { "Calories": 1200 },
+        "calories": {
+          "Calories": 1200
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-30",
           "Protein (g)": 19,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 25.0,
+          "Fiber (g)": 17,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "25-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 10,
-          "18:3 Linoleic acid (g)": 0.9,
-          "Water (L)": 1.7
+          "18:3 Linoleic acid (g)": 0.9
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -290,15 +270,7 @@
           "Phosphorus (mg)": 500,
           "Potassium (mg)": 2300,
           "Sodium (mg)": 1500,
-          "Zinc (mg)": 5,
-          "Chromium (mcg)": 15.0,
-          "Copper (mcg)": 440.0,
-          "Fluoride (mg)": 1.0,
-          "Iodine (mcg)": 90.0,
-          "Manganese (mg)": 1.5,
-          "Molybdenum (mcg)": 22.0,
-          "Selenium (mcg)": 30.0,
-          "Chloride (g)": 1.9
+          "Zinc (mg)": 5
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 400,
@@ -312,25 +284,24 @@
           "Vitamin B-12 (mcg)": 1.2,
           "Choline (mg)": 250,
           "Vitamin K (mcg)": 55,
-          "Folate (mcg DFE)": 200,
-          "Pantothenic Acid (mg)": 3.0,
-          "Biotin (mcg)": 12.0
+          "Folate (mcg DFE)": 200
         }
       },
       "9-13": {
-        "calories": { "Calories": 1600 },
+        "calories": {
+          "Calories": 1600
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-30",
           "Protein (g)": 34,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 26.0,
+          "Fiber (g)": 22,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "25-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 10,
-          "18:3 Linoleic acid (g)": 1,
-          "Water (L)": 2.1
+          "18:3 Linoleic acid (g)": 1
         },
         "minerals": {
           "Calcium (mg)": 1300,
@@ -339,15 +310,7 @@
           "Phosphorus (mg)": 1250,
           "Potassium (mg)": 2300,
           "Sodium (mg)": 1800,
-          "Zinc (mg)": 8,
-          "Chromium (mcg)": 21.0,
-          "Copper (mcg)": 700.0,
-          "Fluoride (mg)": 2.0,
-          "Iodine (mcg)": 120.0,
-          "Manganese (mg)": 1.6,
-          "Molybdenum (mcg)": 34.0,
-          "Selenium (mcg)": 40.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 8
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 600,
@@ -361,25 +324,24 @@
           "Vitamin B-12 (mcg)": 1.8,
           "Choline (mg)": 375,
           "Vitamin K (mcg)": 60,
-          "Folate (mcg DFE)": 300,
-          "Pantothenic Acid (mg)": 4.0,
-          "Biotin (mcg)": 20.0
+          "Folate (mcg DFE)": 300
         }
       },
       "14-18": {
-        "calories": { "Calories": 1800 },
+        "calories": {
+          "Calories": 1800
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-30",
           "Protein (g)": 46,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 26.0,
+          "Fiber (g)": 25,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "25-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 11,
-          "18:3 Linoleic acid (g)": 1.1,
-          "Water (L)": 2.3
+          "18:3 Linoleic acid (g)": 1.1
         },
         "minerals": {
           "Calcium (mg)": 1300,
@@ -388,15 +350,7 @@
           "Phosphorus (mg)": 1250,
           "Potassium (mg)": 2300,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 9,
-          "Chromium (mcg)": 24.0,
-          "Copper (mcg)": 890.0,
-          "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 1.6,
-          "Molybdenum (mcg)": 43.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 9
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 700,
@@ -410,25 +364,24 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 400,
           "Vitamin K (mcg)": 75,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 25.0
+          "Folate (mcg DFE)": 400
         }
       },
       "19-30": {
-        "calories": { "Calories": 2000 },
+        "calories": {
+          "Calories": 2000
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-35",
           "Protein (g)": 46,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 25.0,
+          "Fiber (g)": 28,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "20-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 12,
-          "18:3 Linoleic acid (g)": 1.1,
-          "Water (L)": 2.7
+          "18:3 Linoleic acid (g)": 1.1
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -437,15 +390,7 @@
           "Phosphorus (mg)": 700,
           "Potassium (mg)": 2600,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 8,
-          "Chromium (mcg)": 25.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 1.8,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 8
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 700,
@@ -459,25 +404,24 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 425,
           "Vitamin K (mcg)": 90,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Folate (mcg DFE)": 400
         }
       },
       "31-50": {
-        "calories": { "Calories": 1800 },
+        "calories": {
+          "Calories": 1800
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-35",
           "Protein (g)": 46,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 25.0,
+          "Fiber (g)": 25,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "20-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 12,
-          "18:3 Linoleic acid (g)": 1.1,
-          "Water (L)": 2.7
+          "18:3 Linoleic acid (g)": 1.1
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -486,15 +430,7 @@
           "Phosphorus (mg)": 700,
           "Potassium (mg)": 2600,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 8,
-          "Chromium (mcg)": 25.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 1.8,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 8
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 700,
@@ -508,25 +444,24 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 425,
           "Vitamin K (mcg)": 90,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Folate (mcg DFE)": 400
         }
       },
       "51-70": {
-        "calories": { "Calories": 1600 },
+        "calories": {
+          "Calories": 1600
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-35",
           "Protein (g)": 46,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 21.0,
+          "Fiber (g)": 22,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "20-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 11,
-          "18:3 Linoleic acid (g)": 1.1,
-          "Water (L)": 2.7
+          "18:3 Linoleic acid (g)": 1.1
         },
         "minerals": {
           "Calcium (mg)": 1200,
@@ -535,15 +470,7 @@
           "Phosphorus (mg)": 700,
           "Potassium (mg)": 2600,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 8,
-          "Chromium (mcg)": 20.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 1.8,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.0
+          "Zinc (mg)": 8
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 700,
@@ -557,76 +484,26 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 425,
           "Vitamin K (mcg)": 90,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
-        }
-      },
-      "70-130": {
-        "calories": { "Calories": 1600 },
-        "macronutrients": {
-          "Protein (% kcal)": "10-35",
-          "Protein (g)": 46,
-          "Carbohydrate (% kcal)": "45-65",
-          "Carbohydrate (g)": 130,
-          "Fiber (g)": 21.0,
-          "Added Sugars (% kcal)": "<10",
-          "Total lipid (% kcal)": "20-35",
-          "Saturated Fatty Acids (% kcal)": "<10",
-          "18:2 Linoleic acid (g)": 11,
-          "18:3 Linoleic acid (g)": 1.1,
-          "Water (L)": 2.7
-        },
-        "minerals": {
-          "Calcium (mg)": 1200,
-          "Iron (mg)": 8,
-          "Magnesium (mg)": 320,
-          "Phosphorus (mg)": 700,
-          "Potassium (mg)": 2600,
-          "Sodium (mg)": 2300,
-          "Zinc (mg)": 8,
-          "Chromium (mcg)": 20.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 1.8,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.0
-        },
-        "vitamins": {
-          "Vitamin A (mcg RAE)": 700,
-          "Vitamin E (mg AT)": 15,
-          "Vitamin D (IU)": 600,
-          "Vitamin C (mg)": 75,
-          "Thiamin (mg)": 1.1,
-          "Riboflavin (mg)": 1.1,
-          "Niacin (mg)": 14,
-          "Vitamin B-6 (mg)": 1.5,
-          "Vitamin B-12 (mcg)": 2.4,
-          "Choline (mg)": 425,
-          "Vitamin K (mcg)": 90,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Folate (mcg DFE)": 400
         }
       }
     },
     "M": {
       "1-3": {
-        "calories": { "Calories": 1000 },
+        "calories": {
+          "Calories": 1000
+        },
         "macronutrients": {
           "Protein (% kcal)": "5-20",
           "Protein (g)": 13,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 19.0,
+          "Fiber (g)": 14,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "30-40",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 7,
-          "18:3 Linoleic acid (g)": 0.7,
-          "Water (L)": 1.3
+          "18:3 Linoleic acid (g)": 0.7
         },
         "minerals": {
           "Calcium (mg)": 700,
@@ -635,15 +512,7 @@
           "Phosphorus (mg)": 460,
           "Potassium (mg)": 2000,
           "Sodium (mg)": 1200,
-          "Zinc (mg)": 3,
-          "Chromium (mcg)": 11.0,
-          "Copper (mcg)": 340.0,
-          "Fluoride (mg)": 0.7,
-          "Iodine (mcg)": 90.0,
-          "Manganese (mg)": 1.2,
-          "Molybdenum (mcg)": 17.0,
-          "Selenium (mcg)": 20.0,
-          "Chloride (g)": 1.5
+          "Zinc (mg)": 3
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 300,
@@ -657,25 +526,24 @@
           "Vitamin B-12 (mcg)": 0.9,
           "Choline (mg)": 200,
           "Vitamin K (mcg)": 30,
-          "Folate (mcg DFE)": 150,
-          "Pantothenic Acid (mg)": 2.0,
-          "Biotin (mcg)": 8.0
+          "Folate (mcg DFE)": 150
         }
       },
       "4-8": {
-        "calories": { "Calories": 1400 },
+        "calories": {
+          "Calories": 1400
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-30",
           "Protein (g)": 19,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 25.0,
+          "Fiber (g)": 20,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "25-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 10,
-          "18:3 Linoleic acid (g)": 0.9,
-          "Water (L)": 1.7
+          "18:3 Linoleic acid (g)": 0.9
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -684,15 +552,7 @@
           "Phosphorus (mg)": 500,
           "Potassium (mg)": 2300,
           "Sodium (mg)": 1500,
-          "Zinc (mg)": 5,
-          "Chromium (mcg)": 15.0,
-          "Copper (mcg)": 440.0,
-          "Fluoride (mg)": 1.0,
-          "Iodine (mcg)": 90.0,
-          "Manganese (mg)": 1.5,
-          "Molybdenum (mcg)": 22.0,
-          "Selenium (mcg)": 30.0,
-          "Chloride (g)": 1.9
+          "Zinc (mg)": 5
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 400,
@@ -706,25 +566,24 @@
           "Vitamin B-12 (mcg)": 1.2,
           "Choline (mg)": 250,
           "Vitamin K (mcg)": 55,
-          "Folate (mcg DFE)": 200,
-          "Pantothenic Acid (mg)": 3.0,
-          "Biotin (mcg)": 12.0
+          "Folate (mcg DFE)": 200
         }
       },
       "9-13": {
-        "calories": { "Calories": 1800 },
+        "calories": {
+          "Calories": 1800
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-30",
           "Protein (g)": 34,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 31.0,
+          "Fiber (g)": 25,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "25-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 12,
-          "18:3 Linoleic acid (g)": 1.2,
-          "Water (L)": 2.4
+          "18:3 Linoleic acid (g)": 1.2
         },
         "minerals": {
           "Calcium (mg)": 1300,
@@ -733,15 +592,7 @@
           "Phosphorus (mg)": 1250,
           "Potassium (mg)": 2500,
           "Sodium (mg)": 1800,
-          "Zinc (mg)": 8,
-          "Chromium (mcg)": 25.0,
-          "Copper (mcg)": 700.0,
-          "Fluoride (mg)": 2.0,
-          "Iodine (mcg)": 120.0,
-          "Manganese (mg)": 1.9,
-          "Molybdenum (mcg)": 34.0,
-          "Selenium (mcg)": 40.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 8
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 600,
@@ -755,25 +606,24 @@
           "Vitamin B-12 (mcg)": 1.8,
           "Choline (mg)": 375,
           "Vitamin K (mcg)": 60,
-          "Folate (mcg DFE)": 300,
-          "Pantothenic Acid (mg)": 4.0,
-          "Biotin (mcg)": 20.0
+          "Folate (mcg DFE)": 300
         }
       },
       "14-18": {
-        "calories": { "Calories": 2200 },
+        "calories": {
+          "Calories": 2200
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-30",
           "Protein (g)": 52,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 38.0,
+          "Fiber (g)": 31,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "25-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 16,
-          "18:3 Linoleic acid (g)": 1.6,
-          "Water (L)": 3.3
+          "18:3 Linoleic acid (g)": 1.6
         },
         "minerals": {
           "Calcium (mg)": 1300,
@@ -782,15 +632,7 @@
           "Phosphorus (mg)": 1250,
           "Potassium (mg)": 3000,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 11,
-          "Chromium (mcg)": 35.0,
-          "Copper (mcg)": 890.0,
-          "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 2.2,
-          "Molybdenum (mcg)": 43.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 11
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 900,
@@ -804,25 +646,24 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 550,
           "Vitamin K (mcg)": 75,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 25.0
+          "Folate (mcg DFE)": 400
         }
       },
       "19-30": {
-        "calories": { "Calories": 2400 },
+        "calories": {
+          "Calories": 2400
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-35",
           "Protein (g)": 56,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 38.0,
+          "Fiber (g)": 34,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "20-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 17,
-          "18:3 Linoleic acid (g)": 1.6,
-          "Water (L)": 3.7
+          "18:3 Linoleic acid (g)": 1.6
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -831,15 +672,7 @@
           "Phosphorus (mg)": 700,
           "Potassium (mg)": 3400,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 11,
-          "Chromium (mcg)": 35.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 2.3,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 11
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 900,
@@ -853,25 +686,24 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 550,
           "Vitamin K (mcg)": 120,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Folate (mcg DFE)": 400
         }
       },
       "31-50": {
-        "calories": { "Calories": 2200 },
+        "calories": {
+          "Calories": 2200
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-35",
           "Protein (g)": 56,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 38.0,
+          "Fiber (g)": 31,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "20-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 17,
-          "18:3 Linoleic acid (g)": 1.6,
-          "Water (L)": 3.7
+          "18:3 Linoleic acid (g)": 1.6
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -880,15 +712,7 @@
           "Phosphorus (mg)": 700,
           "Potassium (mg)": 3400,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 11,
-          "Chromium (mcg)": 35.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 2.3,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.3
+          "Zinc (mg)": 11
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 900,
@@ -902,25 +726,24 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 550,
           "Vitamin K (mcg)": 120,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Folate (mcg DFE)": 400
         }
       },
       "51-70": {
-        "calories": { "Calories": 2000 },
+        "calories": {
+          "Calories": 2000
+        },
         "macronutrients": {
           "Protein (% kcal)": "10-35",
           "Protein (g)": 56,
           "Carbohydrate (% kcal)": "45-65",
           "Carbohydrate (g)": 130,
-          "Fiber (g)": 30.0,
+          "Fiber (g)": 28,
           "Added Sugars (% kcal)": "<10",
           "Total lipid (% kcal)": "20-35",
           "Saturated Fatty Acids (% kcal)": "<10",
           "18:2 Linoleic acid (g)": 14,
-          "18:3 Linoleic acid (g)": 1.6,
-          "Water (L)": 3.7
+          "18:3 Linoleic acid (g)": 1.6
         },
         "minerals": {
           "Calcium (mg)": 1000,
@@ -929,15 +752,7 @@
           "Phosphorus (mg)": 700,
           "Potassium (mg)": 3400,
           "Sodium (mg)": 2300,
-          "Zinc (mg)": 11,
-          "Chromium (mcg)": 30.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 2.3,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.0
+          "Zinc (mg)": 11
         },
         "vitamins": {
           "Vitamin A (mcg RAE)": 900,
@@ -951,58 +766,7 @@
           "Vitamin B-12 (mcg)": 2.4,
           "Choline (mg)": 550,
           "Vitamin K (mcg)": 120,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
-        }
-      },
-      "70-130": {
-        "calories": { "Calories": 2000 },
-        "macronutrients": {
-          "Protein (% kcal)": "10-35",
-          "Protein (g)": 56,
-          "Carbohydrate (% kcal)": "45-65",
-          "Carbohydrate (g)": 130,
-          "Fiber (g)": 30.0,
-          "Added Sugars (% kcal)": "<10",
-          "Total lipid (% kcal)": "20-35",
-          "Saturated Fatty Acids (% kcal)": "<10",
-          "18:2 Linoleic acid (g)": 14,
-          "18:3 Linoleic acid (g)": 1.6,
-          "Water (L)": 3.7
-        },
-        "minerals": {
-          "Calcium (mg)": 1000,
-          "Iron (mg)": 8,
-          "Magnesium (mg)": 420,
-          "Phosphorus (mg)": 700,
-          "Potassium (mg)": 3400,
-          "Sodium (mg)": 2300,
-          "Zinc (mg)": 11,
-          "Chromium (mcg)": 30.0,
-          "Copper (mcg)": 900.0,
-          "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
-          "Manganese (mg)": 2.3,
-          "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
-          "Chloride (g)": 2.0
-        },
-        "vitamins": {
-          "Vitamin A (mcg RAE)": 900,
-          "Vitamin E (mg AT)": 15,
-          "Vitamin D (IU)": 600,
-          "Vitamin C (mg)": 90,
-          "Thiamin (mg)": 1.2,
-          "Riboflavin (mg)": 1.3,
-          "Niacin (mg)": 16,
-          "Vitamin B-6 (mg)": 1.7,
-          "Vitamin B-12 (mcg)": 2.4,
-          "Choline (mg)": 550,
-          "Vitamin K (mcg)": 120,
-          "Folate (mcg DFE)": 400,
-          "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Folate (mcg DFE)": 400
         }
       }
     }
