@@ -76,10 +76,34 @@ class ProfileView(View):
                 if type(goal[category][goal_nutrient]) != type(str()):
                     goal_nutrient_key = goal_nutrient.split(" (")
                     goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+        goal_names_bank = nutritional_goal.get_goal_names_bank()
+
+        balance_copy = nutrient_balance.copy()
+        # delete
+        for goal_nutrient in [*goal_names_bank]:
+            for variant in goal_names_bank[goal_nutrient]:
+                if variant in [*balance_copy]:
+                    del balance_copy[variant]
+
+        sortlist = [*balance_copy]
+        sortlist.sort()
+        sortedbalance = {}
+        for name in sortlist:
+            sortedbalance[name] = balance_copy[name]
+
+        print(f'BALANCE_COPY: {sortedbalance}\n')
+        sorted_nutrient_balance = {}
+        names_list = [*nutrient_balance]
+        names_list.sort()
+        for name in names_list:
+            sorted_nutrient_balance[name] = nutrient_balance[name]
+        nutrient_names_bank = nutritional_goal.get_nutrient_names_bank()
+        print(f'{nutrient_names_bank}\n')
+
 
         # Intermediary
         intermediary = {}
-        goal_names_bank = nutritional_goal.get_goal_names_bank()
+        # goal_names_bank = nutritional_goal.get_goal_names_bank()
         for goal_nutrient in [*goal_dict]:
             intermediary[goal_nutrient] = 0
             for variant in goal_names_bank[goal_nutrient]:
@@ -111,13 +135,7 @@ class ProfileView(View):
                 percent_sum += percentages[nutrient]
                 deficits[nutrient] = percentages[nutrient] # Save deficit
         print(f'goal_dict = {goal_dict}\n')
-        sorted_nutrient_balance = {}
-        names_list = [*nutrient_balance]
-        names_list.sort()
-        for name in names_list:
-            sorted_nutrient_balance[name] = nutrient_balance[name]
-        nutrient_names_bank = nutritional_goal.get_nutrient_names_bank()
-        print(f'{nutrient_names_bank}\n')
+
 
 
         print(f'goal_names_bank = {goal_names_bank}\n')
