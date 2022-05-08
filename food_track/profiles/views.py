@@ -15,7 +15,10 @@ class ProfileView(View):
     current_user = Users
 
     def get(self, request):
-        return render(request, 'profile.html', {'daily_goal': self.daily_goal()})
+        try:
+            return render(request, 'profile.html', {'daily_goal': self.daily_goal()})
+        except TypeError:
+            return render(request, 'profile.html', {'daily_goal': 'No foods logged today.'})
 
     def update_history(self):
         qs = self.model.objects.filter(username=self.request.user.username).values('nutrients', 'date')
@@ -28,7 +31,7 @@ class ProfileView(View):
 
     def get_age_sex(self):
         qs = self.current_user.objects.filter(
-            username=self.request.user.username).values('age', "sex",'id')
+            username=self.request.user.username).values('age', "sex", 'id')
         return qs
 
     def daily_goal(self):
