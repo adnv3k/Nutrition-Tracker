@@ -108,12 +108,11 @@ def food_search(api_key=None, food_item=None):
     # print(json)
     # print(len(json))
     # f = shelve.open[3]
-    query = "lasagna"
+    query = "potatoes"
     end_search = ep().end_search(api_key="0arBG94hGw3XyzanWdsZ4I6dTCmsT1aj7QWSJkGf", query=query)
     params = end_search[1]
     url = end_search[0]
     food_query = requests.get(url, params=params)
-    print(params)
     food_dict = {}  # add foods and their respective nutrients to dict
     food_l = []
     for food in food_query.json():
@@ -128,7 +127,11 @@ def food_search(api_key=None, food_item=None):
             nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
         food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
     # logic for sorting by publication date // pub_dates = sorted(pub_dates)
-    print(food_l)
+    if len(food_query.json()) < 1:
+        return 'empty dict'
+    else:
+        return 'populated dict'
+
     # print(food_dict)
 
     # for entry in range(len(j_dict)):

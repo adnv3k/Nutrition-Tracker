@@ -88,7 +88,7 @@ class ProfileView(View):
         for nutrient in [*percentages]:
             if percentages[nutrient] >= 100:
                 overages[nutrient] = percentages[nutrient]
-                percent_sum += 100 # Excludes excess percentage
+                percent_sum += 100  # Excludes excess percentage
             else:
                 deficits[nutrient] = percentages[nutrient]
                 percent_sum += percentages[nutrient]
