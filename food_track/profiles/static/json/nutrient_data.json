@@ -243,12 +243,12 @@
           "Zinc (mg)": 3,
           "Copper, Cu": 340,
           "Chromium (mcg)": 11.0,
-          "Copper (mcg)": 340.0,
+          "Copper (ug)": 340.0,
           "Fluoride (mg)": 0.7,
-          "Iodine (mcg)": 90.0,
+          "Iodine (ug)": 90.0,
           "Manganese (mg)": 1.2,
           "Molybdenum (mcg)": 17.0,
-          "Selenium (mcg)": 20.0,
+          "Selenium (ug)": 20.0,
           "Chloride (g)": 1.5
         },
         "vitamins": {
@@ -260,12 +260,12 @@
           "Riboflavin (mg)": 0.5,
           "Niacin (mg)": 6,
           "Vitamin B-6 (mg)": 0.5,
-          "Vitamin B-12 (mcg)": 0.9,
+          "Vitamin B-12 (ug)": 0.9,
           "Choline (mg)": 200,
-          "Vitamin K (mcg)": 30,
+          "Vitamin K (ug)": 30,
           "Folate (mcg DFE)": 150,
           "Pantothenic Acid (mg)": 2.0,
-          "Biotin (mcg)": 8.0
+          "Biotin (ug)": 8.0
         }
       },
       "4-8": {
@@ -292,12 +292,12 @@
           "Sodium (mg)": 1500,
           "Zinc (mg)": 5,
           "Chromium (mcg)": 15.0,
-          "Copper (mcg)": 440.0,
+          "Copper (ug)": 440.0,
           "Fluoride (mg)": 1.0,
-          "Iodine (mcg)": 90.0,
+          "Iodine (ug)": 90.0,
           "Manganese (mg)": 1.5,
           "Molybdenum (mcg)": 22.0,
-          "Selenium (mcg)": 30.0,
+          "Selenium (ug)": 30.0,
           "Chloride (g)": 1.9
         },
         "vitamins": {
@@ -309,12 +309,12 @@
           "Riboflavin (mg)": 0.6,
           "Niacin (mg)": 8,
           "Vitamin B-6 (mg)": 0.6,
-          "Vitamin B-12 (mcg)": 1.2,
+          "Vitamin B-12 (ug)": 1.2,
           "Choline (mg)": 250,
-          "Vitamin K (mcg)": 55,
+          "Vitamin K (ug)": 55,
           "Folate (mcg DFE)": 200,
           "Pantothenic Acid (mg)": 3.0,
-          "Biotin (mcg)": 12.0
+          "Biotin (ug)": 12.0
         }
       },
       "9-13": {
@@ -341,12 +341,12 @@
           "Sodium (mg)": 1800,
           "Zinc (mg)": 8,
           "Chromium (mcg)": 21.0,
-          "Copper (mcg)": 700.0,
+          "Copper (ug)": 700.0,
           "Fluoride (mg)": 2.0,
-          "Iodine (mcg)": 120.0,
+          "Iodine (ug)": 120.0,
           "Manganese (mg)": 1.6,
           "Molybdenum (mcg)": 34.0,
-          "Selenium (mcg)": 40.0,
+          "Selenium (ug)": 40.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -358,12 +358,12 @@
           "Riboflavin (mg)": 0.9,
           "Niacin (mg)": 12,
           "Vitamin B-6 (mg)": 1,
-          "Vitamin B-12 (mcg)": 1.8,
+          "Vitamin B-12 (ug)": 1.8,
           "Choline (mg)": 375,
-          "Vitamin K (mcg)": 60,
+          "Vitamin K (ug)": 60,
           "Folate (mcg DFE)": 300,
           "Pantothenic Acid (mg)": 4.0,
-          "Biotin (mcg)": 20.0
+          "Biotin (ug)": 20.0
         }
       },
       "14-18": {
@@ -390,12 +390,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 9,
           "Chromium (mcg)": 24.0,
-          "Copper (mcg)": 890.0,
+          "Copper (ug)": 890.0,
           "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 1.6,
           "Molybdenum (mcg)": 43.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -407,12 +407,12 @@
           "Riboflavin (mg)": 1,
           "Niacin (mg)": 14,
           "Vitamin B-6 (mg)": 1.2,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 400,
-          "Vitamin K (mcg)": 75,
+          "Vitamin K (ug)": 75,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 25.0
+          "Biotin (ug)": 25.0
         }
       },
       "19-30": {
@@ -439,12 +439,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 8,
           "Chromium (mcg)": 25.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 1.8,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -456,12 +456,12 @@
           "Riboflavin (mg)": 1.1,
           "Niacin (mg)": 14,
           "Vitamin B-6 (mg)": 1.3,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 425,
-          "Vitamin K (mcg)": 90,
+          "Vitamin K (ug)": 90,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       },
       "31-50": {
@@ -488,12 +488,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 8,
           "Chromium (mcg)": 25.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 1.8,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -505,12 +505,12 @@
           "Riboflavin (mg)": 1.1,
           "Niacin (mg)": 14,
           "Vitamin B-6 (mg)": 1.3,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 425,
-          "Vitamin K (mcg)": 90,
+          "Vitamin K (ug)": 90,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       },
       "51-70": {
@@ -537,12 +537,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 8,
           "Chromium (mcg)": 20.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 1.8,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.0
         },
         "vitamins": {
@@ -554,12 +554,12 @@
           "Riboflavin (mg)": 1.1,
           "Niacin (mg)": 14,
           "Vitamin B-6 (mg)": 1.5,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 425,
-          "Vitamin K (mcg)": 90,
+          "Vitamin K (ug)": 90,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       },
       "70-130": {
@@ -586,12 +586,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 8,
           "Chromium (mcg)": 20.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 1.8,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.0
         },
         "vitamins": {
@@ -603,12 +603,12 @@
           "Riboflavin (mg)": 1.1,
           "Niacin (mg)": 14,
           "Vitamin B-6 (mg)": 1.5,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 425,
-          "Vitamin K (mcg)": 90,
+          "Vitamin K (ug)": 90,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       }
     },
@@ -637,12 +637,12 @@
           "Sodium (mg)": 1200,
           "Zinc (mg)": 3,
           "Chromium (mcg)": 11.0,
-          "Copper (mcg)": 340.0,
+          "Copper (ug)": 340.0,
           "Fluoride (mg)": 0.7,
-          "Iodine (mcg)": 90.0,
+          "Iodine (ug)": 90.0,
           "Manganese (mg)": 1.2,
           "Molybdenum (mcg)": 17.0,
-          "Selenium (mcg)": 20.0,
+          "Selenium (ug)": 20.0,
           "Chloride (g)": 1.5
         },
         "vitamins": {
@@ -654,12 +654,12 @@
           "Riboflavin (mg)": 0.5,
           "Niacin (mg)": 6,
           "Vitamin B-6 (mg)": 0.5,
-          "Vitamin B-12 (mcg)": 0.9,
+          "Vitamin B-12 (ug)": 0.9,
           "Choline (mg)": 200,
-          "Vitamin K (mcg)": 30,
+          "Vitamin K (ug)": 30,
           "Folate (mcg DFE)": 150,
           "Pantothenic Acid (mg)": 2.0,
-          "Biotin (mcg)": 8.0
+          "Biotin (ug)": 8.0
         }
       },
       "4-8": {
@@ -686,12 +686,12 @@
           "Sodium (mg)": 1500,
           "Zinc (mg)": 5,
           "Chromium (mcg)": 15.0,
-          "Copper (mcg)": 440.0,
+          "Copper (ug)": 440.0,
           "Fluoride (mg)": 1.0,
-          "Iodine (mcg)": 90.0,
+          "Iodine (ug)": 90.0,
           "Manganese (mg)": 1.5,
           "Molybdenum (mcg)": 22.0,
-          "Selenium (mcg)": 30.0,
+          "Selenium (ug)": 30.0,
           "Chloride (g)": 1.9
         },
         "vitamins": {
@@ -703,12 +703,12 @@
           "Riboflavin (mg)": 0.6,
           "Niacin (mg)": 8,
           "Vitamin B-6 (mg)": 0.6,
-          "Vitamin B-12 (mcg)": 1.2,
+          "Vitamin B-12 (ug)": 1.2,
           "Choline (mg)": 250,
-          "Vitamin K (mcg)": 55,
+          "Vitamin K (ug)": 55,
           "Folate (mcg DFE)": 200,
           "Pantothenic Acid (mg)": 3.0,
-          "Biotin (mcg)": 12.0
+          "Biotin (ug)": 12.0
         }
       },
       "9-13": {
@@ -735,12 +735,12 @@
           "Sodium (mg)": 1800,
           "Zinc (mg)": 8,
           "Chromium (mcg)": 25.0,
-          "Copper (mcg)": 700.0,
+          "Copper (ug)": 700.0,
           "Fluoride (mg)": 2.0,
-          "Iodine (mcg)": 120.0,
+          "Iodine (ug)": 120.0,
           "Manganese (mg)": 1.9,
           "Molybdenum (mcg)": 34.0,
-          "Selenium (mcg)": 40.0,
+          "Selenium (ug)": 40.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -752,12 +752,12 @@
           "Riboflavin (mg)": 0.9,
           "Niacin (mg)": 12,
           "Vitamin B-6 (mg)": 1,
-          "Vitamin B-12 (mcg)": 1.8,
+          "Vitamin B-12 (ug)": 1.8,
           "Choline (mg)": 375,
-          "Vitamin K (mcg)": 60,
+          "Vitamin K (ug)": 60,
           "Folate (mcg DFE)": 300,
           "Pantothenic Acid (mg)": 4.0,
-          "Biotin (mcg)": 20.0
+          "Biotin (ug)": 20.0
         }
       },
       "14-18": {
@@ -784,12 +784,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 11,
           "Chromium (mcg)": 35.0,
-          "Copper (mcg)": 890.0,
+          "Copper (ug)": 890.0,
           "Fluoride (mg)": 3.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 2.2,
           "Molybdenum (mcg)": 43.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -801,12 +801,12 @@
           "Riboflavin (mg)": 1.3,
           "Niacin (mg)": 16,
           "Vitamin B-6 (mg)": 1.3,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 550,
-          "Vitamin K (mcg)": 75,
+          "Vitamin K (ug)": 75,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 25.0
+          "Biotin (ug)": 25.0
         }
       },
       "19-30": {
@@ -833,12 +833,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 11,
           "Chromium (mcg)": 35.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 2.3,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -850,12 +850,12 @@
           "Riboflavin (mg)": 1.3,
           "Niacin (mg)": 16,
           "Vitamin B-6 (mg)": 1.3,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 550,
-          "Vitamin K (mcg)": 120,
+          "Vitamin K (ug)": 120,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       },
       "31-50": {
@@ -882,12 +882,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 11,
           "Chromium (mcg)": 35.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 2.3,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.3
         },
         "vitamins": {
@@ -899,12 +899,12 @@
           "Riboflavin (mg)": 1.3,
           "Niacin (mg)": 16,
           "Vitamin B-6 (mg)": 1.3,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 550,
-          "Vitamin K (mcg)": 120,
+          "Vitamin K (ug)": 120,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       },
       "51-70": {
@@ -931,12 +931,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 11,
           "Chromium (mcg)": 30.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 2.3,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.0
         },
         "vitamins": {
@@ -948,12 +948,12 @@
           "Riboflavin (mg)": 1.3,
           "Niacin (mg)": 16,
           "Vitamin B-6 (mg)": 1.7,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 550,
-          "Vitamin K (mcg)": 120,
+          "Vitamin K (ug)": 120,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       },
       "70-130": {
@@ -980,12 +980,12 @@
           "Sodium (mg)": 2300,
           "Zinc (mg)": 11,
           "Chromium (mcg)": 30.0,
-          "Copper (mcg)": 900.0,
+          "Copper (ug)": 900.0,
           "Fluoride (mg)": 4.0,
-          "Iodine (mcg)": 150.0,
+          "Iodine (ug)": 150.0,
           "Manganese (mg)": 2.3,
           "Molybdenum (mcg)": 45.0,
-          "Selenium (mcg)": 55.0,
+          "Selenium (ug)": 55.0,
           "Chloride (g)": 2.0
         },
         "vitamins": {
@@ -997,12 +997,12 @@
           "Riboflavin (mg)": 1.3,
           "Niacin (mg)": 16,
           "Vitamin B-6 (mg)": 1.7,
-          "Vitamin B-12 (mcg)": 2.4,
+          "Vitamin B-12 (ug)": 2.4,
           "Choline (mg)": 550,
-          "Vitamin K (mcg)": 120,
+          "Vitamin K (ug)": 120,
           "Folate (mcg DFE)": 400,
           "Pantothenic Acid (mg)": 5.0,
-          "Biotin (mcg)": 30.0
+          "Biotin (ug)": 30.0
         }
       }
     }

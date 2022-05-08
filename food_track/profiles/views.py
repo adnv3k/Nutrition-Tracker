@@ -111,13 +111,21 @@ class ProfileView(View):
                     intermediary[goal_nutrient] += nutrient_balance[variant]
         print(f'intermediary = {intermediary}\n')
 
+        adequate_intakes = ["Chromium", "Fluoride", "Manganese", "Potassium",
+                            "Sodium", "Chloride", "Pantothenic Acid", "Biotin", "Iodine", "Molybdenum"]
         # Calculate percentages
         percentages = {}
         for goal_nutrient in [*goal_dict]:
             for intermediate in intermediary:
                 if goal_nutrient in intermediate:
                     # does not handle 'nutrient, other stuff' nutrient names well
-                    percentages[goal_nutrient] = round(
+                    if goal_nutrient in adequate_intakes:
+                        continue
+                    elif "Copper" in goal_nutrient:
+                        percentages[goal_nutrient] = round(
+                        intermediary[intermediate] / (goal_dict[goal_nutrient]/1000), 2) * 100
+                    else:
+                        percentages[goal_nutrient] = round(
                         intermediary[intermediate] / goal_dict[goal_nutrient], 2) * 100
 
         overages = {}
