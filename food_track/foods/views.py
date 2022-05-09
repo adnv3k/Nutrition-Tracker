@@ -33,8 +33,9 @@ class SearchResultsView(ListView):
         params['dataType'] = data_type
 
         food_query = requests.get(url, params=params)
-        if len(food_query.json()) < 3:
-            return 'None'
+        if len(food_query.json()) <= 0:
+            self.allow_empty = True
+            return []
         food_l = []
         for food in food_query.json():
             nutrients_unformat = food['foodNutrients']
