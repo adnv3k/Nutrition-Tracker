@@ -16,12 +16,11 @@
 <table border="1" style="display: block; width: 100%;">
     <thead>
     </thead>
-    {% if page_obj > 0 %}
     <tr>
         <th>Foods</th>
         <th>Nutrients</th>
     </tr>
-
+    {% if page_obj is not None and page_obj|length > 0 %}
     <tbody>
     {% for f in page_obj %}
     <tr>
@@ -43,8 +42,8 @@
     <p>No results found.</p>
     {% endif %}
     </tbody>
-
 </table>
+
 {% if is_paginated %}
 <div class="pagination">
         <span class="step-links">
