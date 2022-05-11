@@ -23,7 +23,7 @@ class HomePageView(TemplateView):
 class SearchResultsView(ListView):
     model = Food
     template_name = 'search_results.html'
-    paginate_by = 25
+    paginate_by = 15
 
     def search(self, query, data_type):
         end_search = ep().end_search(api_key=usda_key, query=query)
@@ -57,7 +57,7 @@ class SearchResultsView(ListView):
             else:
                 pass
 
-            p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])).first(), 25)
+            p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])).first(), 15)
             page_num = self.request.GET.get('page')
             page_obj = p.get_page(page_num)
             return render(self.request, 'search_results.html', {'page_obj': page_obj})
