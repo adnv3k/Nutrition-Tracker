@@ -9,7 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
-from django.contrib import messages
+from django.contrib.postgres.operations import UnaccentExtension, TrigramExtension
 
 from .models import Food, FoodHistory
 from .endpoints import Endpoints as ep
@@ -74,8 +74,7 @@ class SearchResultsView(ListView):
         vector = SearchVector("name", "dataType")
         query = SearchQuery(q, search_type='phrase') & SearchQuery(dataType, search_type='phrase')
         food_q = Food.objects.annotate(
-            rank=SearchRank(vector, query), search=vector) \
-            .filter(search=query, name__istartswith=q[0], name__iendswith=q[-1]).order_by('-rank')
+            rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
         if food_q.exists():
             return food_q
         else:
