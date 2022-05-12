@@ -57,10 +57,10 @@ class SearchResultsView(ListView):
             else:
                 pass
 
-            p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])).first(), 15)
-            page_num = self.request.GET.get('page')
-            page_obj = p.get_page(page_num)
-            return render(self.request, 'search_results.html', {'page_obj': page_obj})
+        p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])).first(), 15)
+        page_num = self.request.GET.get('page')
+        page_obj = p.get_page(page_num)
+        return render(self.request, 'search_results.html', {'page_obj': page_obj})
 
     def get_queryset(self):
         q = self.request.GET.get("q")
