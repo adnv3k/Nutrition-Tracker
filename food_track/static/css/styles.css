@@ -1,18 +1,36 @@
-body {
-  margin: 0;
-  padding: 0;
-  justify-content: center;
-  height: 100vh;
-  color:white;
-  background: #0d0c2d;
-  font-family: sans-serif;
-  display: flex;
+#cover {
+    background: #222 url('https://unsplash.it/1920/1080/?random') center center no-repeat;
+    background-size: cover;
+    height: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+#cover-caption {
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* only used for background overlay not needed for centering */
+form:before {
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+    z-index: -1;
+    border-radius: 10px;
 }
 
 .container {
   background: #0d0c2d;
   padding: 60px;
-  display: grid;
+  display: flex;
   grid-template-columns: repeat(1, 160px);
   grid-gap: 80px;
   margin: auto 0;
