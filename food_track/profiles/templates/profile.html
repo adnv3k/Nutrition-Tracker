@@ -1,17 +1,24 @@
 {% load static %}
 
+<!DOCTYPE html>
 <head>
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/easy-pie-chart/2.1.6/jquery.easypiechart.min.js"></script>
-    <script src="{% static 'js/scripts.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
-
 <body>
-    <div class="container">
-        <div class="box">
-            <div class="chart" data-percent="{{ daily_goal }}">{{ daily_goal }}</div>
-            <div class="foodhistory">{{ foodhistory }}</div>
-        </div>
+<div class="container">
+  <div class="card">
+    <div class="box">
+      <div class="percent">
+        <svg>
+          <circle cx="70" cy="70" r="70"></circle>
+          <circle cx="70" cy="70" r="70"></circle>
+          <svg>
+            <div class="num">
+              <h2>90<span>%</span></h2>
+            </div>
+      </div>
+      <h2 class="text">Html</h2>
     </div>
+  </div>
+</div>
 </body>
