@@ -21,7 +21,10 @@
         <th>Foods</th>
         <th>Nutrients</th>
     </tr>
+    {% if page_obj is not None and page_obj|length > 0 %}
+
     <tbody>
+    <p>Total results: {{ page_obj.paginator.count }}</p>
     {% for f in page_obj %}
     <tr>
         <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
@@ -42,8 +45,8 @@
     <p>No results found.</p>
     {% endif %}
     </tbody>
-
 </table>
+
 {% if is_paginated %}
 <div class="pagination">
         <span class="step-links">
