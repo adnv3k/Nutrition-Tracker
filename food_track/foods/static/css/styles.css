@@ -26,14 +26,3 @@ form:before {
     z-index: -1;
     border-radius: 10px;
 }
-
-.container {
-  background: #0d0c2d;
-  padding: 60px;
-  display: flex;
-  grid-template-columns: repeat(1, 160px);
-  grid-gap: 80px;
-  margin: auto 0;
-  box-shadow: -5px -5px 8px rgba(94, 104, 121, 0.288),
-              4px 4px 6px rgba(94, 104, 121, 0.288);
-}
