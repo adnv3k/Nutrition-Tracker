@@ -54,7 +54,6 @@ class SearchResultsView(ListView):
             for name, amount, unit in zip(name, amount, unit):
                 nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
             food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
-
             # if not Food.objects.filter(name=food_dict['food']['description']).exists():
             #    Food.objects.get_or_create(name=food_dict['food']['description'], nutrients=nutrients_clean)
             Food.objects.get_or_create(
@@ -70,7 +69,6 @@ class SearchResultsView(ListView):
             dataType = 'Branded'
         else:
             dataType = 'SR Legacy'
-
         vector = SearchVector("name", "dataType")
         query = SearchQuery(q) & SearchQuery(dataType)
         food_q = Food.objects.annotate(
