@@ -28,11 +28,10 @@ class Nutrients(models.Model):
 
 class FoodHistory(models.Model):
     username = models.CharField(max_length=255)
+    date = models.DateTimeField(auto_now=True)
     food = models.CharField(max_length=255)
-    nutrients = models.TextField()
     food_id = models.IntegerField()
     favorite = models.BooleanField(default=False)
-    date = models.DateTimeField(auto_now=True)
     objects = models.Manager()
 
     def __str__(self):
