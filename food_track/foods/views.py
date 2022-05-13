@@ -55,7 +55,6 @@ class SearchResultsView(ListView):
             for name, amount, unit in zip(name, amount, unit):
                 nutrients_clean.append("".join(f"{name}: {amount}{unit}"))
             food_l.append({'description': food['description'], 'foodNutrients': nutrients_clean})
-
             # if not Food.objects.filter(name=food_dict['food']['description']).exists():
             #    Food.objects.get_or_create(name=food_dict['food']['description'], nutrients=nutrients_clean)
             if data_type == 'Branded':
@@ -78,7 +77,6 @@ class SearchResultsView(ListView):
             dataType = 'Branded'
         else:
             dataType = 'SR Legacy'
-
         vector = SearchVector("name", "dataType")
         query = SearchQuery(q) & SearchQuery(dataType)
         food_q = Food.objects.annotate(
@@ -94,10 +92,11 @@ def add_food(request):
         if request.POST.get('addBtn'):
             if request.user.is_authenticated:
                 items = dict(request.POST.items())
+                food_id = int(Food.objects.filter(name=items['addBtn']).values('id')[0]['id'])
                 FoodHistory.objects.get_or_create(username=items['username'],
-                                                  food=items['addBtn'],
-                                                  nutrients=items['nutrients'],
-                                                  date=timezone.now())
+                                                 food=items['addBtn'],
+                                                 date=timezone.now(),
+                                                 food_id=food_id)
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 return HttpResponseRedirect('../login')

@@ -7,3 +7,5 @@ class Users(User):
     # password = models.CharField(max_length=50)
     sex = models.CharField(max_length=1)
     age = models.PositiveSmallIntegerField(default=2)
+    objects = models.Manager()
+
