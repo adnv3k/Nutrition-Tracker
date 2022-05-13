@@ -86,10 +86,13 @@ def add_food(request):
         if request.POST.get('addBtn'):
             if request.user.is_authenticated:
                 items = dict(request.POST.items())
+
+                food_id = int(Food.objects.filter(name=items['addBtn']).values('id')[0]['id'])
                 FoodHistory.objects.get_or_create(username=items['username'],
-                                                  food=items['addBtn'],
-                                                  nutrients=items['nutrients'],
-                                                  date=timezone.now())
+                                                 food=items['addBtn'],
+                                                 nutrients=items['nutrients'],
+                                                 date=timezone.now(),
+                                                 food_id=food_id)
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
                 return HttpResponseRedirect('../login')
