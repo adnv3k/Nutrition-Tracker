@@ -6,6 +6,7 @@ class Food(models.Model):
     name = models.CharField(max_length=255)
     nutrients = models.TextField()
     dataType = models.CharField(max_length=15, default='SR Legacy')
+    brandOwner = models.CharField(max_length=255, default=False)
     objects = models.Manager()
 
     class Meta:

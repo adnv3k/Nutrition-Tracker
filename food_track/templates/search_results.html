@@ -24,26 +24,35 @@
     {% if page_obj is not None and page_obj|length > 0 %}
 
     <tbody>
-        <p>Total results: {{ page_obj.paginator.count }}</p>
-        {% for f in page_obj %}
-        <tr>
-            <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
-                {% csrf_token %}
-                <td>
-                    <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
-                    <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
-                    <input type="hidden" name="username" value="{{ user.username }}">
-                    {{ f.name }}
-                </td>
-                <td>
-                    {{ f.nutrients }}
-                </td>
-            </form>
-        </tr>
-        {% endfor %}
-        {% else %}
-        <p>No results found.</p>
-        {% endif %}
+    <p>Total results: {{ page_obj.paginator.count }}</p>
+    {% for f in page_obj %}
+    <tr>
+        <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
+            {% csrf_token %}
+            {% if f.brandOwner|stringformat:"s" != 'False' %}
+            <td>
+                <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
+                <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
+                <input type="hidden" name="username" value="{{ user.username }}">
+                <p>{{ f.brandOwner }} - {{ f.name }}</p>
+            </td>
+            {% else %}
+            <td>
+                <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
+                <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
+                <input type="hidden" name="username" value="{{ user.username }}">
+                <p>{{ f.name }}</p>
+            </td>
+            {% endif %}
+            <td>
+                {{ f.nutrients }}
+            </td>
+        </form>
+    </tr>
+    {% endfor %}
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
     </tbody>
 </table>
 
