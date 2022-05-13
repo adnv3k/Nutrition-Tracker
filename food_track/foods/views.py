@@ -23,7 +23,7 @@ class HomePageView(TemplateView):
 class SearchResultsView(ListView):
     model = Food
     template_name = 'search_results.html'
-    paginate_by = 25
+    paginate_by = 15
 
     def search(self, query, data_type):
         end_search = ep().end_search(api_key=usda_key, query=query)
@@ -31,7 +31,6 @@ class SearchResultsView(ListView):
         url = end_search[0]
 
         params['dataType'] = data_type
-
         start = time.time()
         while True:
             try:
@@ -42,8 +41,9 @@ class SearchResultsView(ListView):
                     raise Exception('Unable to reach USDA API after 30 seconds of connection errors.')
                 else:
                     time.sleep(1)
-        if not len(food_query.json()) > 0:
-            return 'None'
+        if len(food_query.json()) <= 0:
+            self.allow_empty = True
+            return []
         food_l = []
         for food in food_query.json():
             nutrients_unformat = food['foodNutrients']
