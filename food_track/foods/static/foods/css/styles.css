@@ -26,3 +26,9 @@ form:before {
     z-index: -1;
     border-radius: 10px;
 }
+
+.favBtn.fa {
+    background-color: transparent;
+    border: none;
+
+}
