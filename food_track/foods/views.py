@@ -59,7 +59,7 @@ class SearchResultsView(ListView):
             #    Food.objects.get_or_create(name=food_dict['food']['description'], nutrients=nutrients_clean)
             Food.objects.get_or_create(
                 name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
-        p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])), 25)
+        p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])), 15)
         page_num = self.request.GET.get('page')
         page_obj = p.get_page(page_num)
         return render(self.request, 'search_results.html', {'page_obj': page_obj})
@@ -72,7 +72,7 @@ class SearchResultsView(ListView):
             dataType = 'SR Legacy'
 
         vector = SearchVector("name", "dataType")
-        query = SearchQuery(q, search_type='phrase') & SearchQuery(dataType, search_type='phrase')
+        query = SearchQuery(q) & SearchQuery(dataType)
         food_q = Food.objects.annotate(
             rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
         if food_q.exists():
