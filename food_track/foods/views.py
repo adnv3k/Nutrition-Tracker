@@ -24,6 +24,7 @@ class SearchResultsView(ListView):
     model = Food
     template_name = 'search_results.html'
     paginate_by = 15
+    brandOwner = False
 
     def search(self, query, data_type):
         end_search = ep().end_search(api_key=usda_key, query=query)
@@ -57,8 +58,15 @@ class SearchResultsView(ListView):
 
             # if not Food.objects.filter(name=food_dict['food']['description']).exists():
             #    Food.objects.get_or_create(name=food_dict['food']['description'], nutrients=nutrients_clean)
-            Food.objects.get_or_create(
-                name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
+            if data_type == 'Branded':
+                brand_owner = food['brandOwner']
+                Food.objects.get_or_create(
+                    name=food['description'], nutrients=nutrients_clean,
+                    dataType=params['dataType'], brandOwner=brand_owner)
+            else:
+                Food.objects.get_or_create(
+                    name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
+
         p = Paginator(Food.objects.all().filter(Q(name__icontains=[query])), 15)
         page_num = self.request.GET.get('page')
         page_obj = p.get_page(page_num)

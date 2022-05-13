@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.utils import timezone
+
 from foods.models import FoodHistory
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
