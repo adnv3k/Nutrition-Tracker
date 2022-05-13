@@ -92,4 +92,4 @@ def add_food(request):
                                                   date=timezone.now())
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
-                return HttpResponse("login")
+                return render(request, 'accounts/login.html')
