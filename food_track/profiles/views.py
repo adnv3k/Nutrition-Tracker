@@ -114,6 +114,7 @@ class ProfileView(View):
         adequate_intakes = ["Chromium", "Fluoride", "Manganese", "Potassium",
                             "Sodium", "Chloride", "Pantothenic Acid", "Biotin", "Iodine", "Molybdenum"]
         # Calculate percentages
+        # TODO consider making things into dict because of the unit conversions.
         percentages = {}
         for goal_nutrient in [*goal_dict]:
             for intermediate in intermediary:
@@ -128,7 +129,8 @@ class ProfileView(View):
                     elif "Water" in goal_nutrient:
                         percentages[goal_nutrient] = round(
                         intermediary[intermediate] / (goal_dict[goal_nutrient]*1000), 2) * 100
-
+                    # handle vitamin A
+                    # handle vitamin D
                     else:
                         percentages[goal_nutrient] = round(
                         intermediary[intermediate] / goal_dict[goal_nutrient], 2) * 100
