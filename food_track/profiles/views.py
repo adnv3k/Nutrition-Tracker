@@ -121,9 +121,14 @@ class ProfileView(View):
                     # does not handle 'nutrient, other stuff' nutrient names well
                     if goal_nutrient in adequate_intakes:
                         continue
+                    # Handle units
                     elif "Copper" in goal_nutrient:
                         percentages[goal_nutrient] = round(
                         intermediary[intermediate] / (goal_dict[goal_nutrient]/1000), 2) * 100
+                    elif "Water" in goal_nutrient:
+                        percentages[goal_nutrient] = round(
+                        intermediary[intermediate] / (goal_dict[goal_nutrient]*1000), 2) * 100
+
                     else:
                         percentages[goal_nutrient] = round(
                         intermediary[intermediate] / goal_dict[goal_nutrient], 2) * 100
