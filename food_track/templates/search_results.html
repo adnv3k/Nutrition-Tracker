@@ -29,12 +29,21 @@
     <tr>
         <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
             {% csrf_token %}
+            {% if f.brandOwner|stringformat:"s" != 'False' %}
             <td>
                 <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
                 <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
                 <input type="hidden" name="username" value="{{ user.username }}">
-                {{ f.name }}
+                <p>{{ f.brandOwner }} - {{ f.name }}</p>
             </td>
+            {% else %}
+            <td>
+                <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
+                <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
+                <input type="hidden" name="username" value="{{ user.username }}">
+                <p>{{ f.name }}</p>
+            </td>
+            {% endif %}
             <td>
                 {{ f.nutrients }}
             </td>
@@ -65,6 +74,7 @@
             {% endif %}
         </span>
 </div>
+{% endif %}
 {% endif %}
 
 {% endblock %}
