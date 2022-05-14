@@ -18,7 +18,11 @@ from .api import usda_key
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
-
+    
+    def get_context_data(self):
+        context = super(HomePageView, self).get_context_data()
+        context['username'] = self.request.user.username
+        return context
 
 class SearchResultsView(ListView):
     model = Food
@@ -85,6 +89,13 @@ class SearchResultsView(ListView):
             return food_q
         else:
             return self.search(q, dataType)
+
+    def get_context_data(self):
+        """Override to return current user's username in the navbar
+        """
+        context = super(SearchResultsView, self).get_context_data()
+        context['username'] = self.request.user.username
+        return context
 
 
 def add_food(request):
