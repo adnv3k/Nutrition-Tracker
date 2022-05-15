@@ -36,12 +36,18 @@
     <p>Total results: {{ page_obj.paginator.count }}</p>
     {% for f in page_obj %}
     <tr>
+        <form method="POST" action="{% url 'favorite_food' %}" id="favorite_food_form">
+            {% csrf_token %}
+        </form>
         <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
             {% csrf_token %}
             {% if f.brandOwner|stringformat:"s" != 'False' %}
             <td>
                 <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
-                <button class="favBtn fa fa-heart-o" name="favBtn"></button>
+                <button class="btn btn-danger-outline btn-sm" form="favorite_food_form" type="button" name="favBtn"
+                        value="{{ f.name }}">
+                    <i class="heart fa fa-heart-o" aria-hidden="true" id="{{ f.name }}"></i>
+                </button>
                 <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
                 <input type="hidden" name="username" value="{{ user.username }}">
                 <p>{{ f.brandOwner }} - {{ f.name }}</p>
@@ -49,7 +55,10 @@
             {% else %}
             <td>
                 <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
-                <button class="favBtn fa fa-heart-o" name="favBtn"></button>
+                <button class="btn btn-danger-outline btn-sm" form="favorite_food_form" type="button" name="favBtn"
+                        value="{{ f.name }}">
+                    <i class="heart fa fa-heart-o" aria-hidden="true" id="{{ f.name }}"></i>
+                </button>
                 <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
                 <input type="hidden" name="username" value="{{ user.username }}">
                 <p>{{ f.name }}</p>

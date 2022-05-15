@@ -2,7 +2,7 @@ import requests
 import time
 
 from django.db.models import Q
-from django.http import Http404
+from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView, ListView, View
 from django.core.exceptions import ObjectDoesNotExist
@@ -23,6 +23,7 @@ class HomePageView(TemplateView):
         context = super(HomePageView, self).get_context_data()
         context['username'] = self.request.user.username
         return context
+
 
 class SearchResultsView(ListView):
     model = Food
@@ -100,14 +101,27 @@ class SearchResultsView(ListView):
 
 def add_food(request):
     if request.method == "POST":
-        if request.POST.get('addBtn'):
-            if request.user.is_authenticated:
+        if request.user.is_authenticated:
+            if request.POST.get('addBtn'):
                 items = dict(request.POST.items())
                 food_id = int(Food.objects.filter(name=items['addBtn']).values('id')[0]['id'])
                 FoodHistory.objects.get_or_create(username=items['username'],
-                                                 food=items['addBtn'],
-                                                 date=timezone.now(),
-                                                 food_id=food_id)
+                                                  food=items['addBtn'],
+                                                  date=timezone.now(),
+                                                  food_id=food_id)
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            else:
-                return HttpResponseRedirect('../login')
+        else:
+            return HttpResponseRedirect('../login')
+
+
+def favorite_food(request):
+    favorite = False
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            if request.POST.get('data'):
+                try:
+                    query = request.POST.get('data')
+                    check = FoodHistory.objects.filter(food=query).values_list('favorite').first()
+                    return HttpResponse(check)
+                except ObjectDoesNotExist as e:
+                    return HttpResponse(e)

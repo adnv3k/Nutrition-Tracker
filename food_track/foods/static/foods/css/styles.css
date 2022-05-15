@@ -27,8 +27,7 @@ form:before {
     border-radius: 10px;
 }
 
-.favBtn.fa {
-    background-color: transparent;
-    border: none;
-
+.heart.fa {
+  font-size: 25px;
+  color:red;
 }
