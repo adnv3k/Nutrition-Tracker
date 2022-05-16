@@ -98,7 +98,7 @@ class ProfileView(View):
         for name in names_list:
             sorted_nutrient_balance[name] = nutrient_balance[name]
         nutrient_names_bank = nutritional_goal.get_nutrient_names_bank()
-        print(f'{nutrient_names_bank}\n')
+        print(f'nutrient_names_bank: {nutrient_names_bank}\n')
 
 
         # Intermediary
@@ -109,12 +109,14 @@ class ProfileView(View):
             for variant in goal_names_bank[goal_nutrient]:
                 if nutrient_balance.get(variant):
                     intermediary[goal_nutrient] += nutrient_balance[variant]
+                    break
         print(f'intermediary = {intermediary}\n')
 
         adequate_intakes = ["Chromium", "Fluoride", "Manganese", "Potassium",
                             "Sodium", "Chloride", "Pantothenic Acid", "Biotin", "Iodine", "Molybdenum"]
         # Calculate percentages
         # TODO consider making things into dict because of the unit conversions.
+        # verify that nutrients are being added correctly.
         percentages = {}
         for goal_nutrient in [*goal_dict]:
             for intermediate in intermediary:
@@ -129,8 +131,10 @@ class ProfileView(View):
                     elif "Water" in goal_nutrient:
                         percentages[goal_nutrient] = round(
                         intermediary[intermediate] / (goal_dict[goal_nutrient]*1000), 2) * 100
-                    # handle vitamin A
-                    # handle vitamin D
+                    # handle vitamin A,
+                    # D
+                    # C
+                    # K
                     else:
                         percentages[goal_nutrient] = round(
                         intermediary[intermediate] / goal_dict[goal_nutrient], 2) * 100

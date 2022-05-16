@@ -10,7 +10,7 @@
     "Potassium": ["Potassium, K"],
     "Sodium": ["Sodium, Na"],
     "Zinc": ["Zinc, Zn"],
-    "Vitamin A": ["Vitamin A, IU", "Vitamin A, RAE", "Retinol"],
+    "Vitamin A": ["Vitamin A, RAE", "Vitamin A, IU", "Retinol"],
     "Vitamin E": [
       "Vitamin E (alpha-tocopherol)",
       "Vitamin E, added",
