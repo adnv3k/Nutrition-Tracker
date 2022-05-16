@@ -38,3 +38,22 @@ class FoodHistory(models.Model):
 
     def __str__(self):
         return self.username
+
+class SRLegacy(models.Model):
+    name = models.CharField(max_length=255)
+    fdc_id = models.IntegerField()
+    category = models.CharField(max_length=255)
+    publication_date = models.DateField()
+    nutrients = models.TextField()
+    objects = models.Manager()
+
+class Branded(models.Model):
+    brandOwner = models.CharField(max_length=255, default=False)
+    name = models.TextField()
+    fdc_id = models.IntegerField()
+    category = models.TextField()
+    publication_date = models.DateField()
+    marketCountry = models.CharField(max_length=255)
+    nutrients = models.TextField()
+    ingredients = models.TextField()
+    objects = models.Manager()
