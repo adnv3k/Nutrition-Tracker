@@ -41,7 +41,7 @@
         </form>
         <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
             {% csrf_token %}
-            {% if f.brandOwner|stringformat:"s" != 'False' %}
+            {% if f.brandOwner %}
             <td>
                 <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
                 <button class="btn btn-danger-outline btn-sm" form="favorite_food_form" type="button" name="favBtn"
