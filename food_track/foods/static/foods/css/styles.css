@@ -26,3 +26,8 @@ form:before {
     z-index: -1;
     border-radius: 10px;
 }
+
+.heart.fa {
+  font-size: 25px;
+  color:red;
+}

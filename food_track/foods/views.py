@@ -2,8 +2,8 @@ import requests
 import time
 
 from django.db.models import Q
-from django.http import Http404
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -23,6 +23,7 @@ class HomePageView(TemplateView):
         context = super(HomePageView, self).get_context_data()
         context['username'] = self.request.user.username
         return context
+
 
 class SearchResultsView(ListView):
     model = Food
@@ -100,14 +101,27 @@ class SearchResultsView(ListView):
 
 def add_food(request):
     if request.method == "POST":
-        if request.POST.get('addBtn'):
-            if request.user.is_authenticated:
+        if request.user.is_authenticated:
+            if request.POST.get('addBtn'):
                 items = dict(request.POST.items())
                 food_id = int(Food.objects.filter(name=items['addBtn']).values('id')[0]['id'])
                 FoodHistory.objects.get_or_create(username=items['username'],
-                                                 food=items['addBtn'],
-                                                 date=timezone.now(),
-                                                 food_id=food_id)
+                                                  food=items['addBtn'],
+                                                  date=timezone.now(),
+                                                  food_id=food_id)
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-            else:
-                return HttpResponseRedirect('../login')
+        else:
+            return HttpResponseRedirect('../login')
+
+
+def favorite_food(request, pk):
+    user = request.user
+    if request.method == 'POST':
+        food = get_object_or_404(Food, id=pk)
+        _favorited = user in food.favorite.all()
+        if _favorited:
+            food.favorite.remove(user)
+            return HttpResponse('false')
+        else:
+            food.favorite.add(user)
+            return HttpResponse('true')
