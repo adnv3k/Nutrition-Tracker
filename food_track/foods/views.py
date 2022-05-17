@@ -95,6 +95,9 @@ class SearchResultsView(ListView):
                 rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
         # food_q = Food.objects.annotate(
         #     rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
+        if len(food_q) <= 0:
+            self.allow_empty = True
+            return []
         if food_q.exists():
             return food_q
         else:
