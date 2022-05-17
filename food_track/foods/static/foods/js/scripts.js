@@ -3,26 +3,30 @@ $(function() {
      event.preventDefault();
      var csrf_token = $('#favorite_food_form').find('input[name=csrfmiddlewaretoken]').val();
      var button = $(this).val();
-
      $.ajax({
         headers: {
             'X-CSRFToken': getCookie('csrftoken')
         },
         type: 'POST',
-        url: '/favorite_food/',
+        url: '/favorite_food/' + button,
         data: {
             'data': button
         },
         success: function(response) {
             var heart = document.getElementById(button);
-            if (response == 'False') {
+            console.log(heart);
+            if (response == 'true') {
                  $(heart).toggleClass('fa-heart fa-heart-o');
-            } else {
-                //pass
+            } else if (response == 'false') {
+                 $(heart).toggleClass('fa-heart fa-heart-o');
             }
         }
      });
    });
+});
+
+$(document).ready(function () {
+
 });
 
 function getCookie(cname) {

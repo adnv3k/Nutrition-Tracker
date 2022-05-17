@@ -3,7 +3,7 @@ import time
 
 from django.db.models import Q
 from django.http import JsonResponse
-from django.shortcuts import render, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, View
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
@@ -114,14 +114,14 @@ def add_food(request):
             return HttpResponseRedirect('../login')
 
 
-def favorite_food(request):
-    favorite = False
+def favorite_food(request, pk):
+    user = request.user
     if request.method == 'POST':
-        if request.user.is_authenticated:
-            if request.POST.get('data'):
-                try:
-                    query = request.POST.get('data')
-                    check = FoodHistory.objects.filter(food=query).values_list('favorite').first()
-                    return HttpResponse(check)
-                except ObjectDoesNotExist as e:
-                    return HttpResponse(e)
+        food = get_object_or_404(Food, id=pk)
+        _favorited = user in food.favorite.all()
+        if _favorited:
+            food.favorite.remove(user)
+            return HttpResponse('false')
+        else:
+            food.favorite.add(user)
+            return HttpResponse('true')
