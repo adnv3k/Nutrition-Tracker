@@ -11,11 +11,11 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.postgres.operations import UnaccentExtension, TrigramExtension
+from django.core.cache import cache
 
 from .models import Food, FoodHistory, SRLegacy, Branded
 from .endpoints import Endpoints as ep
 from .api import usda_key
-
 
 class HomePageView(TemplateView):
     template_name = 'home.html'
@@ -24,7 +24,6 @@ class HomePageView(TemplateView):
         context = super(HomePageView, self).get_context_data()
         context['username'] = self.request.user.username
         return context
-
 
 class SearchResultsView(ListView):
     model = Food
@@ -76,13 +75,16 @@ class SearchResultsView(ListView):
         page_num = self.request.GET.get('page')
         page_obj = p.get_page(page_num)
         return render(self.request, 'search_results.html', {'page_obj': page_obj})
-
+    
     def get_queryset(self):
         q = self.request.GET.get("q")
         if self.request.GET.get("brand"):
             dataType = 'Branded'
         else:
             dataType = 'SR Legacy'
+        cached_string = f'{q}{dataType}'
+        if cache.get(cached_string):
+            return cache.get(cached_string)
         # query = SearchQuery(q) & SearchQuery(dataType)
         # vector = SearchVector("name", "nutrients")
         vector = SearchVector("name")
@@ -93,12 +95,11 @@ class SearchResultsView(ListView):
         else:
             food_q = SRLegacy.objects.annotate(
                 rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
-        # food_q = Food.objects.annotate(
-        #     rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
         if len(food_q) <= 0:
             self.allow_empty = True
             return []
-        if food_q.exists():
+        elif food_q.exists():
+            cache.set(cached_string, food_q, 60*5)
             return food_q
         else:
             return self.search(query, dataType)
@@ -116,7 +117,9 @@ def add_food(request):
         if request.user.is_authenticated:
             if request.POST.get('addBtn'):
                 items = dict(request.POST.items())
-                food_id = int(Food.objects.filter(name=items['addBtn']).values('id')[0]['id'])
+                print(items['addBtn'])
+                print(f'DIS DA BRAND {request.GET.get("brand")}')
+                food_id = int(SRLegacy.objects.filter(name=items['addBtn']).values('id')[0]['id'])
                 FoodHistory.objects.get_or_create(username=items['username'],
                                                   food=items['addBtn'],
                                                   date=timezone.now(),
