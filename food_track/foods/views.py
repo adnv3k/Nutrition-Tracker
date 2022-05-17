@@ -83,14 +83,22 @@ class SearchResultsView(ListView):
             dataType = 'Branded'
         else:
             dataType = 'SR Legacy'
-        vector = SearchVector("name", "dataType")
-        query = SearchQuery(q) & SearchQuery(dataType)
-        food_q = Food.objects.annotate(
-            rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
+        # query = SearchQuery(q) & SearchQuery(dataType)
+        # vector = SearchVector("name", "nutrients")
+        vector = SearchVector("name")
+        query = SearchQuery(q)
+        if dataType == 'Branded':
+            food_q = Branded.objects.annotate(
+                rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
+        else:
+            food_q = SRLegacy.objects.annotate(
+                rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
+        # food_q = Food.objects.annotate(
+        #     rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
         if food_q.exists():
             return food_q
         else:
-            return self.search(q, dataType)
+            return self.search(query, dataType)
 
     def get_context_data(self):
         """Override to return current user's username in the navbar
