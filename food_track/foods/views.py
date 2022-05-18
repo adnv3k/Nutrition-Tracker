@@ -85,8 +85,6 @@ class SearchResultsView(ListView):
         cached_string = f'{q}{dataType}'
         if cache.get(cached_string):
             return cache.get(cached_string)
-        # query = SearchQuery(q) & SearchQuery(dataType)
-        # vector = SearchVector("name", "nutrients")
         vector = SearchVector("name")
         query = SearchQuery(q)
         if dataType == 'Branded':
@@ -119,11 +117,14 @@ def add_food(request):
                 items = dict(request.POST.items())
                 print(items['addBtn'])
                 print(f'DIS DA BRAND {request.GET.get("brand")}')
-                food_id = int(SRLegacy.objects.filter(name=items['addBtn']).values('id')[0]['id'])
+                try:
+                    fdc_id = int(SRLegacy.objects.filter(name=items['addBtn']).values('fdc_id')[0]['fdc_id'])
+                except:
+                    fdc_id = int(Branded.objects.filter(name=items['addBtn']).values('fdc_id')[0]['fdc_id'])
                 FoodHistory.objects.get_or_create(username=items['username'],
-                                                  food=items['addBtn'],
-                                                  date=timezone.now(),
-                                                  food_id=food_id)
+                                                food=items['addBtn'],
+                                                date=timezone.now(),
+                                                fdc_id=fdc_id)
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             return HttpResponseRedirect('../login')
