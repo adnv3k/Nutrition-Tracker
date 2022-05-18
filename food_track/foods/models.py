@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from accounts.models import Users
 from django.db import models
 
 
@@ -45,6 +46,7 @@ class SRLegacy(models.Model):
     category = models.CharField(max_length=255)
     publication_date = models.DateField()
     nutrients = models.TextField()
+    favorite = models.ManyToManyField(User, related_name='favorite_sr_legacy')
     objects = models.Manager()
 
 class Branded(models.Model):
@@ -56,4 +58,5 @@ class Branded(models.Model):
     marketCountry = models.CharField(max_length=255)
     nutrients = models.TextField()
     ingredients = models.TextField()
+    favorite = models.ManyToManyField(User, related_name='favorite_branded')
     objects = models.Manager()

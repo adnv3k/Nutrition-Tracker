@@ -1,3 +1,4 @@
+from wsgiref.simple_server import WSGIRequestHandler
 import requests
 import time
 import json
@@ -96,6 +97,9 @@ class SearchResultsView(ListView):
         if len(food_q) <= 0:
             self.allow_empty = True
             return []
+        # else:
+        #     return self.search(query, dataType)
+
         elif food_q.exists():
             cache.set(cached_string, food_q, 60*5)
             return food_q
@@ -108,7 +112,6 @@ class SearchResultsView(ListView):
         context = super(SearchResultsView, self).get_context_data()
         context['username'] = self.request.user.username
         return context
-
 
 def add_food(request):
     if request.method == "POST":
@@ -132,7 +135,10 @@ def add_food(request):
 def favorite_food(request, pk):
     user = request.user
     if request.method == 'POST':
-        food = get_object_or_404(Food, id=pk)
+        if SRLegacy.objects.filter(id=pk).exists():
+            food = get_object_or_404(SRLegacy, id=pk)
+        else:
+            food = get_object_or_404(Branded, id=pk)
         _favorited = user in food.favorite.all()
         if _favorited:
             food.favorite.remove(user)
@@ -140,6 +146,7 @@ def favorite_food(request, pk):
         else:
             food.favorite.add(user)
             return HttpResponse('true')
+            
 # data = open("FoodData_Central_sr_legacy_food_json_2021-10-28.json")
 # data = json.load(data)
 # srlegacyfoods = data["SRLegacyFoods"]
