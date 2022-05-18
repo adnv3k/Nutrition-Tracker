@@ -118,8 +118,6 @@ def add_food(request):
         if request.user.is_authenticated:
             if request.POST.get('addBtn'):
                 items = dict(request.POST.items())
-                print(items['addBtn'])
-                print(f'DIS DA BRAND {request.GET.get("brand")}')
                 try:
                     fdc_id = int(SRLegacy.objects.filter(name=items['addBtn']).values('fdc_id')[0]['fdc_id'])
                 except:
