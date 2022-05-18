@@ -32,6 +32,39 @@ class SearchResultsView(ListView):
     paginate_by = 15
     brandOwner = False
 
+    def get_context_data(self):
+        """Override to return current user's username in the navbar
+        """
+        context = super(SearchResultsView, self).get_context_data()
+        context['username'] = self.request.user.username
+        return context
+
+    def get_queryset(self):
+        q = self.request.GET.get("q")
+        if self.request.GET.get("brand"):
+            dataType = 'Branded'
+        else:
+            dataType = 'SR Legacy'
+        cached_string = f'{q}{dataType}'
+        if cache.get(cached_string):
+            return cache.get(cached_string)
+        vector = SearchVector("name")
+        query = SearchQuery(q)
+        if dataType == 'Branded':
+            food_q = Branded.objects.annotate(
+                rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
+        else:
+            food_q = SRLegacy.objects.annotate(
+                rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
+        if len(food_q) <= 0:
+            self.allow_empty = True
+            return []
+        elif food_q.exists():
+            cache.set(cached_string, food_q, 60*5)
+            return food_q
+        else:
+            return self.search(query, dataType)
+            
     def search(self, query, data_type):
         end_search = ep().end_search(api_key=usda_key, query=query)
         params = end_search[1]
@@ -77,41 +110,7 @@ class SearchResultsView(ListView):
         page_obj = p.get_page(page_num)
         return render(self.request, 'search_results.html', {'page_obj': page_obj})
     
-    def get_queryset(self):
-        q = self.request.GET.get("q")
-        if self.request.GET.get("brand"):
-            dataType = 'Branded'
-        else:
-            dataType = 'SR Legacy'
-        cached_string = f'{q}{dataType}'
-        if cache.get(cached_string):
-            return cache.get(cached_string)
-        vector = SearchVector("name")
-        query = SearchQuery(q)
-        if dataType == 'Branded':
-            food_q = Branded.objects.annotate(
-                rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
-        else:
-            food_q = SRLegacy.objects.annotate(
-                rank=SearchRank(vector, query), search=vector).filter(search=query).order_by('-rank')
-        if len(food_q) <= 0:
-            self.allow_empty = True
-            return []
-        # else:
-        #     return self.search(query, dataType)
 
-        elif food_q.exists():
-            cache.set(cached_string, food_q, 60*5)
-            return food_q
-        else:
-            return self.search(query, dataType)
-
-    def get_context_data(self):
-        """Override to return current user's username in the navbar
-        """
-        context = super(SearchResultsView, self).get_context_data()
-        context['username'] = self.request.user.username
-        return context
 
 def add_food(request):
     if request.method == "POST":
