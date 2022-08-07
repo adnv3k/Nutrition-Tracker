@@ -1,0 +1,8 @@
+Starting without a database:
+Create database "food_base"
+
+Make sure all migrations have an __init__.py in them. 
+Remove any operations in the 000x_initial.py.
+run python .\manage.py createcachetable
+makemigrations
+migrate
