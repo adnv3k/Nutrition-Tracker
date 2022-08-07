@@ -1,7 +1,8 @@
+from genericpath import exists
 from django.shortcuts import render
 from django.views.generic import View
 from django.utils import timezone
-from foods.models import FoodHistory, Food
+from foods.models import Branded, FoodHistory, Food, SRLegacy
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
 
@@ -22,16 +23,19 @@ class ProfileView(View):
             return render(request, 'profile.html', {'daily_goal': 'No foods logged today.'})
 
     def update_history(self):
-        qs = self.model.objects.filter(username=self.request.user.username).values('food_id', 'date')
+        qs = self.model.objects.filter(username=self.request.user.username).values('fdc_id', 'date')
         days = [item['date'] for item in qs]
         for day in days:
             if day.day != timezone.now().day:
                 pass
             else:
-                food_ids = [item['food_id'] for item in qs]
+                food_ids = [item['fdc_id'] for item in qs]
                 nutrients = []
                 for id in food_ids:
-                    nutrients.append(Food.objects.filter(id=id).values('nutrients')[0]['nutrients'])
+                    try:
+                        nutrients.append(SRLegacy.objects.filter(fdc_id=id).values('nutrients')[0]['nutrients'])
+                    except:
+                        nutrients.append(Branded.objects.filter(fdc_id=id).values('nutrients')[0]['nutrients'])
                 return nutrients
 
     def get_age_sex(self):

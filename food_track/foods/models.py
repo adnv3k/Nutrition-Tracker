@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from accounts.models import Users
 from django.db import models
 
 
@@ -33,8 +34,29 @@ class FoodHistory(models.Model):
     username = models.CharField(max_length=255)
     date = models.DateTimeField(auto_now=True)
     food = models.CharField(max_length=255)
-    food_id = models.IntegerField()
+    fdc_id = models.IntegerField()
     objects = models.Manager()
 
     def __str__(self):
         return self.username
+
+class SRLegacy(models.Model):
+    name = models.CharField(max_length=255)
+    fdc_id = models.IntegerField()
+    category = models.CharField(max_length=255)
+    publication_date = models.DateField()
+    nutrients = models.TextField()
+    favorite = models.ManyToManyField(User, related_name='favorite_sr_legacy')
+    objects = models.Manager()
+
+class Branded(models.Model):
+    brandOwner = models.CharField(max_length=255, default=False)
+    name = models.TextField()
+    fdc_id = models.IntegerField()
+    category = models.TextField()
+    publication_date = models.DateField()
+    marketCountry = models.CharField(max_length=255)
+    nutrients = models.TextField()
+    ingredients = models.TextField()
+    favorite = models.ManyToManyField(User, related_name='favorite_branded')
+    objects = models.Manager()

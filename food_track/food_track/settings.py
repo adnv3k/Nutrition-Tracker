@@ -87,7 +87,18 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'food_base',
         'USER': 'postgres',
-        'PASSWORD': DB_KEY
+        'PASSWORD': DB_KEY,
+    }
+}
+
+CACHES = {
+    'default': {
+        # filebased
+        # 'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        # 'LOCATION': f'{BASE_DIR}/cache'
+        # database
+        'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
+        'LOCATION': 'cache_table',
     }
 }
 
