@@ -143,7 +143,7 @@ def favorite_food(request, pk):
         else:
             food.favorite.add(user)
             return HttpResponse('true')
-            
+# Migrate SR Legacy foods
 # data = open("FoodData_Central_sr_legacy_food_json_2021-10-28.json")
 # data = json.load(data)
 # srlegacyfoods = data["SRLegacyFoods"]
@@ -196,6 +196,7 @@ def favorite_food(request, pk):
 #     count += 1
 #     print(f'Finished SRLegacy: {count}')
 
+# Migrate Branded foods
 # data = open("FoodData_Central_branded_food_json_2022-04-28.json", encoding='mbcs')
 # data = json.load(data)
 # brandedfoods = data["BrandedFoods"]
