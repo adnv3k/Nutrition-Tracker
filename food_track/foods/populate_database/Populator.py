@@ -1,7 +1,12 @@
+'''
+Class with methods to import data from USDA's data files to appropriate tables.
+'''
 import json
 
 class Populator():
-    def import_sr_legacy(self):
+    def migrate_sr_legacy(self):
+        """Migrates data to foods_srlegacy table.
+        """
         data = open("FoodData_Central_sr_legacy_food_json_2021-10-28.json")
         data = json.load(data)
         srlegacyfoods = data["SRLegacyFoods"]
@@ -54,7 +59,9 @@ class Populator():
             count += 1
             print(f'Finished SRLegacy: {count}')
             
-    def import_branded(self):
+    def migrate_branded(self):
+        """Migrates data to foods_branded table.
+        """
         data = open("FoodData_Central_branded_food_json_2022-04-28.json", encoding='mbcs')
         data = json.load(data)
         brandedfoods = data["BrandedFoods"]
