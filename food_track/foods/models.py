@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -6,6 +7,8 @@ class Food(models.Model):
     name = models.CharField(max_length=255)
     nutrients = models.TextField()
     dataType = models.CharField(max_length=15, default='SR Legacy')
+    brandOwner = models.CharField(max_length=255, default=False)
+    favorite = models.ManyToManyField(User, related_name='favorite_food')
     objects = models.Manager()
 
     class Meta:
@@ -28,9 +31,9 @@ class Nutrients(models.Model):
 
 class FoodHistory(models.Model):
     username = models.CharField(max_length=255)
-    food = models.CharField(max_length=255)
-    nutrients = models.TextField()
     date = models.DateTimeField(auto_now=True)
+    food = models.CharField(max_length=255)
+    food_id = models.IntegerField()
     objects = models.Manager()
 
     def __str__(self):

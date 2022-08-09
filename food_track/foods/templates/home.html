@@ -1,16 +1,19 @@
+{% load static %}
+
 <!DOCTYPE html>
 <head>
-    <!-- Boostrap CSS CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
-          integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{% static 'foods/css/styles.css' %}">
+
 </head>
 
-<title>Food-tracker Home</title>
+<title>Food-Tracker Home</title>
 
 <body>
-<!-- Boostrap Navbar -->
+<!-- Bootstrap Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href=".">Navbar</a>
+    <a class="navbar-brand" href=".">{{ username }}</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -30,7 +33,7 @@
                     Account
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="login">Login</a>
+                    <a class="dropdown-item" href="/login">Login</a>
                     <a class="dropdown-item" href="/register">Register</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="/logout">Logout</a>
@@ -46,14 +49,28 @@
         <!--        </form>-->
     </div>
 </nav>
-<!-- Our content -->
-<form action="{% url 'search_results' %}" method="GET">
-    <input name="q" type="text" placeholder="Search...">
-    <span class='input-group-btn'>
-        <button class="btn btn-outline-success" type="submit">Search</button></span>
-
-</form>
-<!-- Boostrap JS CDN -->
+<!-- content -->
+<section id="cover" class="min-vh-100">
+    <div id="cover-caption">
+        <div class="box">
+            <div class="row text-white">
+                <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto text-center form p-4">
+                    <h1 class="display-4 py-2 text-truncate">Search</h1>
+                    <form class="justify-content-center" action="{% url 'search_results' %}" method="GET">
+                        <div class="form-group">
+                            <input name="q" id="search" type="text" placeholder="Search...">
+                        </div>
+                        <span class='input-group-btn'><button class="btn btn-primary" type="submit">Search
+                        </button></span>
+                        <input type="checkbox" id="brand" name="brand" value="Branded">
+                        <label for="brand">Branded</label><br>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Bootstrap JS CDN -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>

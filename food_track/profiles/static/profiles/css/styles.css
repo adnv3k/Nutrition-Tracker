@@ -1,0 +1,41 @@
+body {
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+  color:white;
+  background: #0d0c2d;
+  font-family: sans-serif;
+  display: flex;
+}
+.box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+.chart {
+  position: relative;
+  display: inline-block;
+  width: 110px;
+  height: 150px;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  text-align: center;
+}
+.chart canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.percent {
+  display: inline-block;
+  line-height: 180px;
+  margin-left: 60%;
+  font-size: 1.5em;
+  z-index: 2;
+}
+.percent:after {
+  content: '%';
+  margin-left: 0.1em;
+  font-size: 1em;
+}

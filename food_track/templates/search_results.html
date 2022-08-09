@@ -1,63 +1,109 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
+<head>
+    <link rel="stylesheet" href="{% static 'foods/css/styles.css' %}">
 
-{% if error %}
-{{ error }}
-{% endif %}
-<br/>
-<br/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://kit.fontawesome.com/3929e16ef5.js" crossorigin="anonymous"></script>
+    <script src="{% static 'foods/js/scripts.js' %}"></script>
+
+</head>
+<body>
 <h1>Search Results</h1>
 <form action="{% url 'search_results' %}" method="get">
     <input name="q" type="text" placeholder="Search...">
     <span class='input-group-btn'>
-        <button class="btn btn-outline-success" type="submit">Search</button></span>
+            <button class="1btn btn-outline-success" type="submit">Search</button></span>
     <input type="checkbox" id="brand" name="brand" value="Branded">
     <label for="brand">Branded</label><br>
 
 </form>
+
 <h4 name="results">Results</h4>
-<div class="pagination">
-    <span class="step-links">
-        {% if page_obj.has_previous %}
-            <a href="{{ request.get_full_path }}&page=1">&laquo; first</a>
-            <a href="{{ request.get_full_path }}&page={{ page_obj.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-        </span>
-
-        {% if page_obj.has_next %}
-            <a href="{{ request.get_full_path }}&page={{ page_obj.next_page_number }}">next</a>
-            <a href="{{ request.get_full_path }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
-</div>
 <table border="1" style="display: block; width: 100%;">
     <thead>
+    </thead>
+    {% if page_obj %}
     <tr>
         <th>Foods</th>
         <th>Nutrients</th>
     </tr>
-    </thead>
+    {% if page_obj is not None and page_obj|length > 0 %}
+
     <tbody>
+    <p>Total results: {{ page_obj.paginator.count }}</p>
     {% for f in page_obj %}
     <tr>
+        <form method="POST" action="{% url 'favorite_food' pk=f.id %}" id="favorite_food_form">
+            {% csrf_token %}
+        </form>
         <form method="POST" action="{% url 'add_food' %}" id="add_food_form">
             {% csrf_token %}
+            {% if f.brandOwner|stringformat:"s" != 'False' %}
             <td>
                 <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
+                <button class="btn btn-danger-outline btn-sm" form="favorite_food_form" type="button" name="favBtn"
+                        value="{{ f.id }}">
+                    {% if request.user in f.favorite.all %}
+                    <i class="heart fa fa-heart" aria-hidden="true" id="{{ f.id }}"></i>
+                    {% else %}
+                    <i class="heart fa fa-heart-o" aria-hidden="true" id="{{ f.id }}"></i>
+                    {% endif %}
+                </button>
                 <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
                 <input type="hidden" name="username" value="{{ user.username }}">
-                {{ f.name }}
+                <p>{{ f.brandOwner }} - {{ f.name }}</p>
             </td>
+            {% else %}
+            <td>
+                <button type="submit" name="addBtn" value="{{ f.name }}">Add</button>
+                <button class="btn btn-danger-outline btn-sm" form="favorite_food_form" type="button" name="favBtn"
+                        value="{{ f.id }}">
+                    {% if request.user in f.favorite.all %}
+                    <i class="heart fa fa-heart" aria-hidden="true" id="{{ f.id }}"></i>
+                    {% else %}
+                    <i class="heart fa fa-heart-o" aria-hidden="true" id="{{ f.id }}"></i>
+                    {% endif %}
+                </button>
+                <input type="hidden" name="nutrients" value="{{ f.nutrients }}">
+                <input type="hidden" name="username" value="{{ user.username }}">
+                <p>{{ f.name }}</p>
+            </td>
+            {% endif %}
             <td>
                 {{ f.nutrients }}
             </td>
         </form>
     </tr>
     {% endfor %}
+    {% else %}
+    <p>No results found.</p>
+    {% endif %}
     </tbody>
 </table>
+
+{% if is_paginated %}
+<div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+            <a href="?q={{ request.GET.q }}&page=1">&laquo; first</a>
+            <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </span>
+
+            {% if page_obj.has_next %}
+            <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">next</a>
+            <a href="?q={{ request.GET.q }}&page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+</div>
+{% endif %}
+{% endif %}
+
 {% endblock %}
+</body>

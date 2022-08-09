@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.utils import timezone
-from foods.models import FoodHistory
+from foods.models import FoodHistory, Food
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
+
 import ast
 import string
 
@@ -21,13 +22,17 @@ class ProfileView(View):
             return render(request, 'profile.html', {'daily_goal': 'No foods logged today.'})
 
     def update_history(self):
-        qs = self.model.objects.filter(username=self.request.user.username).values('nutrients', 'date')
+        qs = self.model.objects.filter(username=self.request.user.username).values('food_id', 'date')
         days = [item['date'] for item in qs]
         for day in days:
             if day.day != timezone.now().day:
                 pass
             else:
-                return qs
+                food_ids = [item['food_id'] for item in qs]
+                nutrients = []
+                for id in food_ids:
+                    nutrients.append(Food.objects.filter(id=id).values('nutrients')[0]['nutrients'])
+                return nutrients
 
     def get_age_sex(self):
         qs = self.current_user.objects.filter(
@@ -38,7 +43,6 @@ class ProfileView(View):
         # Get history
         history = self.update_history()
         print(f'history = {history}\n')
-        history = [item['nutrients'] for item in history]
         # Get age and sex
         age_sex = self.get_age_sex()
         print(age_sex[0]['id'])
@@ -88,7 +92,7 @@ class ProfileView(View):
         for nutrient in [*percentages]:
             if percentages[nutrient] >= 100:
                 overages[nutrient] = percentages[nutrient]
-                percent_sum += 100 # Excludes excess percentage
+                percent_sum += 100  # Excludes excess percentage
             else:
                 deficits[nutrient] = percentages[nutrient]
                 percent_sum += percentages[nutrient]
