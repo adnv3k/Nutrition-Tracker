@@ -11,20 +11,25 @@
         <div class="chart" data-percent="{{ daily_goal }}">
             <div class="percent"></div>
         </div>
-        <table border="1" style="display: block; width: 100%;">
+        <table class='current' border="1" style="display: block; width: 100%;">
             <thead>
             <tr>
-                <th>Nutrients</th>
+                <th>Nutrients - {{ date }}</th>
                 <th>Amount</th>
+                <th>Goal</th>
             </tr>
             </thead>
             <tbody class="labels">
+            {% for k, v in today_total.items %}
             <tr>
-                <td class="macro_goal">{% for f in macro_goal %}</td>
-                {% endfor %}
+                <td class="name">{{ k }}</td>
+                <td class="amount">{{ v }}</td>
+                <td class="goal">{{ goal }}</td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
+
     </div>
         <div class="foodhistory">{{ foodhistory }}</div>
     </div>

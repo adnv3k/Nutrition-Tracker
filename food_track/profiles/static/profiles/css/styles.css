@@ -39,3 +39,6 @@ body {
   margin-left: 0.1em;
   font-size: 1em;
 }
+[data-toggle="toggle"] {
+	display: none;
+}

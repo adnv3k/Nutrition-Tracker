@@ -31,7 +31,7 @@ class Nutrients(models.Model):
 
 class FoodHistory(models.Model):
     username = models.CharField(max_length=255)
-    date = models.DateTimeField(auto_now=True)
+    date = models.DateTimeField(auto_now=False)
     food = models.CharField(max_length=255)
     food_id = models.IntegerField()
     objects = models.Manager()
