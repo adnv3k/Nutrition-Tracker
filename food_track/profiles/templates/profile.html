@@ -24,7 +24,7 @@
             <tr>
                 <td class="name">{{ k }}</td>
                 <td class="amount">{{ v }}</td>
-                <td class="goal">{{ goal }}</td>
+                <td class="goal">{{ goal|lookup:k }}</td>
             </tr>
             {% endfor %}
             </tbody>

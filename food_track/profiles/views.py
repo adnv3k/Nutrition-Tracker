@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import View
 from django.utils import timezone
+from django.template.defaulttags import register
 from foods.models import FoodHistory, Food
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
@@ -18,7 +19,6 @@ class ProfileView(View):
 
     today_total = {}
     today_goal = {}
-    extra_nutrients = {}
 
     def get(self, request):
         try:
@@ -31,7 +31,6 @@ class ProfileView(View):
 
     def update_history(self):
         qs = self.model.objects.filter(username=self.request.user.username).values('food_id', 'date')
-
         food_ids = [item['food_id'] for item in qs if item['date'].day == timezone.now().day]
         nutrients = []
         for id in food_ids:
@@ -42,9 +41,6 @@ class ProfileView(View):
         qs = self.current_user.objects.filter(
             username=self.request.user.username).values('age', "sex", 'id')
         return qs
-
-    def _extra_nutrients(self):
-        return self.extra_nutrients
 
     def current_date(self):
         d = datetime.date.today()
@@ -70,7 +66,7 @@ class ProfileView(View):
                 # Get int value
                 for i, char in enumerate(nutrient[1]):
                     if char in string.digits:
-                        nutrient_amount = float(nutrient[1][:i+1])
+                        nutrient_amount = float(nutrient[1][:i + 1])
                 # Add to balance
                 if nutrient_balance.get(nutrient[0]):
                     nutrient_balance[nutrient[0]] += nutrient_amount
@@ -87,6 +83,13 @@ class ProfileView(View):
                 if type(goal[category][goal_nutrient]) != type(str()):
                     goal_nutrient_key = goal_nutrient.split(" (")
                     goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+                else:
+                    goal_nutrient_key = goal_nutrient.split(" (")
+                    goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+                    key = goal_dict[goal_nutrient_key[0]]
+                    print(key.split('-'))
+                    avg = (sum(key) / len(key.split('-')))
+                    print(avg)
         # Calculate percentages
         for goal_nutrient in [*goal_dict]:
             for nutrient in [*nutrient_balance]:
@@ -108,22 +111,28 @@ class ProfileView(View):
                 deficits[nutrient] = percentages[nutrient]
                 percent_sum += percentages[nutrient]
 
+        self.today_goal = goal_dict
         important_ = ['Protein', 'Carbohydrate, by difference', 'Total lipid (fat)']
-        goal_ = ['Protein (g)', 'Carbohydrate (g)', 'Total lipid (% kcal)']
+        for k1, v1 in nutrient_balance.items():
+            if any(x == k1 for x in important_):
+                self.today_total[k1] = round(v1)
         # print(f'goal_dict = {goal_dict}\n')
         # print(f'nutrient_balance = {nutrient_balance}\n')
         # print(f'percentages = {percentages}\n')
         # print(f'overages: {overages}')
         # print(f'deficits: {deficits}')
         # print(f'You are exceeding your daily reccommended amounts of:')
-        for nutrient in [*overages]:
-            pass
-            # print(f'{nutrient} by {(overages[nutrient]-100)}%')
-        # print('\n')
+        # for nutrient in [*overages]:
+        #     print(f'{nutrient} by {(overages[nutrient]-100)}%')
+        # # print('\n')
         # print(f'You are under your daily reccommended amounts of:')
-        for nutrient in [*deficits]:
-            pass
-            # print(f'{nutrient} by {(100-deficits[nutrient])}%')
-        percent_sum = percent_sum / len(percentages)
+        # for nutrient in [*deficits]:
+        #     print(f'{nutrient} by {(100-deficits[nutrient])}%')
+        percent_sum = percent_sum / len(percentages)  # fix division by zero error if no foods logged
         percent_sum = f'{percent_sum:.2f}'  # Includes zero at the end
         return percent_sum
+
+
+@register.filter
+def lookup(dictionary, key):
+    return dictionary.get(key)
