@@ -5,7 +5,6 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.shortcuts import render, HttpResponse, HttpResponseRedirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, View
-from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank

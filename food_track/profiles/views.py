@@ -9,6 +9,7 @@ from accounts.models import Users
 import ast
 import string
 import datetime
+from statistics import mean
 
 
 # Create your views here.
@@ -17,15 +18,18 @@ class ProfileView(View):
     model = FoodHistory
     current_user = Users
 
+    macro_goal = {}
     today_total = {}
+    today_total_2 = {}
     today_goal = {}
+    units = {}
 
     def get(self, request):
         try:
             return render(request, 'profile.html', {'daily_goal': self.daily_goal(),
-                                                    'today_total': self.today_total,
+                                                    'today_total': self.today_total_2,
                                                     'date': self.current_date(),
-                                                    'goal': self.today_goal})
+                                                    'goal': self.macro_goal})
         except TypeError:
             return render(request, 'profile.html', {'daily_goal': 'No foods logged today.'})
 
@@ -83,13 +87,13 @@ class ProfileView(View):
                 if type(goal[category][goal_nutrient]) != type(str()):
                     goal_nutrient_key = goal_nutrient.split(" (")
                     goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
+                    self.units[goal_nutrient_key[0]] = goal_nutrient_key[1].replace(')', '')
                 else:
                     goal_nutrient_key = goal_nutrient.split(" (")
-                    goal_dict[goal_nutrient_key[0]] = goal[category][goal_nutrient]
-                    key = goal_dict[goal_nutrient_key[0]]
-                    print(key.split('-'))
-                    avg = (sum(key) / len(key.split('-')))
-                    print(avg)
+                    if goal_nutrient_key[0] == 'Total lipid':
+                        avg = [eval(z) for z in goal[category][goal_nutrient].split('-')]
+                        goal_dict[goal_nutrient_key[0]] = (avg[0] + avg[1]) / 2
+                        self.units[goal_nutrient_key[0]] = goal_nutrient_key[1].replace(')', '')
         # Calculate percentages
         for goal_nutrient in [*goal_dict]:
             for nutrient in [*nutrient_balance]:
@@ -115,7 +119,19 @@ class ProfileView(View):
         important_ = ['Protein', 'Carbohydrate, by difference', 'Total lipid (fat)']
         for k1, v1 in nutrient_balance.items():
             if any(x == k1 for x in important_):
-                self.today_total[k1] = round(v1)
+                if k1.startswith('Carbohydrate'):
+                    self.today_total['Carbohydrate'] = round(v1)
+                elif k1.startswith('Total'):
+                    self.today_total['Total lipid'] = round(v1)
+                else:
+                    self.today_total[k1] = round(v1)
+
+        print(self.today_goal)
+        for k, v in self.today_goal.items():
+            self.macro_goal[k] = f'{v}{self.units[k]}'
+        print(self.macro_goal)
+        for k1, v1 in self.today_total.items():
+            self.today_total_2[k1] = f'{v1}{self.units[k1]}'
         # print(f'goal_dict = {goal_dict}\n')
         # print(f'nutrient_balance = {nutrient_balance}\n')
         # print(f'percentages = {percentages}\n')
