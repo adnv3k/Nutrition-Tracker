@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 from django.contrib.postgres.operations import UnaccentExtension, TrigramExtension
+from django.core.exceptions import MultipleObjectsReturned
 
 from .models import Food, FoodHistory
 from .endpoints import Endpoints as ep
@@ -50,6 +51,7 @@ class SearchResultsView(ListView):
             self.allow_empty = True
             return []
         food_l = []
+        print(food_query.json())
         for food in food_query.json():
             nutrients_unformat = food['foodNutrients']
             nutrients_clean = []
@@ -67,8 +69,12 @@ class SearchResultsView(ListView):
                     name=food['description'], nutrients=nutrients_clean,
                     dataType=params['dataType'], brandOwner=brand_owner)
             else:
-                Food.objects.get_or_create(
-                    name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
+                try:
+                    Food.objects.get_or_create(
+                        name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
+                except MultipleObjectsReturned:
+                    Food.objects.filter(
+                        name=food['description'], nutrients=nutrients_clean, dataType=params['dataType'])
 
     def get_queryset(self):
         q = self.request.GET.get("q")
