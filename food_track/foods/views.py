@@ -51,7 +51,6 @@ class SearchResultsView(ListView):
             self.allow_empty = True
             return []
         food_l = []
-        print(food_query.json())
         for food in food_query.json():
             nutrients_unformat = food['foodNutrients']
             nutrients_clean = []
