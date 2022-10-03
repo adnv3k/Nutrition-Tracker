@@ -11,7 +11,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 import os.path
 from pathlib import Path
-
+import importlib
+module_name = 'templatetags'
+special_module = importlib.import_module(module_name, package='.\templatetags')
 from decouple import config
 
 SECRET_KEY = config('SECRET_KEY')
@@ -44,7 +46,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'foods',
     'accounts.apps.AccountsConfig',
-    'profiles'
+    'profiles',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -73,6 +75,9 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+            'libraries': {
+                'templatetags': 'templatetags.search_extras'
+            }
         },
     },
 ]

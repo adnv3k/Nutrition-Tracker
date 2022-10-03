@@ -28,7 +28,7 @@ def register(request):
             user = Users.objects.create_user(
                 username=request.POST['username'],
                 password=request.POST['password1'],
-                sex=request.POST['sex'],
+                sex=request.POST['sex'].upper(),
                 age=request.POST['age'])
             auth.login(request, user)
             return redirect('home')
