@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load templatetags %}
 
 {% block content %}
 <head>
@@ -13,7 +14,9 @@
 <body>
 <h1>Search Results</h1>
 <form action="{% url 'search_results' %}" method="get">
-    <input name="q" type="text" placeholder="Search...">
+    {% with query=request.get_full_path|cut:'/search/?q='%}
+    <input name="q" type="text" value="{{ query|process_qry }}">
+    {% endwith %}
     <span class='input-group-btn'>
             <button class="1btn btn-outline-success" type="submit">Search</button></span>
     <input type="checkbox" id="brand" name="brand" value="Branded">
