@@ -46,8 +46,8 @@ jobs:
     - name: Connect to PostgreSQL
       # Runs a script that creates a PostgreSQL table, populates
       # the table with data, and then retrieves the data. todo
-      run:
-        service postgresql start
+      run: |
+        sudo service postgresql start
       env:
         # The hostname used to communicate with the PostgreSQL service container
         POSTGRES_HOST: postgres
