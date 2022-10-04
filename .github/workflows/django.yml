@@ -30,11 +30,12 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
         python -m pip install -r requirements.txt
     - name: Run Tests
       run: |
         python ./food_track/manage.py test
+      test: |
+        start postgres service
     - name: Startserver
       run: |
         python ./food_track/manage.py runserver
