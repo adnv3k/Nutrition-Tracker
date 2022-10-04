@@ -49,24 +49,26 @@ jobs:
       with:
         postgresql user: postgres
         postgresql password: ${{ secrets.DB_KEY }}
+        postgresql db: 'food_base'
+        postgresql host: localhost
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
+        # sudo apt install postgresql
       run: |
-        sudo apt install postgresql
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
-    - name: Run Tests
-      run: 
-        python ./food_track/manage.py test
+    # - name: Run Tests
+    #   run: 
+    #     python ./food_track/manage.py test
     - name: Connect to PostgreSQL
         # python ./config/client.py
       run: | 
         sudo service postgresql start
         sudo -u postgres psql
-    - name: Migrations
-      run: |
-        python ./food_track/manage.py makemigrations
-        python ./food_track/manage.py migrate
+    # - name: Migrations
+    #   run: |
+    #     python ./food_track/manage.py makemigrations
+    #     python ./food_track/manage.py migrate
     - name: Startserver
       run: 
         python ./food_track/manage.py runserver
