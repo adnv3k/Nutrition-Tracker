@@ -77,5 +77,4 @@ jobs:
         # sudo service postgresql restart
       run: |
         sudo service postgresql start
-        sudo -u postgres psql
         python ./food_track/manage.py runserver --noreload
