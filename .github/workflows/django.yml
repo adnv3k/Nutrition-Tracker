@@ -60,6 +60,7 @@ jobs:
       run: | 
         sudo service postgresql start
         sudo -u postgres psql
+        ${{ secrets.DB_KEY }}
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
