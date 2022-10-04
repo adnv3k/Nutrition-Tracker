@@ -63,7 +63,7 @@ jobs:
         # python ./config/client.py
       run: | 
         sudo service postgresql start
-        sudo -U postgres psql
+        sudo -u postgres psql
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
