@@ -2,8 +2,7 @@ from genericpath import exists
 from django.shortcuts import render
 from django.views.generic import View
 from django.utils import timezone
-from sqlalchemy import false, true
-from foods.models import Branded, FoodHistory, Food, SRLegacy
+from foods.models import Branded, FoodHistory, SRLegacy
 from .nutritional_goals import DailyNutrients
 from accounts.models import Users
 
