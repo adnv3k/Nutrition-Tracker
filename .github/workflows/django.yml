@@ -45,9 +45,12 @@ jobs:
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
+    - uses: harmon758/postgresql-action@v1
+      with:
+        postgresql version: '12'
     - name: Install Dependencies
       run: |
-        sudo apt-get -y install postgresql-12
+        # sudo apt-get -y install postgresql-12
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
     - name: Run Tests
@@ -65,4 +68,4 @@ jobs:
     #     python ./food_track/manage.py migrate
     - name: Startserver
       run: 
-        python ./food_track/manage.py runserver
+        python ./food_track/manage.py runserver -y
