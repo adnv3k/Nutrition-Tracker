@@ -46,6 +46,9 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - uses: harmon758/postgresql-action@v1
+      with:
+        postgresql user: postgres
+        postgresql password: ${{ secrets.DB_KEY }}
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
       run: |
@@ -60,7 +63,6 @@ jobs:
       run: | 
         sudo service postgresql start
         sudo -u postgres psql
-        ${{ secrets.DB_KEY }}
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
