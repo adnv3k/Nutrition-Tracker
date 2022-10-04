@@ -29,9 +29,9 @@ jobs:
           POSTGRES_DB: food_base
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
-          POSTGRES_PORT: 5432
-        ports:
-          - 5432:5432
+        #   POSTGRES_PORT: 5432
+        # ports:
+        #   - 5432:5432
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
