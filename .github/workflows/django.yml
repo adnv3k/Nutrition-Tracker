@@ -57,8 +57,8 @@ jobs:
     - name: Connect to PostgreSQL
         # python ./config/client.py
       run: | 
-        sudo -u postgres psql
         sudo service postgresql start
+        sudo -u postgres psql
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
