@@ -7,7 +7,9 @@ def process_qry(value):
     res = ""
     i = 0
     while i < len(value):
-        if value[i] == '+':
+        if value[i] == '&':
+            return res
+        elif value[i] == '+':
             res += " "
         elif value[i] == '%':
             punctuation = value[i:i+3]
@@ -17,13 +19,15 @@ def process_qry(value):
                 res += "'"
             elif punctuation == '%21':
                 res += "!"
+            elif punctuation == '%26':
+                res += "&"
+            elif punctuation == "%3A":
+                res += ":"
             else:
                 i += 1
                 continue
             i += 3
             continue
-        elif value[i] == '&':
-            return res
         else:
             res += value[i]
         i += 1

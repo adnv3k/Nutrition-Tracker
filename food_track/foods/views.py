@@ -69,7 +69,6 @@ class SearchResultsView(ListView):
         end_search = ep().end_search(api_key=usda_key, query=query)
         params = end_search[1]
         url = end_search[0]
-        qry = query
         params['dataType'] = data_type
         start = time.time()
         while True:
