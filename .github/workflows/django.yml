@@ -1,6 +1,7 @@
 name: Django CI
 env:
   POSTGRES_HOST: localhost
+  DB_HOST: localhost
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
 on:
@@ -26,6 +27,7 @@ jobs:
         image: postgres
         # Provide the password for postgres
         env:
+          POSTGRES_DB: food_base
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
         ports:
