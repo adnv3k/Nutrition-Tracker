@@ -59,12 +59,10 @@ jobs:
       run: 
         # python ./config/client.py
         sudo service postgresql start
-    - name: Collect static
-      run: python ./food_track/manage.py collectstatic --noinput
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
     #     python ./food_track/manage.py migrate
     - name: Startserver
-      run: |
+      run: 
         python ./food_track/manage.py runserver
