@@ -46,10 +46,10 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - uses: harmon758/postgresql-action@v1
-      # with:
-        # postgresql db: 'food_base'
-        # postgresql user: postgres
-        # postgresql password: ${{ secrets.DB_KEY }}
+      with:
+        postgresql db: 'food_base'
+        postgresql user: postgres
+        postgresql password: ${{ secrets.DB_KEY }}
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
         # sudo apt install postgresql-12
@@ -59,11 +59,11 @@ jobs:
     # - name: Run Tests
     #   run: 
     #     python ./food_track/manage.py test
-    - name: Connect to PostgreSQL
-        # python ./config/client.py
-      run: | 
-        sudo service postgresql start
-        sudo -u postgres psql
+    # - name: Connect to PostgreSQL
+    #     # python ./config/client.py
+    #   run: | 
+    #     sudo service postgresql start
+    #     sudo -u postgres psql
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
