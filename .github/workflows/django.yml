@@ -27,6 +27,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python /food_track/manage.py test
-    - name: Cache
-      uses: actions/cache@v3.0.10
+        python ./food_track/manage.py test
