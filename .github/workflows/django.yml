@@ -33,11 +33,11 @@ jobs:
         # ports:
         #   - 5432:5432
         # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        # options: >-
+        #   --health-cmd pg_isready
+        #   --health-interval 10s
+        #   --health-timeout 5s
+        #   --health-retries 5
     steps:
     - name: Checkout repo code
       uses: actions/checkout@v3
@@ -53,17 +53,17 @@ jobs:
         postgresql password: ${{ secrets.DB_KEY }}
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
-        # sudo apt install postgresql
       run: |
-        python -m pip install --upgrade pip
-        python -m pip install -r requirements.txt
+        sudo apt install postgresql-12
+      # python -m pip install --upgrade pip
+      # python -m pip install -r requirements.txt
     # - name: Run Tests
     #   run: 
     #     python ./food_track/manage.py test
     - name: Connect to PostgreSQL
         # python ./config/client.py
       run: | 
-        sudo service postgresql restart
+        sudo service postgresql start
         sudo -u postgres psql
     # - name: Migrations
     #   run: |
