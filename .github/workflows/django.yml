@@ -47,11 +47,10 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - uses: harmon758/postgresql-action@v1
       with:
+        postgres version: "12"
+        postgresql db: 'food_base'
         postgresql user: postgres
         postgresql password: ${{ secrets.DB_KEY }}
-        postgresql db: 'food_base'
-        postgresql host: localhost
-        postgresql port: 5432
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
         # sudo apt install postgresql
