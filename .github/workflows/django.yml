@@ -65,8 +65,8 @@ jobs:
     #   run: | 
     #     sudo service postgresql start
     #     sudo -u postgres psql
-    # - run: 
-    #     sudo service postgresql start
+    - run: 
+        sudo service postgresql start
     # - run: 
     #     sudo service postgresql status
     # - name: Migrations
@@ -74,7 +74,7 @@ jobs:
     #     python ./food_track/manage.py makemigrations
     #     python ./food_track/manage.py migrate
     - name: Startserver
+        # sudo service postgresql start
         # sudo service postgresql restart
-      run: |
-        sudo service postgresql start
-        python ./food_track/manage.py runserver --noreload
+      run: 
+        python ./food_track/manage.py runserver
