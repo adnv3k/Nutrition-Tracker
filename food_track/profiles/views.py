@@ -25,19 +25,14 @@ class ProfileView(View):
 
     def update_history(self):
         qs = self.model.objects.filter(username=self.request.user.username).values('fdc_id', 'date')
-        days = [item['date'] for item in qs]
-        for day in days:
-            if day.day != timezone.now().day:
-                pass
-            else:
-                food_ids = [item['fdc_id'] for item in qs]
-                nutrients = []
-                for id in food_ids:
-                    try:
-                        nutrients.append(SRLegacy.objects.filter(fdc_id=id).values('nutrients')[0]['nutrients'])
-                    except:
-                        nutrients.append(Branded.objects.filter(fdc_id=id).values('nutrients')[0]['nutrients'])
-                return nutrients
+        food_ids = [item['fdc_id'] for item in qs if item['date'].day == timezone.now().day]
+        nutrients = []
+        for id in food_ids:
+            try:
+                nutrients.append(SRLegacy.objects.filter(fdc_id=id).values('nutrients')[0]['nutrients'])
+            except:
+                nutrients.append(Branded.objects.filter(fdc_id=id).values('nutrients')[0]['nutrients'])
+        return nutrients
 
     def get_age_sex(self):
         qs = self.current_user.objects.filter(
