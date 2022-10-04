@@ -57,8 +57,7 @@ jobs:
       # Runs a script that creates a PostgreSQL table, populates
       # the table with data, and then retrieves the data. todo
       run: |
-        sudo service postgresql start
-        # python ./config/client.py
+        python ./config/client.py
       # env:
       #   # The hostname used to communicate with the PostgreSQL service container
       #   POSTGRES_HOST: postgres
