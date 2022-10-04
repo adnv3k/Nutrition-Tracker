@@ -57,9 +57,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
-    - name: Run Tests
-      run: 
-        python ./food_track/manage.py test
+    # - name: Run Tests
+    #   run: 
+    #     python ./food_track/manage.py test
     # - name: Connect to PostgreSQL
     #     # python ./config/client.py
     #   run: | 
@@ -69,7 +69,11 @@ jobs:
     #   run: |
     #     python ./food_track/manage.py makemigrations
     #     python ./food_track/manage.py migrate
+    - run:
+        sudo service postgresql status
+        sudo service postgresql start
+        sudo service postgresql status
     - name: Startserver
         # sudo service postgresql restart
       run: |
-        python ./food_track/manage.py runserver --noreload
+        python ./food_track/manage.py runserver
