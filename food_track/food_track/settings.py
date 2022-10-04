@@ -93,7 +93,6 @@ DATABASES = {
         'PASSWORD': DB_KEY,
         "HOST": "localhost",
         "PORT": 5432
-
     }
 }
 

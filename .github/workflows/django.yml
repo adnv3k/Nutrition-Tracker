@@ -49,6 +49,7 @@ jobs:
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
       run: |
+        sudo apt install postgresql
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
     - name: Run Tests
