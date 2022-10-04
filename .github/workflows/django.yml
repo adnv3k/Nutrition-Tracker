@@ -30,6 +30,7 @@ jobs:
           POSTGRES_DB: food_base
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
+          POSTGRES_PORT: 5432
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
@@ -63,10 +64,10 @@ jobs:
       #   POSTGRES_HOST: postgres
       #   # The default PostgreSQL port
       #   POSTGRES_PORT: 5432
-    - name: Migrations
-      run: |
-        python ./food_track/manage.py makemigrations
-        python ./food_track/manage.py migrate
+    # - name: Migrations
+    #   run: |
+    #     python ./food_track/manage.py makemigrations
+    #     python ./food_track/manage.py migrate
     - name: Startserver
       run: |
         python ./food_track/manage.py runserver
