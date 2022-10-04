@@ -21,7 +21,6 @@ jobs:
             image: postgres:12
             ports:
             - 5432:5432
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
@@ -36,3 +35,6 @@ jobs:
     - name: Run Tests
       run: |
         python ./food_track/manage.py test
+    - name: Startserver
+      run: |
+        python ./food_track/manage.py runserver
