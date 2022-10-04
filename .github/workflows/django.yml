@@ -23,7 +23,7 @@ jobs:
     services:
       postgres:
         # Docker Hub image
-        image: postgres
+        image: postgres:12
         # Provide the password for postgres
         env:
           POSTGRES_DB: food_base
