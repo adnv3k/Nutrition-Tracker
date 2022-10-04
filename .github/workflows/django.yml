@@ -50,6 +50,7 @@ jobs:
         postgresql db: 'food_base'
         postgresql user: postgres
         postgresql password: ${{ secrets.DB_KEY }}
+        
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
         # sudo apt install postgresql-12
@@ -69,5 +70,6 @@ jobs:
     #     python ./food_track/manage.py makemigrations
     #     python ./food_track/manage.py migrate
     - name: Startserver
-      run: 
+      run: |
+        sudo service postgresql start
         python ./food_track/manage.py runserver
