@@ -58,9 +58,9 @@ jobs:
       # the table with data, and then retrieves the data. todo
       run: 
         # python ./config/client.py
-        service postgresql start
+        sudo service postgresql start
     - name: Collect static
-      run: python ./food_track/manage.py collectstatic
+      run: python ./food_track/manage.py collectstatic --noinput
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
