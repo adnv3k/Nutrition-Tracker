@@ -51,6 +51,7 @@ jobs:
         postgresql password: ${{ secrets.DB_KEY }}
         postgresql db: 'food_base'
         postgresql host: localhost
+        postgresql port: 5432
     - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
         # sudo apt install postgresql
