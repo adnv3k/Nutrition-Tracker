@@ -23,7 +23,7 @@ jobs:
     services:
       postgres:
         # Docker Hub image
-        image: postgres:12
+        image: postgres:latest
         # Provide the password for postgres
         env:
           POSTGRES_DB: food_base
@@ -47,7 +47,6 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - uses: harmon758/postgresql-action@v1
       with:
-        postgresql version: "12"
         postgresql db: 'food_base'
         postgresql user: postgres
         postgresql password: ${{ secrets.DB_KEY }}
@@ -64,7 +63,7 @@ jobs:
         # python ./config/client.py
       run: | 
         sudo service postgresql start
-        sudo -u postgres psql
+        sudo -U postgres psql
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
