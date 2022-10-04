@@ -1,7 +1,6 @@
 name: Django CI
 env:
   POSTGRES_HOST: localhost
-  DB_HOST: localhost
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
 on:
@@ -52,18 +51,16 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -r requirements.txt
     - name: Run Tests
-      run: |
+      run: 
         python ./food_track/manage.py test
     - name: Connect to PostgreSQL
       # Runs a script that creates a PostgreSQL table, populates
       # the table with data, and then retrieves the data. todo
-      run: |
-        python ./config/client.py
-      # env:
-      #   # The hostname used to communicate with the PostgreSQL service container
-      #   POSTGRES_HOST: postgres
-      #   # The default PostgreSQL port
-      #   POSTGRES_PORT: 5432
+      run: 
+        # python ./config/client.py
+        service postgresql start
+    - name: Collect static
+      run: python ./food_track/manage.py collectstatic
     # - name: Migrations
     #   run: |
     #     python ./food_track/manage.py makemigrations
