@@ -6,6 +6,7 @@ on:
   pull_request:
     branches: [ "testing-pages" ]
 
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -23,12 +24,14 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
+        ports:
+          - 5432:5432
         # Set health checks to wait until postgres has started
-        # options: >-
-        #   --health-cmd pg_isready
-        #   --health-interval 10s
-        #   --health-timeout 5s
-        #   --health-retries 5
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - name: Checkout repo code
       uses: actions/checkout@v3
@@ -48,12 +51,15 @@ jobs:
       # the table with data, and then retrieves the data. todo
       run:
         python client.py
-      env:
-        # The hostname used to communicate with the PostgreSQL service container
-        POSTGRES_HOST: postgres
-        # The default PostgreSQL port
-        POSTGRES_PORT: 5432
-      
+      # env:
+      #   # The hostname used to communicate with the PostgreSQL service container
+      #   POSTGRES_HOST: postgres
+      #   # The default PostgreSQL port
+      #   POSTGRES_PORT: 5432
+    - name: Migrations
+      run:
+        python ./food_track/manage.py makemigrations
+        python ./food_track/manage.py migrate
     - name: Startserver
       run: |
         python ./food_track/manage.py runserver
