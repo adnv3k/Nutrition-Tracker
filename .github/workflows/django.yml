@@ -47,8 +47,8 @@ jobs:
       # Runs a script that creates a PostgreSQL table, populates
       # the table with data, and then retrieves the data. todo
       run:
-        service postgresql-2.9.3 initdb
-        service postgresql-2.9.3 start
+        service postgresql initdb
+        service postgresql start
       env:
         # The hostname used to communicate with the PostgreSQL service container
         POSTGRES_HOST: postgres
