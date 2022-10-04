@@ -71,4 +71,5 @@ jobs:
     #     python ./food_track/manage.py migrate
     - name: Startserver
       run: |
+        sudo service postgresql start
         python ./food_track/manage.py runserver
