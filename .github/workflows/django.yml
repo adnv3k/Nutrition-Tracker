@@ -65,4 +65,4 @@ jobs:
     #     python ./food_track/manage.py migrate
     - name: Startserver
       run: 
-        sudo python ./food_track/manage.py runserver
+        python ./food_track/manage.py runserver
