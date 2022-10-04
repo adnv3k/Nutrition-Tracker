@@ -1,6 +1,6 @@
 name: Django CI
 env:
-  POSTGRES_HOST: postgres
+  POSTGRES_HOST: localhost
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
 on:
@@ -63,7 +63,7 @@ jobs:
     - name: Connect to PostgreSQL
         # python ./config/client.py
       run: | 
-        sudo service postgresql start
+        sudo service postgresql restart
         sudo -u postgres psql
     # - name: Migrations
     #   run: |
