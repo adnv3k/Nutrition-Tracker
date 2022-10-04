@@ -46,14 +46,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - uses: harmon758/postgresql-action@v1
-      with:
-        postgresql db: 'food_base'
-        postgresql user: postgres
-        postgresql password: ${{ secrets.DB_KEY }}
-    - name: Install Dependencies
+      # with:
+        # postgresql db: 'food_base'
+        # postgresql user: postgres
+        # postgresql password: ${{ secrets.DB_KEY }}
+    # - name: Install Dependencies
         # sudo apt-get -y install postgresql-12
-      run: |
-        sudo apt install postgresql-12
+        # sudo apt install postgresql-12
+      # run: |
       # python -m pip install --upgrade pip
       # python -m pip install -r requirements.txt
     # - name: Run Tests
