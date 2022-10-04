@@ -1,5 +1,8 @@
 name: Django CI
-
+env:
+  POSTGRES_HOST: localhost
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
 on:
   push:
     branches: [ "testing-pages" ]
@@ -22,8 +25,6 @@ jobs:
         # Docker Hub image
         image: postgres
         # Provide the password for postgres
-        env:
-          POSTGRES_PASSWORD: ${{ secrets.DB_KEY }}
         ports:
           - 5432:5432
         # Set health checks to wait until postgres has started
